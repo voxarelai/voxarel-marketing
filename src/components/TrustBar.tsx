@@ -11,7 +11,7 @@ export function TrustBar() {
   return (
     <section className="py-10 border-y border-white/5">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
+        <div className="flex flex-wrap items-center justify-between gap-10">
           {companies.map((company) => (
             <div key={company.name} className="text-zinc-500 hover:text-zinc-300 transition-colors">
               <span className="text-sm font-medium tracking-wide">{company.name}</span>

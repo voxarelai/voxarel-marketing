@@ -29,9 +29,9 @@ export function Hero() {
           transition={{ duration: 0.5 }}
           className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 mb-8"
         >
-          <span className="w-1.5 h-1.5 bg-green-400 rounded-full" />
-          <span className="text-xs text-white uppercase tracking-wide">
-            Now serving UAE &amp; India routes
+          <span className="w-1.5 h-1.5 bg-white rounded-full" />
+          <span className="heading-serif text-sm font-bold text-white tracking-wide">
+            Now serving UAE & India routes
           </span>
           <span className="text-xs text-white/60">→</span>
         </motion.div>
@@ -53,7 +53,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="text-sm md:text-base text-zinc-400 mb-8"
+          className="text-sm md:text-base text-white mb-8"
         >
           AI-powered logistics for UAE freight forwarding
         </motion.p>
