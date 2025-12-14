@@ -141,12 +141,12 @@ export function RoleShowcase() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Two-column layout with more spacing */}
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12 lg:gap-20 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-12 lg:gap-16 items-start">
 
           {/* Left Column: Title + Role Accordion */}
           <div className="lg:sticky lg:top-24">
-            {/* Subtle background wrapper for visual separation */}
-            <div className="lg:bg-zinc-900/40 lg:py-10 lg:px-8 lg:-ml-8 lg:rounded-2xl">
+            {/* Background wrapper for visual separation - more prominent */}
+            <div className="lg:bg-zinc-900 lg:py-10 lg:px-8 lg:-ml-8 lg:rounded-2xl lg:border lg:border-zinc-800/50">
               {/* Section Header - Refined */}
               <div className="mb-8">
                 <h2 className="text-2xl sm:text-3xl font-medium text-white mb-3 tracking-tight">
