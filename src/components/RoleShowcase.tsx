@@ -145,8 +145,6 @@ export function RoleShowcase() {
 
           {/* Left Column: Title + Role Accordion */}
           <div className="lg:sticky lg:top-24">
-            {/* Background wrapper for visual separation - more prominent */}
-            <div className="lg:bg-zinc-900 lg:py-10 lg:px-8 lg:-ml-8 lg:rounded-2xl lg:border lg:border-zinc-800/50">
               {/* Section Header - Refined */}
               <div className="mb-8">
                 <h2 className="text-2xl sm:text-3xl font-medium text-white mb-3 tracking-tight">
@@ -188,7 +186,6 @@ export function RoleShowcase() {
                   </select>
                 </div>
               </div>
-            </div>
           </div>
 
           {/* Right Column: Dashboard Visualization */}
