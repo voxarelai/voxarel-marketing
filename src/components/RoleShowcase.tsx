@@ -7,9 +7,9 @@ import { FeatureVisualization } from "./RoleShowcase/FeatureVisualization";
 import { DashboardFrame, NavItem } from "./DashboardFrame";
 
 // ============================================
-// ROLE LIST COMPONENT (Minimal text style)
+// ROLE ACCORDION COMPONENT (Elegant enterprise style)
 // ============================================
-function RoleList({
+function RoleAccordion({
   roles,
   activeRole,
   onRoleSelect,
@@ -20,39 +20,35 @@ function RoleList({
 }) {
   return (
     <div className="flex flex-col">
-      {roles.map((role) => {
-        const colors = roleColors[role.color];
+      {roles.map((role, index) => {
         const isActive = activeRole === role.id;
 
         return (
           <motion.button
             key={role.id}
             onClick={() => onRoleSelect(role.id)}
-            className="text-left py-3 transition-colors group"
-            whileTap={{ scale: 0.98 }}
+            className={`text-left py-4 transition-all duration-200 ${
+              index !== 0 ? "border-t border-zinc-800/50" : ""
+            }`}
+            whileTap={{ scale: 0.995 }}
           >
-            <span className="flex items-center gap-3">
-              <span
-                className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                  isActive ? "bg-orange-500" : "bg-zinc-600 group-hover:bg-zinc-400"
-                }`}
-              />
-              <span
-                className={`text-base font-medium transition-colors ${
-                  isActive ? "text-white" : "text-zinc-500 group-hover:text-zinc-300"
-                }`}
-              >
-                {role.title}
-              </span>
+            <span
+              className={`block text-[15px] font-medium transition-colors duration-200 ${
+                isActive
+                  ? "text-white"
+                  : "text-zinc-500 hover:text-zinc-300"
+              }`}
+            >
+              {role.title}
             </span>
             <AnimatePresence>
               {isActive && (
                 <motion.p
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className={`text-sm mt-1 ml-[18px] ${colors.text}`}
+                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                  animate={{ opacity: 1, height: "auto", marginTop: 8 }}
+                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="text-sm text-zinc-400 leading-relaxed overflow-hidden"
                 >
                   {role.tagline}
                 </motion.p>
@@ -66,25 +62,24 @@ function RoleList({
 }
 
 // ============================================
-// FEATURE INFO OVERLAY
+// FEATURE INFO OVERLAY (Elegant light style)
 // ============================================
-function FeatureInfoOverlay({ feature, color }: { feature: RoleFeature; color: string }) {
-  const colors = roleColors[color as keyof typeof roleColors];
-
+function FeatureInfoOverlay({ feature }: { feature: RoleFeature; color: string }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      className="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-xl rounded-xl p-4 border border-white/10"
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
+      className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-xl rounded-lg p-3 shadow-lg shadow-black/10 border border-zinc-200/50"
     >
       <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 rounded-lg ${colors.bg} flex items-center justify-center`}>
-          <feature.icon className={`w-5 h-5 ${colors.text}`} />
+        <div className="w-9 h-9 rounded-lg bg-zinc-900 flex items-center justify-center flex-shrink-0">
+          <feature.icon className="w-4 h-4 text-white" />
         </div>
-        <div>
-          <h4 className="text-sm font-semibold text-white">{feature.label}</h4>
-          <p className="text-xs text-zinc-400">{feature.description}</p>
+        <div className="min-w-0">
+          <h4 className="text-sm font-medium text-zinc-900">{feature.label}</h4>
+          <p className="text-xs text-zinc-500 truncate">{feature.description}</p>
         </div>
       </div>
     </motion.div>
@@ -123,52 +118,46 @@ export function RoleShowcase() {
     icon: feature.icon,
   }));
 
-  // Bottom status for sidebar
+  // Bottom status for sidebar (light theme)
   const bottomStatus = (
     <div className="space-y-2">
       <div className="flex items-center gap-2">
-        <div className="w-2 h-2 rounded-full bg-emerald-400" />
-        <span className="text-xs text-zinc-400">Status</span>
-        <span className="ml-auto text-[10px] text-emerald-400 font-medium">Online</span>
+        <div className="w-2 h-2 rounded-full bg-emerald-500" />
+        <span className="text-xs text-zinc-500">Status</span>
+        <span className="ml-auto text-[10px] text-emerald-600 font-medium">Online</span>
       </div>
       <div className="flex items-center gap-2">
-        <activeRole.icon className="h-3.5 w-3.5 text-zinc-500" />
-        <span className="text-xs text-zinc-400">Role</span>
-        <span className={`ml-auto text-[10px] ${colors.text}`}>{activeRole.title}</span>
+        <activeRole.icon className="h-3.5 w-3.5 text-zinc-400" />
+        <span className="text-xs text-zinc-500">Role</span>
+        <span className="ml-auto text-[10px] text-zinc-700 font-medium">{activeRole.title}</span>
       </div>
     </div>
   );
 
   return (
-    <section className="relative py-16 lg:py-24 overflow-hidden">
-      {/* Subtle gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950" />
+    <section className="relative py-20 lg:py-32 overflow-hidden">
+      {/* Clean dark background */}
+      <div className="absolute inset-0 bg-zinc-950" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Two-column layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8 lg:gap-16 items-start">
+        {/* Two-column layout with more spacing */}
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12 lg:gap-20 items-start">
 
-          {/* Left Column: Title + Role List */}
+          {/* Left Column: Title + Role Accordion */}
           <div className="lg:sticky lg:top-24">
-            {/* Section Header */}
-            <div className="mb-8">
-              <div className="inline-flex items-center gap-2 mb-4">
-                <span className="w-2 h-2 bg-orange-500 rounded-full" />
-                <span className="text-sm text-zinc-500 uppercase tracking-wider">
-                  Complete ERP Platform
-                </span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-white mb-4 leading-tight">
-                One ERP, six specialized roles
+            {/* Section Header - Refined */}
+            <div className="mb-10">
+              <h2 className="text-2xl sm:text-3xl font-medium text-white mb-3 tracking-tight">
+                Role-based workflows
               </h2>
-              <p className="text-base text-zinc-400 leading-relaxed">
-                Every team member gets a purpose-built experience — field agents, warehouse managers, finance, and beyond.
+              <p className="text-sm text-zinc-500 leading-relaxed max-w-[240px]">
+                Purpose-built experiences for every team member in your operation.
               </p>
             </div>
 
-            {/* Role List - Desktop */}
-            <div className="hidden lg:block border-t border-zinc-800 pt-6">
-              <RoleList
+            {/* Role Accordion - Desktop */}
+            <div className="hidden lg:block">
+              <RoleAccordion
                 roles={roles}
                 activeRole={activeRoleId}
                 onRoleSelect={handleRoleSelect}
@@ -184,7 +173,7 @@ export function RoleShowcase() {
               >
                 {roles.map((role) => (
                   <option key={role.id} value={role.id}>
-                    {role.title} - {role.tagline}
+                    {role.title}
                   </option>
                 ))}
               </select>
@@ -193,30 +182,34 @@ export function RoleShowcase() {
 
           {/* Right Column: Dashboard Visualization */}
           <div className="relative">
-            {/* Ambient glow behind dashboard */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-orange-500/10 via-purple-500/5 to-cyan-500/10 rounded-3xl blur-2xl opacity-60" />
-
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
               viewport={{ once: true }}
               className="relative"
             >
-              {/* Desktop wallpaper background container */}
+              {/* Scenic background container */}
               <div
-                className="relative rounded-2xl overflow-hidden bg-cover bg-center bg-no-repeat shadow-2xl"
-                style={{ backgroundImage: "url('/background_desktop.png')" }}
+                className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/50"
+                style={{
+                  backgroundImage: "url('/background_desktop.png')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center"
+                }}
               >
-                {/* Padding for the dashboard to float */}
-                <div className="p-4 sm:p-6 min-h-[500px] sm:min-h-[550px] md:min-h-[600px]">
+                {/* Subtle overlay for depth */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+
+                {/* Dashboard container */}
+                <div className="relative p-4 sm:p-6 lg:p-8 min-h-[520px] sm:min-h-[560px] md:min-h-[600px]">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={activeRoleId}
-                      initial={{ opacity: 0, scale: 0.98 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.98 }}
-                      transition={{ duration: 0.3 }}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
                       className="h-full"
                     >
                       <DashboardFrame
@@ -232,11 +225,11 @@ export function RoleShowcase() {
                         bottomStatus={bottomStatus}
                       >
                         {/* 3D Visualization Area */}
-                        <div className="relative h-[280px] sm:h-[340px] md:h-[400px] rounded-lg overflow-hidden bg-gradient-to-b from-zinc-800/50 to-zinc-900/50">
+                        <div className="relative h-[300px] sm:h-[360px] md:h-[420px] rounded-lg overflow-hidden bg-zinc-900/80">
                           <Suspense
                             fallback={
                               <div className="flex items-center justify-center h-full">
-                                <div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
+                                <div className="w-6 h-6 border-2 border-zinc-600 border-t-zinc-300 rounded-full animate-spin" />
                               </div>
                             }
                           >
