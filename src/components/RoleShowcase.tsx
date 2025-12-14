@@ -7,9 +7,9 @@ import { FeatureVisualization } from "./RoleShowcase/FeatureVisualization";
 import { DashboardFrame, NavItem } from "./DashboardFrame";
 
 // ============================================
-// ROLE TABS COMPONENT (Outside Dashboard Frame)
+// ROLE LIST COMPONENT (Minimal text style)
 // ============================================
-function RoleTabs({
+function RoleList({
   roles,
   activeRole,
   onRoleSelect,
@@ -19,39 +19,45 @@ function RoleTabs({
   onRoleSelect: (roleId: string) => void;
 }) {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col">
       {roles.map((role) => {
         const colors = roleColors[role.color];
-        const Icon = role.icon;
         const isActive = activeRole === role.id;
 
         return (
           <motion.button
             key={role.id}
             onClick={() => onRoleSelect(role.id)}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all ${
-              isActive
-                ? `${colors.bg} ${colors.border} border text-white`
-                : "bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-zinc-300 border border-transparent"
-            }`}
-            whileHover={{ scale: 1.02 }}
+            className="text-left py-3 transition-colors group"
             whileTap={{ scale: 0.98 }}
           >
-            <div
-              className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                isActive ? colors.bg : "bg-white/5"
-              }`}
-            >
-              <Icon className={`w-4 h-4 ${isActive ? colors.text : "text-zinc-500"}`} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className={`text-sm font-medium truncate ${isActive ? "text-white" : ""}`}>
+            <span className="flex items-center gap-3">
+              <span
+                className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                  isActive ? "bg-orange-500" : "bg-zinc-600 group-hover:bg-zinc-400"
+                }`}
+              />
+              <span
+                className={`text-base font-medium transition-colors ${
+                  isActive ? "text-white" : "text-zinc-500 group-hover:text-zinc-300"
+                }`}
+              >
                 {role.title}
-              </p>
-              <p className={`text-[10px] truncate ${isActive ? colors.text : "text-zinc-500"}`}>
-                {role.tagline}
-              </p>
-            </div>
+              </span>
+            </span>
+            <AnimatePresence>
+              {isActive && (
+                <motion.p
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className={`text-sm mt-1 ml-[18px] ${colors.text}`}
+                >
+                  {role.tagline}
+                </motion.p>
+              )}
+            </AnimatePresence>
           </motion.button>
         );
       })}
@@ -134,134 +140,124 @@ export function RoleShowcase() {
   );
 
   return (
-    <section className="relative py-24 overflow-hidden">
-      {/* Gradient Mesh Background */}
-      <div className="absolute inset-0 gradient-mesh noise-overlay">
-        <div className="gradient-orb gradient-orb-orange w-[600px] h-[600px] -top-40 -left-40" />
-        <div className="gradient-orb gradient-orb-purple w-[500px] h-[500px] top-20 right-0" />
-        <div className="gradient-orb gradient-orb-cyan w-[400px] h-[400px] bottom-0 left-1/3" />
-      </div>
+    <section className="relative py-16 lg:py-24 overflow-hidden">
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950" />
 
-      <div className="relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-8 sm:mb-12 px-4 sm:px-6">
-          <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
-            <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
-            <span className="text-xs sm:text-sm text-zinc-400 uppercase tracking-wider">
-              Complete ERP Platform
-            </span>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Two-column layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8 lg:gap-16 items-start">
+
+          {/* Left Column: Title + Role List */}
+          <div className="lg:sticky lg:top-24">
+            {/* Section Header */}
+            <div className="mb-8">
+              <div className="inline-flex items-center gap-2 mb-4">
+                <span className="w-2 h-2 bg-orange-500 rounded-full" />
+                <span className="text-sm text-zinc-500 uppercase tracking-wider">
+                  Complete ERP Platform
+                </span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-white mb-4 leading-tight">
+                One ERP, six specialized roles
+              </h2>
+              <p className="text-base text-zinc-400 leading-relaxed">
+                Every team member gets a purpose-built experience — field agents, warehouse managers, finance, and beyond.
+              </p>
+            </div>
+
+            {/* Role List - Desktop */}
+            <div className="hidden lg:block border-t border-zinc-800 pt-6">
+              <RoleList
+                roles={roles}
+                activeRole={activeRoleId}
+                onRoleSelect={handleRoleSelect}
+              />
+            </div>
+
+            {/* Role Selector - Mobile/Tablet */}
+            <div className="lg:hidden">
+              <select
+                value={activeRoleId}
+                onChange={(e) => handleRoleSelect(e.target.value)}
+                className="w-full bg-zinc-900 text-white text-sm rounded-lg px-4 py-3 border border-zinc-800 appearance-none cursor-pointer"
+              >
+                {roles.map((role) => (
+                  <option key={role.id} value={role.id}>
+                    {role.title} - {role.tagline}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          <h2 className="heading-serif text-3xl sm:text-4xl md:text-6xl text-white mb-3 sm:mb-4">
-            One ERP, six specialized roles
-          </h2>
-          <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto">
-            Every team member gets a purpose-built experience — field agents, warehouse managers, finance, and beyond.
-          </p>
-        </div>
 
-        {/* Two-Level Navigation Layout */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          {/* Right Column: Dashboard Visualization */}
           <div className="relative">
-            {/* Ambient Glow */}
-            <div className="absolute -inset-8 bg-gradient-to-r from-orange-500/20 via-purple-500/10 to-cyan-500/20 rounded-3xl blur-3xl opacity-40" />
+            {/* Ambient glow behind dashboard */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-orange-500/10 via-purple-500/5 to-cyan-500/10 rounded-3xl blur-2xl opacity-60" />
 
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.5 }}
               viewport={{ once: true }}
               className="relative"
             >
-              {/* Monitor Frame */}
-              <div className="bg-[#0a0a0a] rounded-xl sm:rounded-2xl p-2 sm:p-4 shadow-2xl">
-                {/* Screen with desktop wallpaper */}
-                <div
-                  className="relative rounded-xl overflow-hidden bg-cover bg-center bg-no-repeat min-h-[550px] sm:min-h-[600px] md:min-h-[650px]"
-                  style={{ backgroundImage: "url('/background_desktop.png')" }}
-                >
-                  {/* Main content area */}
-                  <div className="absolute inset-4 sm:inset-6 flex gap-4 sm:gap-6">
-                    {/* Left: Role Tabs (Outside Dashboard Frame) */}
-                    <div className="hidden md:block w-[200px] flex-shrink-0">
-                      <div className="bg-zinc-900/80 backdrop-blur-xl rounded-xl p-3 border border-white/10">
-                        <div className="mb-3 pb-2 border-b border-white/5">
-                          <p className="text-xs text-zinc-500 uppercase tracking-wider">Select Role</p>
-                        </div>
-                        <RoleTabs
-                          roles={roles}
-                          activeRole={activeRoleId}
-                          onRoleSelect={handleRoleSelect}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Right: Dashboard Frame with Features */}
-                    <div className="flex-1 relative">
-                      <AnimatePresence mode="wait">
-                        <motion.div
-                          key={activeRoleId}
-                          initial={{ opacity: 0, scale: 0.98 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.98 }}
-                          transition={{ duration: 0.3 }}
-                          className="h-full"
-                        >
-                          <DashboardFrame
-                            url={`app.voxarel.com/${activeRole.id}`}
-                            navItems={featureNavItems}
-                            activeItem={activeFeatureId}
-                            onItemSelect={handleFeatureSelect}
-                            header={{
-                              icon: activeRole.icon,
-                              title: activeRole.title,
-                              subtitle: activeRole.tagline,
-                            }}
-                            bottomStatus={bottomStatus}
-                          >
-                            {/* 3D Visualization Area */}
-                            <div className="relative h-[320px] sm:h-[380px] md:h-[420px] rounded-lg overflow-hidden bg-gradient-to-b from-zinc-800/50 to-zinc-900/50">
-                              <Suspense
-                                fallback={
-                                  <div className="flex items-center justify-center h-full">
-                                    <div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
-                                  </div>
-                                }
-                              >
-                                <FeatureVisualization
-                                  type={activeFeature.visualizationType}
-                                  accentColor={colors.accent}
-                                />
-                              </Suspense>
-
-                              {/* Feature Info Overlay */}
-                              <AnimatePresence mode="wait">
-                                <FeatureInfoOverlay
-                                  key={activeFeatureId}
-                                  feature={activeFeature}
-                                  color={activeRole.color}
-                                />
-                              </AnimatePresence>
-                            </div>
-                          </DashboardFrame>
-                        </motion.div>
-                      </AnimatePresence>
-                    </div>
-                  </div>
-
-                  {/* Mobile Role Selector (visible on small screens) */}
-                  <div className="md:hidden absolute top-4 left-4 right-4">
-                    <select
-                      value={activeRoleId}
-                      onChange={(e) => handleRoleSelect(e.target.value)}
-                      className="w-full bg-zinc-900/90 backdrop-blur-xl text-white text-sm rounded-lg px-4 py-3 border border-white/10 appearance-none cursor-pointer"
+              {/* Desktop wallpaper background container */}
+              <div
+                className="relative rounded-2xl overflow-hidden bg-cover bg-center bg-no-repeat shadow-2xl"
+                style={{ backgroundImage: "url('/background_desktop.png')" }}
+              >
+                {/* Padding for the dashboard to float */}
+                <div className="p-4 sm:p-6 min-h-[500px] sm:min-h-[550px] md:min-h-[600px]">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeRoleId}
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.98 }}
+                      transition={{ duration: 0.3 }}
+                      className="h-full"
                     >
-                      {roles.map((role) => (
-                        <option key={role.id} value={role.id}>
-                          {role.title} - {role.tagline}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                      <DashboardFrame
+                        url={`app.voxarel.com/${activeRole.id}`}
+                        navItems={featureNavItems}
+                        activeItem={activeFeatureId}
+                        onItemSelect={handleFeatureSelect}
+                        header={{
+                          icon: activeRole.icon,
+                          title: activeRole.title,
+                          subtitle: activeRole.tagline,
+                        }}
+                        bottomStatus={bottomStatus}
+                      >
+                        {/* 3D Visualization Area */}
+                        <div className="relative h-[280px] sm:h-[340px] md:h-[400px] rounded-lg overflow-hidden bg-gradient-to-b from-zinc-800/50 to-zinc-900/50">
+                          <Suspense
+                            fallback={
+                              <div className="flex items-center justify-center h-full">
+                                <div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
+                              </div>
+                            }
+                          >
+                            <FeatureVisualization
+                              type={activeFeature.visualizationType}
+                              accentColor={colors.accent}
+                            />
+                          </Suspense>
+
+                          {/* Feature Info Overlay */}
+                          <AnimatePresence mode="wait">
+                            <FeatureInfoOverlay
+                              key={activeFeatureId}
+                              feature={activeFeature}
+                              color={activeRole.color}
+                            />
+                          </AnimatePresence>
+                        </div>
+                      </DashboardFrame>
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
               </div>
             </motion.div>
