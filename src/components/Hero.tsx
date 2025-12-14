@@ -31,7 +31,7 @@ export function Hero() {
         >
           <span className="w-1.5 h-1.5 bg-white rounded-full" />
           <span className="heading-serif text-sm font-bold text-white tracking-wide">
-            Now serving UAE & India routes
+            Now serving GCC to India routes
           </span>
           <span className="text-xs text-white/60">→</span>
         </motion.div>
@@ -55,7 +55,7 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.15 }}
           className="text-sm md:text-base text-white mb-8"
         >
-          AI-powered logistics for UAE freight forwarding
+          AI-powered logistics ERP for GCC freight forwarders
         </motion.p>
 
         {/* CTA - smaller, more refined */}

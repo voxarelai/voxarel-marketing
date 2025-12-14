@@ -32,7 +32,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 
-export type VisualizationType = "packages" | "containers" | "analytics" | "workflow";
+export type VisualizationType = "packages" | "containers" | "analytics" | "workflow" | "dataflow";
 
 export interface RoleFeature {
   id: string;
@@ -64,7 +64,7 @@ export const roles: Role[] = [
         label: "Customer Capture",
         icon: UserPlus,
         description: "Mobile customer form with Google Maps integration and auto-fill",
-        visualizationType: "workflow",
+        visualizationType: "dataflow",
       },
       {
         id: "package-cart",

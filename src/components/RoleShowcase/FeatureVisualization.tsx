@@ -323,6 +323,167 @@ function WorkflowScene({ accentColor }: { accentColor: string }) {
 }
 
 // ============================================
+// DATAFLOW SCENE - Customer data flowing to package to system
+// For Customer Capture feature
+// ============================================
+function DataflowScene({ accentColor }: { accentColor: string }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const particleRefs = useRef<THREE.Mesh[]>([]);
+  const packageRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.05;
+    }
+
+    // Animate particles flowing left to right
+    particleRefs.current.forEach((particle, i) => {
+      if (particle) {
+        const speed = 0.4;
+        const offset = ((state.clock.elapsedTime * speed + i * 0.15) % 1);
+
+        // Flow from customer (-3) to system (+3)
+        particle.position.x = -3 + offset * 6;
+
+        // Arc path - rise up in middle
+        particle.position.y = 0.8 + Math.sin(offset * Math.PI) * 0.8;
+
+        // Slight z wobble
+        particle.position.z = Math.sin(offset * Math.PI * 2 + i) * 0.2;
+
+        // Pulse size
+        const scale = 0.8 + Math.sin(state.clock.elapsedTime * 3 + i) * 0.2;
+        particle.scale.setScalar(scale);
+      }
+    });
+
+    // Package pulse effect when "receiving" data
+    if (packageRef.current) {
+      const pulse = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.05;
+      packageRef.current.scale.set(pulse, pulse, pulse);
+    }
+  });
+
+  return (
+    <group ref={groupRef}>
+      {/* CUSTOMER FIGURE (Left side) */}
+      <group position={[-3, 0, 0]}>
+        {/* Body - cylinder */}
+        <mesh position={[0, 0.5, 0]}>
+          <cylinderGeometry args={[0.25, 0.3, 0.8, 16]} />
+          <meshStandardMaterial color={accentColor} opacity={0.9} transparent roughness={0.5} metalness={0.2} />
+        </mesh>
+        {/* Head - sphere */}
+        <mesh position={[0, 1.1, 0]}>
+          <sphereGeometry args={[0.22, 16, 16]} />
+          <meshStandardMaterial color={accentColor} opacity={0.9} transparent roughness={0.5} metalness={0.2} />
+        </mesh>
+        {/* Base platform */}
+        <mesh position={[0, 0.05, 0]}>
+          <cylinderGeometry args={[0.4, 0.45, 0.1, 16]} />
+          <meshStandardMaterial color="#374151" />
+        </mesh>
+        {/* Label */}
+        <Text position={[0, -0.2, 0]} fontSize={0.15} color="#94a3b8" anchorX="center">
+          CUSTOMER
+        </Text>
+      </group>
+
+      {/* PACKAGE (Center) */}
+      <group position={[0, 0, 0]}>
+        <mesh ref={packageRef} position={[0, 0.5, 0]}>
+          <boxGeometry args={[0.6, 0.5, 0.5]} />
+          <meshStandardMaterial color={accentColor} opacity={0.8} transparent roughness={0.5} metalness={0.2} />
+          <lineSegments>
+            <edgesGeometry args={[new THREE.BoxGeometry(0.6, 0.5, 0.5)]} />
+            <lineBasicMaterial color="#1a202c" linewidth={2} />
+          </lineSegments>
+        </mesh>
+        {/* Glow ring around package */}
+        <mesh position={[0, 0.5, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.5, 0.02, 8, 32]} />
+          <meshStandardMaterial color={accentColor} emissive={accentColor} emissiveIntensity={0.5} transparent opacity={0.6} />
+        </mesh>
+        {/* Base platform */}
+        <mesh position={[0, 0.05, 0]}>
+          <cylinderGeometry args={[0.5, 0.55, 0.1, 16]} />
+          <meshStandardMaterial color="#374151" />
+        </mesh>
+        {/* Label */}
+        <Text position={[0, -0.2, 0]} fontSize={0.15} color="#94a3b8" anchorX="center">
+          PACKAGE
+        </Text>
+      </group>
+
+      {/* SYSTEM/CLOUD (Right side) */}
+      <group position={[3, 0, 0]}>
+        {/* Cloud shape - stacked rounded elements */}
+        <mesh position={[0, 0.6, 0]}>
+          <boxGeometry args={[0.7, 0.5, 0.4]} />
+          <meshStandardMaterial color="#64748b" opacity={0.9} transparent roughness={0.5} metalness={0.3} />
+          <lineSegments>
+            <edgesGeometry args={[new THREE.BoxGeometry(0.7, 0.5, 0.4)]} />
+            <lineBasicMaterial color="#1a202c" linewidth={2} />
+          </lineSegments>
+        </mesh>
+        {/* Server lights */}
+        <mesh position={[-0.2, 0.7, 0.21]}>
+          <sphereGeometry args={[0.04, 8, 8]} />
+          <meshStandardMaterial color="#22c55e" emissive="#22c55e" emissiveIntensity={1} />
+        </mesh>
+        <mesh position={[0, 0.7, 0.21]}>
+          <sphereGeometry args={[0.04, 8, 8]} />
+          <meshStandardMaterial color="#22c55e" emissive="#22c55e" emissiveIntensity={1} />
+        </mesh>
+        <mesh position={[0.2, 0.7, 0.21]}>
+          <sphereGeometry args={[0.04, 8, 8]} />
+          <meshStandardMaterial color={accentColor} emissive={accentColor} emissiveIntensity={1} />
+        </mesh>
+        {/* Base platform */}
+        <mesh position={[0, 0.05, 0]}>
+          <cylinderGeometry args={[0.5, 0.55, 0.1, 16]} />
+          <meshStandardMaterial color="#374151" />
+        </mesh>
+        {/* Label */}
+        <Text position={[0, -0.2, 0]} fontSize={0.15} color="#94a3b8" anchorX="center">
+          SYSTEM
+        </Text>
+      </group>
+
+      {/* FLOWING DATA PARTICLES */}
+      {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+        <mesh
+          key={i}
+          ref={(el) => {
+            if (el) particleRefs.current[i] = el;
+          }}
+          position={[-3 + i * 0.8, 0.8, 0]}
+        >
+          <sphereGeometry args={[0.08, 12, 12]} />
+          <meshStandardMaterial
+            color={i % 2 === 0 ? accentColor : "#94a3b8"}
+            emissive={i % 2 === 0 ? accentColor : "#94a3b8"}
+            emissiveIntensity={0.8}
+            transparent
+            opacity={0.9}
+          />
+        </mesh>
+      ))}
+
+      {/* Connection lines (subtle) */}
+      <mesh position={[-1.5, 0.05, 0]}>
+        <boxGeometry args={[3, 0.02, 0.1]} />
+        <meshStandardMaterial color="#475569" opacity={0.5} transparent />
+      </mesh>
+      <mesh position={[1.5, 0.05, 0]}>
+        <boxGeometry args={[3, 0.02, 0.1]} />
+        <meshStandardMaterial color="#475569" opacity={0.5} transparent />
+      </mesh>
+    </group>
+  );
+}
+
+// ============================================
 // MAIN COMPONENT
 // ============================================
 interface FeatureVisualizationProps {
@@ -341,6 +502,8 @@ export function FeatureVisualization({ type, accentColor }: FeatureVisualization
         return <AnalyticsScene accentColor={accentColor} />;
       case "workflow":
         return <WorkflowScene accentColor={accentColor} />;
+      case "dataflow":
+        return <DataflowScene accentColor={accentColor} />;
       default:
         return <PackagesScene accentColor={accentColor} />;
     }
@@ -357,6 +520,8 @@ export function FeatureVisualization({ type, accentColor }: FeatureVisualization
         return { position: [4, 3, 4] as [number, number, number], target: [0, 1, 0] as [number, number, number] };
       case "workflow":
         return { position: [5, 3, 5] as [number, number, number], target: [0, 0, 0] as [number, number, number] };
+      case "dataflow":
+        return { position: [0, 4, 8] as [number, number, number], target: [0, 0.5, 0] as [number, number, number] };
       default:
         return { position: [4, 3, 4] as [number, number, number], target: [0, 0, 0] as [number, number, number] };
     }
