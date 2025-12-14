@@ -1,10 +1,422 @@
 "use client";
 
-import { useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Grid, Text } from "@react-three/drei";
+import { useRef, useMemo, useState, useEffect } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { OrbitControls, Grid, Text, Html } from "@react-three/drei";
 import * as THREE from "three";
 import { VisualizationType } from "./roleData";
+
+// ============================================
+// TOUR SYSTEM TYPES
+// ============================================
+interface TourStop {
+  cameraPosition: [number, number, number];
+  lookAt: [number, number, number];
+  duration: number; // seconds to stay at this stop
+  annotation: {
+    position: [number, number, number];
+    text: string;
+    subtext?: string;
+  } | null;
+}
+
+interface TourData {
+  stops: TourStop[];
+  transitionDuration: number; // seconds to transition between stops
+}
+
+// ============================================
+// TOUR DATA FOR EACH SCENE
+// ============================================
+const tourDataMap: Record<string, TourData> = {
+  dataflow: {
+    transitionDuration: 1.5,
+    stops: [
+      {
+        cameraPosition: [-6, 2, 4],
+        lookAt: [-3, 0.5, 0],
+        duration: 3,
+        annotation: { position: [-3, 1.8, 0], text: "Customer Capture", subtext: "Mobile form with Google Maps auto-fill" },
+      },
+      {
+        cameraPosition: [-2, 3, 5],
+        lookAt: [0, 0.8, 0],
+        duration: 2.5,
+        annotation: { position: [0, 1.8, 0.5], text: "Real-time Sync", subtext: "Data flows instantly to package record" },
+      },
+      {
+        cameraPosition: [2, 2.5, 5],
+        lookAt: [0, 0.5, 0],
+        duration: 2.5,
+        annotation: { position: [0, 1.2, 0], text: "Package Created", subtext: "AWB generated automatically" },
+      },
+      {
+        cameraPosition: [5, 2, 4],
+        lookAt: [3, 0.5, 0],
+        duration: 3,
+        annotation: { position: [3, 1.5, 0], text: "Cloud Storage", subtext: "Secure database with instant access" },
+      },
+      {
+        cameraPosition: [0, 4, 8],
+        lookAt: [0, 0.5, 0],
+        duration: 2,
+        annotation: null,
+      },
+    ],
+  },
+  orbit: {
+    transitionDuration: 1.5,
+    stops: [
+      {
+        cameraPosition: [0, 5, 6],
+        lookAt: [0, 0.3, 0],
+        duration: 3,
+        annotation: { position: [0, 1.2, 0], text: "Package Cart", subtext: "Multi-package shopping cart system" },
+      },
+      {
+        cameraPosition: [5, 3, 3],
+        lookAt: [0, 0.3, 0],
+        duration: 3,
+        annotation: { position: [2, 0.8, 0], text: "Orbiting Packages", subtext: "Drag-and-drop package management" },
+      },
+      {
+        cameraPosition: [0, 2, 5],
+        lookAt: [0, 0.3, 0],
+        duration: 3,
+        annotation: { position: [0, 0.8, 0], text: "Auto-Lock", subtext: "Packages lock into cart when ready" },
+      },
+      {
+        cameraPosition: [5, 4, 5],
+        lookAt: [0, 0.3, 0],
+        duration: 2,
+        annotation: null,
+      },
+    ],
+  },
+  awbtree: {
+    transitionDuration: 1.5,
+    stops: [
+      {
+        cameraPosition: [-4, 2, 4],
+        lookAt: [-2.5, 0.3, 0],
+        duration: 3,
+        annotation: { position: [-2.5, 1, 0], text: "Label Printer", subtext: "Thermal printing at collection point" },
+      },
+      {
+        cameraPosition: [0, 4, 5],
+        lookAt: [0.5, 1.5, 0],
+        duration: 3,
+        annotation: { position: [0.5, 2.2, 0], text: "Master AWB", subtext: "S-DXB-00001 tracking number" },
+      },
+      {
+        cameraPosition: [2, 2, 5],
+        lookAt: [0.5, 0.3, 0],
+        duration: 3,
+        annotation: { position: [0.5, 0.9, 0], text: "Child AWBs", subtext: "Individual package tracking numbers" },
+      },
+      {
+        cameraPosition: [0, 3, 6],
+        lookAt: [0, 0.8, 0],
+        duration: 2,
+        annotation: null,
+      },
+    ],
+  },
+  offlinesync: {
+    transitionDuration: 1.5,
+    stops: [
+      {
+        cameraPosition: [0, 2, 5],
+        lookAt: [0, 0.5, 0],
+        duration: 3,
+        annotation: { position: [0, 1.5, 0.5], text: "Mobile Device", subtext: "Offline-first data capture" },
+      },
+      {
+        cameraPosition: [3, 2, 3],
+        lookAt: [0, 1, 0],
+        duration: 3,
+        annotation: { position: [0.8, 0.8, 0], text: "Data Queue", subtext: "Packets stored locally when offline" },
+      },
+      {
+        cameraPosition: [0, 4, 4],
+        lookAt: [0, 2, 0],
+        duration: 3,
+        annotation: { position: [0, 3.5, 0], text: "Cloud Sync", subtext: "Auto-sync when connection restored" },
+      },
+      {
+        cameraPosition: [3, 3, 5],
+        lookAt: [0, 1.2, 0],
+        duration: 2,
+        annotation: null,
+      },
+    ],
+  },
+  labelattach: {
+    transitionDuration: 1.5,
+    stops: [
+      {
+        cameraPosition: [0, 4, 4],
+        lookAt: [0, 2.5, -0.5],
+        duration: 3,
+        annotation: { position: [0, 3.2, 0], text: "Label Printer", subtext: "Stage 1 label generation" },
+      },
+      {
+        cameraPosition: [2, 2, 4],
+        lookAt: [0, 1.2, 0],
+        duration: 3,
+        annotation: { position: [0.5, 1.8, 0], text: "Label Descends", subtext: "Printed label floats to package" },
+      },
+      {
+        cameraPosition: [3, 1.5, 3],
+        lookAt: [0, 0.3, 0],
+        duration: 3,
+        annotation: { position: [0, 0.9, 0.5], text: "Scan Verification", subtext: "Barcode scan confirms attachment" },
+      },
+      {
+        cameraPosition: [3, 3, 4],
+        lookAt: [0, 1.0, 0],
+        duration: 2,
+        annotation: null,
+      },
+    ],
+  },
+  // Default tours for other scene types
+  packages: {
+    transitionDuration: 1.5,
+    stops: [
+      {
+        cameraPosition: [4, 3, 4],
+        lookAt: [0, 0.3, 0],
+        duration: 3,
+        annotation: { position: [0, 1, 0], text: "Package Collection", subtext: "Multiple packages ready for processing" },
+      },
+      {
+        cameraPosition: [-3, 2, 4],
+        lookAt: [0, 0.3, 0],
+        duration: 3,
+        annotation: null,
+      },
+      {
+        cameraPosition: [4, 3, 4],
+        lookAt: [0, 0.3, 0],
+        duration: 2,
+        annotation: null,
+      },
+    ],
+  },
+  containers: {
+    transitionDuration: 1.5,
+    stops: [
+      {
+        cameraPosition: [6, 4, 6],
+        lookAt: [0, 1, 0],
+        duration: 3,
+        annotation: { position: [0, 3, 3], text: "20ft Container", subtext: "78% space utilization" },
+      },
+      {
+        cameraPosition: [2, 2, 6],
+        lookAt: [0, 1, 0],
+        duration: 3,
+        annotation: { position: [1, 0.8, 1], text: "Loaded Packages", subtext: "Optimized placement algorithm" },
+      },
+      {
+        cameraPosition: [6, 4, 6],
+        lookAt: [0, 1, 0],
+        duration: 2,
+        annotation: null,
+      },
+    ],
+  },
+  analytics: {
+    transitionDuration: 1.5,
+    stops: [
+      {
+        cameraPosition: [4, 3, 4],
+        lookAt: [0, 1, 0],
+        duration: 3,
+        annotation: { position: [0, 3.5, 0], text: "Revenue Analytics", subtext: "Real-time performance metrics" },
+      },
+      {
+        cameraPosition: [-3, 2, 4],
+        lookAt: [0, 1, 0],
+        duration: 3,
+        annotation: { position: [1.5, 2, 0], text: "Growth Trend", subtext: "Month-over-month comparison" },
+      },
+      {
+        cameraPosition: [4, 3, 4],
+        lookAt: [0, 1, 0],
+        duration: 2,
+        annotation: null,
+      },
+    ],
+  },
+  workflow: {
+    transitionDuration: 1.5,
+    stops: [
+      {
+        cameraPosition: [-4, 3, 5],
+        lookAt: [-2, 0, 0],
+        duration: 3,
+        annotation: { position: [-2, 0.8, 0], text: "Collect", subtext: "Field agent pickup" },
+      },
+      {
+        cameraPosition: [0, 3, 5],
+        lookAt: [0, 0, 0],
+        duration: 3,
+        annotation: { position: [0, 0.8, 0], text: "Process", subtext: "Warehouse handling" },
+      },
+      {
+        cameraPosition: [4, 3, 5],
+        lookAt: [2, 0, 0],
+        duration: 3,
+        annotation: { position: [2, 0.8, 0], text: "Ship", subtext: "Container loading" },
+      },
+      {
+        cameraPosition: [5, 3, 5],
+        lookAt: [0, 0, 0],
+        duration: 2,
+        annotation: null,
+      },
+    ],
+  },
+};
+
+// ============================================
+// ANNOTATION COMPONENT
+// ============================================
+function Annotation({
+  position,
+  text,
+  subtext,
+  visible
+}: {
+  position: [number, number, number];
+  text: string;
+  subtext?: string;
+  visible: boolean;
+}) {
+  return (
+    <Html
+      position={position}
+      center
+      style={{
+        opacity: visible ? 1 : 0,
+        transition: "opacity 0.5s ease-in-out",
+        pointerEvents: "none",
+      }}
+    >
+      <div className="bg-black/80 backdrop-blur-md px-4 py-2 rounded-lg border border-white/20 shadow-xl whitespace-nowrap">
+        <p className="text-white text-sm font-semibold">{text}</p>
+        {subtext && <p className="text-zinc-400 text-xs">{subtext}</p>}
+      </div>
+    </Html>
+  );
+}
+
+// ============================================
+// TOUR CAMERA CONTROLLER
+// ============================================
+function TourCamera({
+  tourData,
+  isManualMode,
+  onAnnotationChange,
+}: {
+  tourData: TourData;
+  isManualMode: boolean;
+  onAnnotationChange: (annotation: TourStop["annotation"], visible: boolean) => void;
+}) {
+  const { camera } = useThree();
+  const timeRef = useRef(0);
+  const currentStopRef = useRef(0);
+  const isTransitioningRef = useRef(false);
+
+  // Pre-calculate total duration of tour
+  const totalDuration = useMemo(() => {
+    return tourData.stops.reduce((acc, stop) => acc + stop.duration + tourData.transitionDuration, 0);
+  }, [tourData]);
+
+  useFrame((_, delta) => {
+    if (isManualMode) return;
+
+    timeRef.current += delta;
+
+    // Calculate current position in tour
+    let accumulatedTime = 0;
+    let currentStop = 0;
+    let timeInCurrentSegment = timeRef.current % totalDuration;
+
+    for (let i = 0; i < tourData.stops.length; i++) {
+      const stopDuration = tourData.stops[i].duration;
+      const transitionDuration = tourData.transitionDuration;
+      const segmentDuration = stopDuration + transitionDuration;
+
+      if (timeInCurrentSegment < accumulatedTime + segmentDuration) {
+        currentStop = i;
+        timeInCurrentSegment -= accumulatedTime;
+        break;
+      }
+      accumulatedTime += segmentDuration;
+    }
+
+    const stop = tourData.stops[currentStop];
+    const nextStop = tourData.stops[(currentStop + 1) % tourData.stops.length];
+    const timeInStop = timeInCurrentSegment;
+
+    // Determine if we're in transition or holding
+    const isInTransition = timeInStop > stop.duration;
+    const transitionProgress = isInTransition
+      ? (timeInStop - stop.duration) / tourData.transitionDuration
+      : 0;
+
+    // Update annotation visibility
+    if (currentStopRef.current !== currentStop || isTransitioningRef.current !== isInTransition) {
+      currentStopRef.current = currentStop;
+      isTransitioningRef.current = isInTransition;
+
+      if (!isInTransition && stop.annotation) {
+        onAnnotationChange(stop.annotation, true);
+      } else {
+        onAnnotationChange(null, false);
+      }
+    }
+
+    // Smooth easing function
+    const easeInOutCubic = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    // Calculate camera position
+    let targetPos: THREE.Vector3;
+    let targetLookAt: THREE.Vector3;
+
+    if (isInTransition) {
+      const t = easeInOutCubic(transitionProgress);
+      targetPos = new THREE.Vector3().lerpVectors(
+        new THREE.Vector3(...stop.cameraPosition),
+        new THREE.Vector3(...nextStop.cameraPosition),
+        t
+      );
+      targetLookAt = new THREE.Vector3().lerpVectors(
+        new THREE.Vector3(...stop.lookAt),
+        new THREE.Vector3(...nextStop.lookAt),
+        t
+      );
+    } else {
+      targetPos = new THREE.Vector3(...stop.cameraPosition);
+      targetLookAt = new THREE.Vector3(...stop.lookAt);
+    }
+
+    // Smoothly interpolate camera
+    camera.position.lerp(targetPos, 0.05);
+
+    // Look at target
+    const currentLookAt = new THREE.Vector3();
+    camera.getWorldDirection(currentLookAt);
+    currentLookAt.multiplyScalar(10).add(camera.position);
+    currentLookAt.lerp(targetLookAt, 0.05);
+    camera.lookAt(targetLookAt);
+  });
+
+  return null;
+}
 
 // ============================================
 // PACKAGE BOX - Exact pattern from production Voxarel
@@ -1215,6 +1627,17 @@ interface FeatureVisualizationProps {
 }
 
 export function FeatureVisualization({ type, accentColor }: FeatureVisualizationProps) {
+  const [isManualMode, setIsManualMode] = useState(false);
+  const [currentAnnotation, setCurrentAnnotation] = useState<TourStop["annotation"] | null>(null);
+  const [annotationVisible, setAnnotationVisible] = useState(false);
+
+  // Reset tour when type changes
+  useEffect(() => {
+    setIsManualMode(false);
+    setCurrentAnnotation(null);
+    setAnnotationVisible(false);
+  }, [type]);
+
   const renderScene = () => {
     switch (type) {
       case "packages":
@@ -1240,36 +1663,26 @@ export function FeatureVisualization({ type, accentColor }: FeatureVisualization
     }
   };
 
-  // Camera positions optimized for each scene
-  const cameraConfig = useMemo(() => {
-    switch (type) {
-      case "packages":
-        return { position: [4, 3, 4] as [number, number, number], target: [0, 0.3, 0] as [number, number, number] };
-      case "containers":
-        return { position: [6, 4, 6] as [number, number, number], target: [0, 1, 0] as [number, number, number] };
-      case "analytics":
-        return { position: [4, 3, 4] as [number, number, number], target: [0, 1, 0] as [number, number, number] };
-      case "workflow":
-        return { position: [5, 3, 5] as [number, number, number], target: [0, 0, 0] as [number, number, number] };
-      case "dataflow":
-        return { position: [0, 4, 8] as [number, number, number], target: [0, 0.5, 0] as [number, number, number] };
-      case "orbit":
-        return { position: [5, 4, 5] as [number, number, number], target: [0, 0.3, 0] as [number, number, number] };
-      case "awbtree":
-        return { position: [0, 3, 6] as [number, number, number], target: [0, 0.8, 0] as [number, number, number] };
-      case "offlinesync":
-        return { position: [3, 3, 5] as [number, number, number], target: [0, 1.2, 0] as [number, number, number] };
-      case "labelattach":
-        return { position: [3, 3, 4] as [number, number, number], target: [0, 1.0, 0] as [number, number, number] };
-      default:
-        return { position: [4, 3, 4] as [number, number, number], target: [0, 0, 0] as [number, number, number] };
-    }
+  // Get tour data for current scene type
+  const tourData = useMemo(() => {
+    return tourDataMap[type] || tourDataMap.packages;
   }, [type]);
 
+  // Initial camera position from first tour stop
+  const initialCameraPosition = useMemo(() => {
+    return tourData.stops[0]?.cameraPosition || [4, 3, 4] as [number, number, number];
+  }, [tourData]);
+
+  // Handle annotation changes from tour camera
+  const handleAnnotationChange = (annotation: TourStop["annotation"], visible: boolean) => {
+    setCurrentAnnotation(annotation);
+    setAnnotationVisible(visible);
+  };
+
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full relative">
       <Canvas
-        camera={{ position: cameraConfig.position, fov: 50 }}
+        camera={{ position: initialCameraPosition, fov: 50 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
       >
@@ -1296,17 +1709,56 @@ export function FeatureVisualization({ type, accentColor }: FeatureVisualization
         {/* Scene content */}
         {renderScene()}
 
-        {/* OrbitControls - from production */}
-        <OrbitControls
-          enablePan={false}
-          enableZoom={true}
-          enableRotate={true}
-          minDistance={3}
-          maxDistance={12}
-          target={cameraConfig.target}
-          autoRotate={false}
+        {/* Tour Camera Controller */}
+        <TourCamera
+          tourData={tourData}
+          isManualMode={isManualMode}
+          onAnnotationChange={handleAnnotationChange}
         />
+
+        {/* Annotation overlay in 3D space */}
+        {currentAnnotation && (
+          <Annotation
+            position={currentAnnotation.position}
+            text={currentAnnotation.text}
+            subtext={currentAnnotation.subtext}
+            visible={annotationVisible}
+          />
+        )}
+
+        {/* OrbitControls - only enabled in manual mode */}
+        {isManualMode && (
+          <OrbitControls
+            enablePan={false}
+            enableZoom={true}
+            enableRotate={true}
+            minDistance={3}
+            maxDistance={12}
+          />
+        )}
       </Canvas>
+
+      {/* Control button overlay */}
+      <button
+        onClick={() => setIsManualMode(!isManualMode)}
+        className="absolute bottom-3 right-3 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-xs text-white/80 hover:text-white hover:bg-black/80 transition-all flex items-center gap-1.5"
+      >
+        {isManualMode ? (
+          <>
+            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+            </svg>
+            Auto Tour
+          </>
+        ) : (
+          <>
+            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+            </svg>
+            Take Control
+          </>
+        )}
+      </button>
     </div>
   );
 }
