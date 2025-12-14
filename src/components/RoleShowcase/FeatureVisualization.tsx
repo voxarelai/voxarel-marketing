@@ -639,6 +639,172 @@ function OrbitScene({ accentColor }: { accentColor: string }) {
 }
 
 // ============================================
+// AWB TREE SCENE - Master AWB with child branches + printer
+// For AWB Generation feature
+// ============================================
+function AWBTreeScene({ accentColor }: { accentColor: string }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const labelRefs = useRef<THREE.Group[]>([]);
+  const printerLabelRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.04;
+    }
+
+    // Animate label emerging from printer
+    if (printerLabelRef.current) {
+      const cycle = (state.clock.elapsedTime * 0.3) % 1;
+      printerLabelRef.current.position.y = -0.3 + cycle * 0.8;
+      printerLabelRef.current.material = printerLabelRef.current.material as THREE.MeshStandardMaterial;
+      (printerLabelRef.current.material as THREE.MeshStandardMaterial).opacity = cycle < 0.8 ? 0.9 : 0.9 - (cycle - 0.8) * 4.5;
+    }
+
+    // Pulse child labels
+    labelRefs.current.forEach((label, i) => {
+      if (label) {
+        const pulse = 1 + Math.sin(state.clock.elapsedTime * 2 + i * 0.5) * 0.05;
+        label.scale.setScalar(pulse);
+      }
+    });
+  });
+
+  const childAWBs = [
+    { x: -1.2, label: "001" },
+    { x: 0, label: "002" },
+    { x: 1.2, label: "003" },
+  ];
+
+  return (
+    <group ref={groupRef}>
+      {/* PRINTER */}
+      <group position={[-2.5, 0, 0]}>
+        {/* Printer body */}
+        <mesh position={[0, 0.3, 0]}>
+          <boxGeometry args={[0.8, 0.5, 0.6]} />
+          <meshStandardMaterial color="#374151" roughness={0.7} />
+          <lineSegments>
+            <edgesGeometry args={[new THREE.BoxGeometry(0.8, 0.5, 0.6)]} />
+            <lineBasicMaterial color="#1a202c" />
+          </lineSegments>
+        </mesh>
+        {/* Printer slot */}
+        <mesh position={[0, 0.55, 0.2]}>
+          <boxGeometry args={[0.5, 0.05, 0.15]} />
+          <meshStandardMaterial color="#1e293b" />
+        </mesh>
+        {/* Status light */}
+        <mesh position={[0.3, 0.4, 0.31]}>
+          <sphereGeometry args={[0.04, 8, 8]} />
+          <meshStandardMaterial color="#22c55e" emissive="#22c55e" emissiveIntensity={1} />
+        </mesh>
+        {/* Emerging label */}
+        <mesh ref={printerLabelRef} position={[0, 0.2, 0.2]}>
+          <boxGeometry args={[0.4, 0.25, 0.02]} />
+          <meshStandardMaterial color="#ffffff" opacity={0.9} transparent />
+        </mesh>
+        {/* Label */}
+        <Text position={[0, -0.1, 0]} fontSize={0.12} color="#94a3b8" anchorX="center">
+          PRINTER
+        </Text>
+      </group>
+
+      {/* MASTER AWB */}
+      <group position={[0.5, 1.5, 0]}>
+        {/* Master label card */}
+        <mesh>
+          <boxGeometry args={[1.2, 0.6, 0.08]} />
+          <meshStandardMaterial color={accentColor} opacity={0.9} transparent roughness={0.3} />
+          <lineSegments>
+            <edgesGeometry args={[new THREE.BoxGeometry(1.2, 0.6, 0.08)]} />
+            <lineBasicMaterial color="#1a202c" />
+          </lineSegments>
+        </mesh>
+        {/* Barcode lines */}
+        {[-0.35, -0.2, -0.05, 0.1, 0.25, 0.4].map((x, i) => (
+          <mesh key={i} position={[x, -0.1, 0.05]}>
+            <boxGeometry args={[0.08 + (i % 2) * 0.04, 0.15, 0.01]} />
+            <meshStandardMaterial color="#1a202c" />
+          </mesh>
+        ))}
+        {/* AWB Number */}
+        <Text position={[0, 0.15, 0.05]} fontSize={0.1} color="#1a202c" anchorX="center" fontWeight="bold">
+          S-DXB-00001
+        </Text>
+        {/* Master label */}
+        <Text position={[0, -0.45, 0]} fontSize={0.1} color="#94a3b8" anchorX="center">
+          MASTER AWB
+        </Text>
+      </group>
+
+      {/* CONNECTING LINES from master to children */}
+      {childAWBs.map((child, i) => (
+        <group key={`line-${i}`}>
+          {/* Vertical line from master */}
+          <mesh position={[0.5, 1.1, 0]}>
+            <boxGeometry args={[0.02, 0.3, 0.02]} />
+            <meshStandardMaterial color={accentColor} opacity={0.6} transparent />
+          </mesh>
+          {/* Horizontal spread line */}
+          <mesh position={[0.5, 0.95, 0]}>
+            <boxGeometry args={[2.6, 0.02, 0.02]} />
+            <meshStandardMaterial color={accentColor} opacity={0.6} transparent />
+          </mesh>
+          {/* Vertical line to child */}
+          <mesh position={[0.5 + child.x, 0.7, 0]}>
+            <boxGeometry args={[0.02, 0.5, 0.02]} />
+            <meshStandardMaterial color={accentColor} opacity={0.6} transparent />
+          </mesh>
+        </group>
+      ))}
+
+      {/* CHILD AWBs */}
+      {childAWBs.map((child, i) => (
+        <group
+          key={i}
+          ref={(el) => {
+            if (el) labelRefs.current[i] = el;
+          }}
+          position={[0.5 + child.x, 0.3, 0]}
+        >
+          {/* Child label card */}
+          <mesh>
+            <boxGeometry args={[0.8, 0.45, 0.06]} />
+            <meshStandardMaterial color="#64748b" opacity={0.9} transparent roughness={0.3} />
+            <lineSegments>
+              <edgesGeometry args={[new THREE.BoxGeometry(0.8, 0.45, 0.06)]} />
+              <lineBasicMaterial color="#1a202c" />
+            </lineSegments>
+          </mesh>
+          {/* Mini barcode */}
+          {[-0.2, -0.1, 0, 0.1, 0.2].map((x, j) => (
+            <mesh key={j} position={[x, -0.05, 0.04]}>
+              <boxGeometry args={[0.05 + (j % 2) * 0.02, 0.1, 0.01]} />
+              <meshStandardMaterial color="#1a202c" />
+            </mesh>
+          ))}
+          {/* Child AWB number */}
+          <Text position={[0, 0.1, 0.04]} fontSize={0.08} color="#1a202c" anchorX="center">
+            {`S-DXB-00001-${child.label}`}
+          </Text>
+          {/* Glow ring */}
+          <mesh position={[0, 0, 0]} rotation={[0, 0, 0]}>
+            <torusGeometry args={[0.5, 0.015, 8, 32]} />
+            <meshStandardMaterial color={accentColor} emissive={accentColor} emissiveIntensity={0.3} transparent opacity={0.5} />
+          </mesh>
+        </group>
+      ))}
+
+      {/* Base platform */}
+      <mesh position={[0.5, -0.1, 0]}>
+        <boxGeometry args={[4, 0.05, 2]} />
+        <meshStandardMaterial color="#1e293b" opacity={0.5} transparent />
+      </mesh>
+    </group>
+  );
+}
+
+// ============================================
 // MAIN COMPONENT
 // ============================================
 interface FeatureVisualizationProps {
@@ -661,6 +827,8 @@ export function FeatureVisualization({ type, accentColor }: FeatureVisualization
         return <DataflowScene accentColor={accentColor} />;
       case "orbit":
         return <OrbitScene accentColor={accentColor} />;
+      case "awbtree":
+        return <AWBTreeScene accentColor={accentColor} />;
       default:
         return <PackagesScene accentColor={accentColor} />;
     }
@@ -681,6 +849,8 @@ export function FeatureVisualization({ type, accentColor }: FeatureVisualization
         return { position: [0, 4, 8] as [number, number, number], target: [0, 0.5, 0] as [number, number, number] };
       case "orbit":
         return { position: [5, 4, 5] as [number, number, number], target: [0, 0.3, 0] as [number, number, number] };
+      case "awbtree":
+        return { position: [0, 3, 6] as [number, number, number], target: [0, 0.8, 0] as [number, number, number] };
       default:
         return { position: [4, 3, 4] as [number, number, number], target: [0, 0, 0] as [number, number, number] };
     }

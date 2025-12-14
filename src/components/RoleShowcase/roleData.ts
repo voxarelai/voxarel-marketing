@@ -32,7 +32,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 
-export type VisualizationType = "packages" | "containers" | "analytics" | "workflow" | "dataflow" | "orbit";
+export type VisualizationType = "packages" | "containers" | "analytics" | "workflow" | "dataflow" | "orbit" | "awbtree";
 
 export interface RoleFeature {
   id: string;
@@ -78,7 +78,7 @@ export const roles: Role[] = [
         label: "AWB Generation",
         icon: FileText,
         description: "Master & child AWB tracking numbers (S-DXB-00001)",
-        visualizationType: "workflow",
+        visualizationType: "awbtree",
       },
       {
         id: "offline-mode",
