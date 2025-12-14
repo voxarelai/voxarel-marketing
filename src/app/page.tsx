@@ -4,7 +4,9 @@ import {
   TrustBar,
   Stats,
   Features,
+  ContainerComparison,
   InteractiveDemo,
+  RoleShowcase,
   Testimonial,
   FooterCTA,
   Footer,
@@ -18,6 +20,8 @@ export default function Home() {
       <TrustBar />
       <Stats />
       <Features />
+      <ContainerComparison />
+      <RoleShowcase />
       <InteractiveDemo />
       <Testimonial />
       <FooterCTA />
