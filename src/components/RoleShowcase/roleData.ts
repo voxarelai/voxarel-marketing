@@ -32,7 +32,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 
-export type VisualizationType = "packages" | "containers" | "analytics" | "workflow" | "dataflow";
+export type VisualizationType = "packages" | "containers" | "analytics" | "workflow" | "dataflow" | "orbit";
 
 export interface RoleFeature {
   id: string;
@@ -71,7 +71,7 @@ export const roles: Role[] = [
         label: "Package Cart",
         icon: ShoppingCart,
         description: "Multi-package shopping cart with drag-and-drop management",
-        visualizationType: "packages",
+        visualizationType: "orbit",
       },
       {
         id: "awb-generation",

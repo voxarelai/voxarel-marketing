@@ -484,6 +484,161 @@ function DataflowScene({ accentColor }: { accentColor: string }) {
 }
 
 // ============================================
+// ORBIT SCENE - Packages orbiting around cart hub
+// For Package Cart feature
+// ============================================
+function OrbitScene({ accentColor }: { accentColor: string }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const orbitingRefs = useRef<THREE.Group[]>([]);
+  const lockedRefs = useRef<THREE.Mesh[]>([]);
+
+  // Track which packages are "locked" into the cart
+  const lockedIndices = useRef<Set<number>>(new Set());
+
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.03;
+    }
+
+    // Animate orbiting packages
+    orbitingRefs.current.forEach((orbitGroup, i) => {
+      if (orbitGroup && !lockedIndices.current.has(i)) {
+        const speed = 0.3 + i * 0.08;
+        const radius = 1.8 + i * 0.3;
+        const angle = state.clock.elapsedTime * speed + i * (Math.PI / 3);
+
+        orbitGroup.position.x = Math.cos(angle) * radius;
+        orbitGroup.position.z = Math.sin(angle) * radius;
+        orbitGroup.position.y = 0.4 + Math.sin(state.clock.elapsedTime * 2 + i) * 0.15;
+
+        // Rotate package itself
+        orbitGroup.rotation.y += delta * 0.5;
+      }
+    });
+
+    // Periodically "lock" a package into the cart
+    const lockCycle = Math.floor(state.clock.elapsedTime / 3) % 6;
+    if (!lockedIndices.current.has(lockCycle)) {
+      lockedIndices.current.add(lockCycle);
+
+      // Move to locked position
+      const orbitGroup = orbitingRefs.current[lockCycle];
+      if (orbitGroup) {
+        const lockPositions = [
+          [0.4, 0.3, 0.4],
+          [-0.4, 0.3, 0.4],
+          [0.4, 0.3, -0.4],
+          [-0.4, 0.3, -0.4],
+          [0, 0.6, 0.4],
+          [0, 0.6, -0.4],
+        ];
+        const pos = lockPositions[lockCycle];
+        orbitGroup.position.set(pos[0], pos[1], pos[2]);
+        orbitGroup.rotation.set(0, 0, 0);
+      }
+    }
+
+    // Reset cycle after all locked
+    if (lockedIndices.current.size >= 6) {
+      if (state.clock.elapsedTime % 18 < 0.1) {
+        lockedIndices.current.clear();
+      }
+    }
+
+    // Pulse locked packages
+    lockedRefs.current.forEach((mesh, i) => {
+      if (mesh && lockedIndices.current.has(i)) {
+        const pulse = 1 + Math.sin(state.clock.elapsedTime * 3 + i) * 0.1;
+        mesh.scale.setScalar(pulse);
+      }
+    });
+  });
+
+  const orbitingPackages = [
+    { size: [0.35, 0.28, 0.3] as [number, number, number], color: accentColor },
+    { size: [0.3, 0.35, 0.28] as [number, number, number], color: "#64748b" },
+    { size: [0.32, 0.3, 0.32] as [number, number, number], color: accentColor },
+    { size: [0.28, 0.32, 0.3] as [number, number, number], color: "#94a3b8" },
+    { size: [0.34, 0.28, 0.34] as [number, number, number], color: accentColor },
+    { size: [0.3, 0.3, 0.28] as [number, number, number], color: "#64748b" },
+  ];
+
+  return (
+    <group ref={groupRef}>
+      {/* CENTRAL CART HUB */}
+      <group position={[0, 0, 0]}>
+        {/* Cart base */}
+        <mesh position={[0, 0.15, 0]}>
+          <cylinderGeometry args={[0.6, 0.7, 0.3, 24]} />
+          <meshStandardMaterial color="#374151" opacity={0.9} transparent />
+        </mesh>
+
+        {/* Cart rim - glowing */}
+        <mesh position={[0, 0.3, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.65, 0.04, 8, 32]} />
+          <meshStandardMaterial color={accentColor} emissive={accentColor} emissiveIntensity={0.6} />
+        </mesh>
+
+        {/* Cart icon representation - simplified basket */}
+        <mesh position={[0, 0.1, 0]}>
+          <boxGeometry args={[0.8, 0.15, 0.8]} />
+          <meshStandardMaterial color={accentColor} opacity={0.3} transparent wireframe />
+        </mesh>
+
+        {/* Central glow */}
+        <mesh position={[0, 0.3, 0]}>
+          <sphereGeometry args={[0.25, 16, 16]} />
+          <meshStandardMaterial
+            color={accentColor}
+            emissive={accentColor}
+            emissiveIntensity={0.4}
+            transparent
+            opacity={0.6}
+          />
+        </mesh>
+
+        {/* Label */}
+        <Text position={[0, -0.15, 0]} fontSize={0.15} color="#94a3b8" anchorX="center">
+          CART
+        </Text>
+      </group>
+
+      {/* ORBITING PACKAGES */}
+      {orbitingPackages.map((pkg, i) => (
+        <group
+          key={i}
+          ref={(el) => {
+            if (el) orbitingRefs.current[i] = el;
+          }}
+          position={[1.8 + i * 0.3, 0.4, 0]}
+        >
+          <mesh
+            ref={(el) => {
+              if (el) lockedRefs.current[i] = el;
+            }}
+          >
+            <boxGeometry args={pkg.size} />
+            <meshStandardMaterial color={pkg.color} opacity={0.85} transparent roughness={0.5} metalness={0.2} />
+            <lineSegments>
+              <edgesGeometry args={[new THREE.BoxGeometry(...pkg.size)]} />
+              <lineBasicMaterial color="#1a202c" linewidth={2} />
+            </lineSegments>
+          </mesh>
+        </group>
+      ))}
+
+      {/* Orbit trail rings */}
+      {[1.8, 2.4, 3.0].map((radius, i) => (
+        <mesh key={i} position={[0, 0.4, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[radius, 0.008, 8, 64]} />
+          <meshStandardMaterial color="#475569" opacity={0.3} transparent />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+// ============================================
 // MAIN COMPONENT
 // ============================================
 interface FeatureVisualizationProps {
@@ -504,6 +659,8 @@ export function FeatureVisualization({ type, accentColor }: FeatureVisualization
         return <WorkflowScene accentColor={accentColor} />;
       case "dataflow":
         return <DataflowScene accentColor={accentColor} />;
+      case "orbit":
+        return <OrbitScene accentColor={accentColor} />;
       default:
         return <PackagesScene accentColor={accentColor} />;
     }
@@ -522,6 +679,8 @@ export function FeatureVisualization({ type, accentColor }: FeatureVisualization
         return { position: [5, 3, 5] as [number, number, number], target: [0, 0, 0] as [number, number, number] };
       case "dataflow":
         return { position: [0, 4, 8] as [number, number, number], target: [0, 0.5, 0] as [number, number, number] };
+      case "orbit":
+        return { position: [5, 4, 5] as [number, number, number], target: [0, 0.3, 0] as [number, number, number] };
       default:
         return { position: [4, 3, 4] as [number, number, number], target: [0, 0, 0] as [number, number, number] };
     }
