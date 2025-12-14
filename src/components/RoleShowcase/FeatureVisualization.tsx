@@ -805,6 +805,207 @@ function AWBTreeScene({ accentColor }: { accentColor: string }) {
 }
 
 // ============================================
+// OFFLINE SYNC SCENE - Futuristic offline/online sync
+// For Offline Mode feature
+// ============================================
+function OfflineSyncScene({ accentColor }: { accentColor: string }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const cloudRef = useRef<THREE.Mesh>(null);
+  const dataPacketRefs = useRef<THREE.Mesh[]>([]);
+  const syncBeamRefs = useRef<THREE.Mesh[]>([]);
+  const ringRefs = useRef<THREE.Mesh[]>([]);
+
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.03;
+    }
+
+    // Cycle: 0-5s offline, 5-10s syncing/online, repeat
+    const cycleTime = state.clock.elapsedTime % 10;
+    const isOffline = cycleTime < 5;
+    const isSyncing = cycleTime >= 5 && cycleTime < 7;
+    const isOnline = cycleTime >= 7;
+
+    // Cloud color transition
+    if (cloudRef.current) {
+      const material = cloudRef.current.material as THREE.MeshStandardMaterial;
+      if (isOffline) {
+        material.color.setHex(0xef4444); // red
+        material.emissive.setHex(0xef4444);
+        material.emissiveIntensity = 0.3 + Math.sin(state.clock.elapsedTime * 3) * 0.1;
+      } else {
+        material.color.setHex(0x22c55e); // green
+        material.emissive.setHex(0x22c55e);
+        material.emissiveIntensity = 0.5;
+      }
+    }
+
+    // Data packets - queue when offline, stream up when syncing
+    dataPacketRefs.current.forEach((packet, i) => {
+      if (packet) {
+        if (isOffline) {
+          // Queue around device
+          const angle = (i / 6) * Math.PI * 2 + state.clock.elapsedTime * 0.5;
+          const radius = 0.8;
+          packet.position.x = Math.cos(angle) * radius;
+          packet.position.z = Math.sin(angle) * radius;
+          packet.position.y = 0.3 + i * 0.15 + Math.sin(state.clock.elapsedTime * 2 + i) * 0.1;
+          packet.scale.setScalar(1);
+          (packet.material as THREE.MeshStandardMaterial).opacity = 0.9;
+        } else if (isSyncing || isOnline) {
+          // Stream up to cloud
+          const syncProgress = ((cycleTime - 5) * 0.5 + i * 0.15) % 1;
+          packet.position.x = Math.sin(syncProgress * Math.PI * 2) * 0.3;
+          packet.position.z = Math.cos(syncProgress * Math.PI * 2) * 0.3;
+          packet.position.y = 0.5 + syncProgress * 2.5;
+          packet.scale.setScalar(1 - syncProgress * 0.5);
+          (packet.material as THREE.MeshStandardMaterial).opacity = 1 - syncProgress;
+        }
+      }
+    });
+
+    // Sync beams - only visible when syncing
+    syncBeamRefs.current.forEach((beam, i) => {
+      if (beam) {
+        const visible = isSyncing || isOnline;
+        (beam.material as THREE.MeshStandardMaterial).opacity = visible ? 0.4 + Math.sin(state.clock.elapsedTime * 5 + i) * 0.2 : 0;
+      }
+    });
+
+    // Rotating sci-fi rings
+    ringRefs.current.forEach((ring, i) => {
+      if (ring) {
+        ring.rotation.z += delta * (0.3 + i * 0.2) * (i % 2 === 0 ? 1 : -1);
+        ring.rotation.x = Math.sin(state.clock.elapsedTime + i) * 0.1;
+      }
+    });
+  });
+
+  return (
+    <group ref={groupRef}>
+      {/* HOLOGRAPHIC DEVICE */}
+      <group position={[0, 0.5, 0]}>
+        {/* Device frame - wireframe style */}
+        <mesh>
+          <boxGeometry args={[0.8, 1.2, 0.1]} />
+          <meshStandardMaterial color={accentColor} wireframe opacity={0.8} transparent />
+        </mesh>
+        {/* Device screen */}
+        <mesh position={[0, 0, 0.06]}>
+          <boxGeometry args={[0.65, 1.0, 0.02]} />
+          <meshStandardMaterial
+            color={accentColor}
+            emissive={accentColor}
+            emissiveIntensity={0.2}
+            opacity={0.3}
+            transparent
+          />
+        </mesh>
+        {/* Screen glow */}
+        <mesh position={[0, 0, 0.08]}>
+          <planeGeometry args={[0.7, 1.05]} />
+          <meshStandardMaterial
+            color={accentColor}
+            emissive={accentColor}
+            emissiveIntensity={0.5}
+            opacity={0.2}
+            transparent
+          />
+        </mesh>
+        {/* Holographic rings around device */}
+        {[0.6, 0.8, 1.0].map((radius, i) => (
+          <mesh
+            key={i}
+            ref={(el) => { if (el) ringRefs.current[i] = el; }}
+            position={[0, 0, 0]}
+            rotation={[Math.PI / 2, 0, 0]}
+          >
+            <torusGeometry args={[radius, 0.01, 8, 32]} />
+            <meshStandardMaterial
+              color={accentColor}
+              emissive={accentColor}
+              emissiveIntensity={0.5}
+              opacity={0.4}
+              transparent
+            />
+          </mesh>
+        ))}
+      </group>
+
+      {/* CLOUD */}
+      <group position={[0, 2.8, 0]}>
+        <mesh ref={cloudRef}>
+          <sphereGeometry args={[0.5, 16, 16]} />
+          <meshStandardMaterial color="#ef4444" emissive="#ef4444" emissiveIntensity={0.3} opacity={0.8} transparent />
+        </mesh>
+        {/* Cloud bumps */}
+        {[[-0.35, 0, 0], [0.35, 0, 0], [0, 0, 0.3], [0, 0, -0.3]].map((pos, i) => (
+          <mesh key={i} position={pos as [number, number, number]}>
+            <sphereGeometry args={[0.25, 12, 12]} />
+            <meshStandardMaterial color="#64748b" opacity={0.6} transparent />
+          </mesh>
+        ))}
+        {/* Cloud label */}
+        <Text position={[0, -0.7, 0]} fontSize={0.12} color="#94a3b8" anchorX="center">
+          CLOUD
+        </Text>
+      </group>
+
+      {/* SYNC BEAMS */}
+      {[0, 1, 2].map((i) => (
+        <mesh
+          key={i}
+          ref={(el) => { if (el) syncBeamRefs.current[i] = el; }}
+          position={[-0.2 + i * 0.2, 1.8, 0]}
+        >
+          <cylinderGeometry args={[0.02, 0.02, 1.5, 8]} />
+          <meshStandardMaterial
+            color={accentColor}
+            emissive={accentColor}
+            emissiveIntensity={0.8}
+            opacity={0}
+            transparent
+          />
+        </mesh>
+      ))}
+
+      {/* DATA PACKETS */}
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <mesh
+          key={i}
+          ref={(el) => { if (el) dataPacketRefs.current[i] = el; }}
+          position={[0.8, 0.5 + i * 0.2, 0]}
+        >
+          <octahedronGeometry args={[0.1, 0]} />
+          <meshStandardMaterial
+            color={i % 2 === 0 ? accentColor : "#94a3b8"}
+            emissive={i % 2 === 0 ? accentColor : "#94a3b8"}
+            emissiveIntensity={0.6}
+            opacity={0.9}
+            transparent
+          />
+        </mesh>
+      ))}
+
+      {/* STATUS LABELS */}
+      <Text position={[0, -0.3, 0]} fontSize={0.12} color="#94a3b8" anchorX="center">
+        DEVICE
+      </Text>
+
+      {/* Base platform with glow */}
+      <mesh position={[0, -0.1, 0]}>
+        <cylinderGeometry args={[1.2, 1.3, 0.1, 24]} />
+        <meshStandardMaterial color="#1e293b" />
+      </mesh>
+      <mesh position={[0, -0.04, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[1.25, 0.03, 8, 32]} />
+        <meshStandardMaterial color={accentColor} emissive={accentColor} emissiveIntensity={0.4} />
+      </mesh>
+    </group>
+  );
+}
+
+// ============================================
 // MAIN COMPONENT
 // ============================================
 interface FeatureVisualizationProps {
@@ -829,6 +1030,8 @@ export function FeatureVisualization({ type, accentColor }: FeatureVisualization
         return <OrbitScene accentColor={accentColor} />;
       case "awbtree":
         return <AWBTreeScene accentColor={accentColor} />;
+      case "offlinesync":
+        return <OfflineSyncScene accentColor={accentColor} />;
       default:
         return <PackagesScene accentColor={accentColor} />;
     }
@@ -851,6 +1054,8 @@ export function FeatureVisualization({ type, accentColor }: FeatureVisualization
         return { position: [5, 4, 5] as [number, number, number], target: [0, 0.3, 0] as [number, number, number] };
       case "awbtree":
         return { position: [0, 3, 6] as [number, number, number], target: [0, 0.8, 0] as [number, number, number] };
+      case "offlinesync":
+        return { position: [3, 3, 5] as [number, number, number], target: [0, 1.2, 0] as [number, number, number] };
       default:
         return { position: [4, 3, 4] as [number, number, number], target: [0, 0, 0] as [number, number, number] };
     }

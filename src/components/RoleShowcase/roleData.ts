@@ -32,7 +32,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 
-export type VisualizationType = "packages" | "containers" | "analytics" | "workflow" | "dataflow" | "orbit" | "awbtree";
+export type VisualizationType = "packages" | "containers" | "analytics" | "workflow" | "dataflow" | "orbit" | "awbtree" | "offlinesync";
 
 export interface RoleFeature {
   id: string;
@@ -85,7 +85,7 @@ export const roles: Role[] = [
         label: "Offline Mode",
         icon: WifiOff,
         description: "Offline-first data capture with automatic sync when online",
-        visualizationType: "workflow",
+        visualizationType: "offlinesync",
       },
       {
         id: "label-printing",
