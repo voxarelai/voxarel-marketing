@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, Suspense } from "react";
+import { useState, useCallback, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { roles, roleColors, Role, RoleFeature } from "./RoleShowcase/roleData";
 import { FeatureVisualization } from "./RoleShowcase/FeatureVisualization";
@@ -86,106 +86,18 @@ function FeatureInfoOverlay({ feature, color }: { feature: RoleFeature; color: s
 }
 
 // ============================================
-// TOUR PROGRESS INDICATOR
-// ============================================
-function TourProgress({
-  currentStep,
-  totalSteps,
-  isPaused,
-  onToggle,
-}: {
-  currentStep: number;
-  totalSteps: number;
-  isPaused: boolean;
-  onToggle: () => void;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="absolute -bottom-12 sm:-bottom-14 left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-3"
-    >
-      {/* Progress dots */}
-      <div className="flex items-center gap-1.5">
-        {Array.from({ length: totalSteps }).map((_, i) => (
-          <motion.div
-            key={i}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === currentStep
-                ? "w-6 bg-orange-500"
-                : i < currentStep
-                  ? "w-1.5 bg-orange-500/50"
-                  : "w-1.5 bg-white/20"
-            }`}
-          />
-        ))}
-      </div>
-
-      {/* Play/Pause button */}
-      <button
-        onClick={onToggle}
-        className="ml-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-xs text-white/70 hover:text-white flex items-center gap-1.5"
-      >
-        {isPaused ? (
-          <>
-            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-            </svg>
-            Play
-          </>
-        ) : (
-          <>
-            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M5.75 3a.75.75 0 00-.75.75v12.5c0 .414.336.75.75.75h1.5a.75.75 0 00.75-.75V3.75A.75.75 0 007.25 3h-1.5zM12.75 3a.75.75 0 00-.75.75v12.5c0 .414.336.75.75.75h1.5a.75.75 0 00.75-.75V3.75a.75.75 0 00-.75-.75h-1.5z" />
-            </svg>
-            Pause
-          </>
-        )}
-      </button>
-    </motion.div>
-  );
-}
-
-// ============================================
 // MAIN COMPONENT
 // ============================================
 export function RoleShowcase() {
   const [activeRoleId, setActiveRoleId] = useState("field-agent");
   const [activeFeatureId, setActiveFeatureId] = useState("customer-capture");
-  const [currentTourStep, setCurrentTourStep] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
 
   const activeRole = roles.find((r) => r.id === activeRoleId)!;
   const activeFeature = activeRole.features.find((f) => f.id === activeFeatureId) || activeRole.features[0];
   const colors = roleColors[activeRole.color];
 
-  // Build flat list of all features for tour
-  const allFeatures = roles.flatMap((role) =>
-    role.features.map((feature) => ({ roleId: role.id, featureId: feature.id }))
-  );
-
-  // Auto-play tour effect
-  useEffect(() => {
-    if (isPaused || hasInteracted) return;
-
-    const interval = setInterval(() => {
-      setCurrentTourStep((prev) => {
-        const nextStep = (prev + 1) % allFeatures.length;
-        const { roleId, featureId } = allFeatures[nextStep];
-        setActiveRoleId(roleId);
-        setActiveFeatureId(featureId);
-        return nextStep;
-      });
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [isPaused, hasInteracted, allFeatures.length]);
-
   // Handle role selection
   const handleRoleSelect = useCallback((roleId: string) => {
-    setHasInteracted(true);
-    setIsPaused(true);
     setActiveRoleId(roleId);
     const role = roles.find((r) => r.id === roleId);
     if (role && role.features.length > 0) {
@@ -195,18 +107,8 @@ export function RoleShowcase() {
 
   // Handle feature selection
   const handleFeatureSelect = useCallback((featureId: string) => {
-    setHasInteracted(true);
-    setIsPaused(true);
     setActiveFeatureId(featureId);
   }, []);
-
-  // Toggle play/pause
-  const togglePause = () => {
-    if (hasInteracted) {
-      setHasInteracted(false);
-    }
-    setIsPaused(!isPaused);
-  };
 
   // Convert features to NavItems for DashboardFrame
   const featureNavItems: NavItem[] = activeRole.features.map((feature) => ({
@@ -343,14 +245,6 @@ export function RoleShowcase() {
                           </DashboardFrame>
                         </motion.div>
                       </AnimatePresence>
-
-                      {/* Tour Progress */}
-                      <TourProgress
-                        currentStep={currentTourStep}
-                        totalSteps={allFeatures.length}
-                        isPaused={isPaused || hasInteracted}
-                        onToggle={togglePause}
-                      />
                     </div>
                   </div>
 
