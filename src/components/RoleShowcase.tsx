@@ -27,8 +27,8 @@ function RoleAccordion({
           <motion.button
             key={role.id}
             onClick={() => onRoleSelect(role.id)}
-            className={`text-left py-4 transition-all duration-200 ${
-              index !== 0 ? "border-t border-zinc-800/50" : ""
+            className={`text-left py-5 transition-all duration-200 ${
+              index !== 0 ? "border-t border-zinc-700/30" : ""
             }`}
             whileTap={{ scale: 0.995 }}
           >
@@ -145,38 +145,49 @@ export function RoleShowcase() {
 
           {/* Left Column: Title + Role Accordion */}
           <div className="lg:sticky lg:top-24">
-            {/* Section Header - Refined */}
-            <div className="mb-10">
-              <h2 className="text-2xl sm:text-3xl font-medium text-white mb-3 tracking-tight">
-                Role-based workflows
-              </h2>
-              <p className="text-sm text-zinc-500 leading-relaxed max-w-[240px]">
-                Purpose-built experiences for every team member in your operation.
-              </p>
-            </div>
+            {/* Subtle background wrapper for visual separation */}
+            <div className="lg:bg-zinc-900/40 lg:py-10 lg:px-8 lg:-ml-8 lg:rounded-2xl">
+              {/* Section Header - Refined */}
+              <div className="mb-8">
+                <h2 className="text-2xl sm:text-3xl font-medium text-white mb-3 tracking-tight">
+                  Role-based workflows
+                </h2>
+                <p className="text-sm text-zinc-500 leading-relaxed max-w-[240px]">
+                  Purpose-built experiences for every team member in your operation.
+                </p>
 
-            {/* Role Accordion - Desktop */}
-            <div className="hidden lg:block">
-              <RoleAccordion
-                roles={roles}
-                activeRole={activeRoleId}
-                onRoleSelect={handleRoleSelect}
-              />
-            </div>
+                {/* CTA Button */}
+                <button className="mt-6 px-5 py-2.5 text-sm font-medium text-zinc-900 bg-white rounded-full hover:bg-zinc-100 transition-colors">
+                  Explore roles
+                </button>
+              </div>
 
-            {/* Role Selector - Mobile/Tablet */}
-            <div className="lg:hidden">
-              <select
-                value={activeRoleId}
-                onChange={(e) => handleRoleSelect(e.target.value)}
-                className="w-full bg-zinc-900 text-white text-sm rounded-lg px-4 py-3 border border-zinc-800 appearance-none cursor-pointer"
-              >
-                {roles.map((role) => (
-                  <option key={role.id} value={role.id}>
-                    {role.title}
-                  </option>
-                ))}
-              </select>
+              {/* Horizontal Divider */}
+              <div className="border-t border-zinc-700/50 pt-6">
+                {/* Role Accordion - Desktop */}
+                <div className="hidden lg:block">
+                  <RoleAccordion
+                    roles={roles}
+                    activeRole={activeRoleId}
+                    onRoleSelect={handleRoleSelect}
+                  />
+                </div>
+
+                {/* Role Selector - Mobile/Tablet */}
+                <div className="lg:hidden">
+                  <select
+                    value={activeRoleId}
+                    onChange={(e) => handleRoleSelect(e.target.value)}
+                    className="w-full bg-zinc-900 text-white text-sm rounded-lg px-4 py-3 border border-zinc-800 appearance-none cursor-pointer"
+                  >
+                    {roles.map((role) => (
+                      <option key={role.id} value={role.id}>
+                        {role.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
 
