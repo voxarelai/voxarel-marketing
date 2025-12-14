@@ -20,12 +20,14 @@ import {
   ArrowRight,
   BarChart3,
   Bell,
+  LayoutDashboard,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { DashboardFrame, NavItem } from "./DashboardFrame";
 
 // Demo data
 const predictions = [
@@ -613,6 +615,13 @@ function DashboardView() {
   );
 }
 
+// Navigation items for the dashboard sidebar
+const demoNavItems: NavItem[] = [
+  { id: "predictions", label: "AI Predictions", icon: Zap },
+  { id: "tracking", label: "Tracking", icon: Truck, badge: "2", badgeVariant: "default" },
+  { id: "dashboard", label: "Dashboard", icon: BarChart3, badge: "Live", badgeVariant: "success" },
+];
+
 // ============================================
 // MAIN COMPONENT
 // ============================================
@@ -666,6 +675,44 @@ export function InteractiveDemo() {
 
   const currentStep = tourSteps[currentTourStep];
 
+  // Bottom status for sidebar
+  const bottomStatus = (
+    <div className="space-y-2">
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-emerald-400" />
+        <span className="text-xs text-zinc-400">System Status</span>
+        <span className="ml-auto text-[10px] text-emerald-400 font-medium">Optimal</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <Zap className="h-3.5 w-3.5 text-zinc-500" />
+        <span className="text-xs text-zinc-400">AI Model</span>
+        <span className="ml-auto text-[10px] text-zinc-500 bg-white/5 px-1.5 py-0.5 rounded">v2.4</span>
+      </div>
+    </div>
+  );
+
+  // Render active view based on tab
+  const renderActiveView = () => {
+    switch (activeTab) {
+      case "predictions":
+        return (
+          <PredictionView
+            selectedId={selectedPrediction}
+            onSelect={(id) => {
+              handleUserInteraction();
+              setSelectedPrediction(id);
+            }}
+          />
+        );
+      case "tracking":
+        return <TrackingView />;
+      case "dashboard":
+        return <DashboardView />;
+      default:
+        return <PredictionView selectedId={selectedPrediction} onSelect={setSelectedPrediction} />;
+    }
+  };
+
   return (
     <section className="relative py-24 overflow-hidden">
       {/* Gradient Mesh Background */}
@@ -694,172 +741,117 @@ export function InteractiveDemo() {
         {/* Centered Monitor Display */}
         <div className="max-w-6xl mx-auto px-3 sm:px-6">
           <div className="relative">
-              {/* Ambient Glow */}
-              <div className="absolute -inset-8 bg-gradient-to-r from-orange-500/20 via-purple-500/10 to-cyan-500/20 rounded-3xl blur-3xl opacity-40" />
+            {/* Ambient Glow */}
+            <div className="absolute -inset-8 bg-gradient-to-r from-orange-500/20 via-purple-500/10 to-cyan-500/20 rounded-3xl blur-3xl opacity-40" />
 
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                className="relative"
-              >
-                {/* Monitor Frame - LARGE */}
-                <div className="relative">
-                  {/* Screen bezel */}
-                  <div className="bg-[#0a0a0a] rounded-xl sm:rounded-2xl p-2 sm:p-4 shadow-2xl">
-                    {/* Screen with desktop wallpaper */}
-                    <div
-                      className="relative rounded-xl overflow-hidden bg-cover bg-center bg-no-repeat min-h-[450px] sm:min-h-[500px] md:min-h-[600px]"
-                      style={{
-                        backgroundImage: "url('/background_desktop.png')",
-                      }}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              {/* Monitor Frame - LARGE */}
+              <div className="relative">
+                {/* Screen bezel */}
+                <div className="bg-[#0a0a0a] rounded-xl sm:rounded-2xl p-2 sm:p-4 shadow-2xl">
+                  {/* Screen with desktop wallpaper */}
+                  <div
+                    className="relative rounded-xl overflow-hidden bg-cover bg-center bg-no-repeat min-h-[450px] sm:min-h-[500px] md:min-h-[600px]"
+                    style={{
+                      backgroundImage: "url('/background_desktop.png')",
+                    }}
+                  >
+                    {/* Tooltip Bubble - positioned on desktop background (hidden on mobile) */}
+                    <div className="hidden md:block">
+                      <TooltipBubble
+                        title={currentStep.title}
+                        message={currentStep.message}
+                        position={currentStep.position}
+                        verticalPosition={currentStep.verticalPosition}
+                        isVisible={!hasInteracted}
+                      />
+                    </div>
+
+                    {/* App Window with Dashboard Frame */}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
+                      className="absolute inset-6 flex items-start justify-center pt-4"
+                      onClick={handleUserInteraction}
                     >
-                      {/* Tooltip Bubble - positioned on desktop background (hidden on mobile) */}
-                      <div className="hidden md:block">
-                        <TooltipBubble
-                          title={currentStep.title}
-                          message={currentStep.message}
-                          position={currentStep.position}
-                          verticalPosition={currentStep.verticalPosition}
-                          isVisible={!hasInteracted}
+                      <div className="relative">
+                        <DashboardFrame
+                          url="app.voxarel.com"
+                          navItems={demoNavItems}
+                          activeItem={activeTab}
+                          onItemSelect={handleTabChange}
+                          header={{
+                            icon: LayoutDashboard,
+                            title: "Voxarel Platform",
+                            subtitle: "Live preview",
+                          }}
+                          bottomStatus={bottomStatus}
+                        >
+                          {/* Content Area */}
+                          <div className="h-[320px] sm:h-[380px] overflow-hidden relative">
+                            <motion.div
+                              animate={{ y: hasInteracted ? 0 : -currentStep.scrollY }}
+                              transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+                              className="absolute inset-x-0"
+                            >
+                              <AnimatePresence mode="wait">
+                                <motion.div
+                                  key={activeTab}
+                                  initial={{ opacity: 0, y: 10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: -10 }}
+                                  transition={{ duration: 0.2 }}
+                                >
+                                  {renderActiveView()}
+                                </motion.div>
+                              </AnimatePresence>
+                            </motion.div>
+
+                            {/* Scroll fade indicators */}
+                            {!hasInteracted && currentStep.scrollY > 0 && (
+                              <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-zinc-900 to-transparent pointer-events-none" />
+                            )}
+                          </div>
+                        </DashboardFrame>
+
+                        {/* Tour Progress Indicator */}
+                        <TourProgress
+                          currentStep={currentTourStep}
+                          totalSteps={tourSteps.length}
+                          isPaused={isPaused || hasInteracted}
+                          onToggle={togglePause}
                         />
                       </div>
+                    </motion.div>
 
-                      {/* Single Large App Window - centered and prominent */}
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="absolute inset-6 flex items-start justify-center pt-4"
-                      >
-                        {/* App Window */}
-                        <div className="relative">
-
-                          <div
-                            className="w-[calc(100vw-80px)] sm:w-[500px] md:w-[600px] bg-zinc-900/98 backdrop-blur-xl rounded-xl shadow-2xl border border-white/10 overflow-hidden"
-                            onClick={handleUserInteraction}
-                          >
-                            {/* Window Chrome */}
-                            <div className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-zinc-800/90 border-b border-white/5">
-                              <div className="flex gap-1.5 sm:gap-2">
-                                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500" />
-                                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500" />
-                                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500" />
-                              </div>
-                              <div className="flex-1 flex justify-center">
-                                <div className="px-2 sm:px-4 py-0.5 sm:py-1 bg-white/10 rounded-md text-[10px] sm:text-xs text-zinc-400 font-mono">
-                                  app.voxarel.com
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Demo Content */}
-                            <div className="p-3 sm:p-5">
-                              <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-                                <TabsList className="w-full justify-start mb-3 sm:mb-4 bg-white/5 p-0.5 sm:p-1 rounded-lg">
-                                  <TabsTrigger
-                                    value="predictions"
-                                    className={`text-[10px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 data-[state=active]:bg-white/10 transition-all ${
-                                      !hasInteracted && currentStep.tab === "predictions" ? "ring-2 ring-orange-500/60 ring-offset-1 ring-offset-transparent" : ""
-                                    }`}
-                                  >
-                                    Predictions
-                                  </TabsTrigger>
-                                  <TabsTrigger
-                                    value="tracking"
-                                    className={`text-[10px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 data-[state=active]:bg-white/10 transition-all ${
-                                      !hasInteracted && currentStep.tab === "tracking" ? "ring-2 ring-orange-500/60 ring-offset-1 ring-offset-transparent" : ""
-                                    }`}
-                                  >
-                                    Tracking
-                                  </TabsTrigger>
-                                  <TabsTrigger
-                                    value="dashboard"
-                                    className={`text-[10px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 data-[state=active]:bg-white/10 transition-all ${
-                                      !hasInteracted && currentStep.tab === "dashboard" ? "ring-2 ring-orange-500/60 ring-offset-1 ring-offset-transparent" : ""
-                                    }`}
-                                  >
-                                    Dashboard
-                                  </TabsTrigger>
-                                </TabsList>
-
-                                {/* Scrollable content area */}
-                                <div className="h-[280px] sm:h-[300px] md:h-[320px] overflow-hidden relative">
-                                  <motion.div
-                                    animate={{ y: hasInteracted ? 0 : -currentStep.scrollY }}
-                                    transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-                                    className="absolute inset-x-0"
-                                  >
-                                    <AnimatePresence mode="wait">
-                                      <motion.div
-                                        key={activeTab}
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -10 }}
-                                        transition={{ duration: 0.2 }}
-                                      >
-                                        <TabsContent value="predictions" className="mt-0">
-                                          <PredictionView
-                                            selectedId={selectedPrediction}
-                                            onSelect={(id) => {
-                                              handleUserInteraction();
-                                              setSelectedPrediction(id);
-                                            }}
-                                          />
-                                        </TabsContent>
-
-                                        <TabsContent value="tracking" className="mt-0">
-                                          <TrackingView />
-                                        </TabsContent>
-
-                                        <TabsContent value="dashboard" className="mt-0">
-                                          <DashboardView />
-                                        </TabsContent>
-                                      </motion.div>
-                                    </AnimatePresence>
-                                  </motion.div>
-
-                                  {/* Scroll fade indicators */}
-                                  {!hasInteracted && currentStep.scrollY > 0 && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-zinc-900 to-transparent pointer-events-none" />
-                                  )}
-                                </div>
-                              </Tabs>
-                            </div>
-                          </div>
-
-                          {/* Tour Progress Indicator */}
-                          <TourProgress
-                            currentStep={currentTourStep}
-                            totalSteps={tourSteps.length}
-                            isPaused={isPaused || hasInteracted}
-                            onToggle={togglePause}
-                          />
+                    {/* Small floating notification toast (hidden on small mobile) */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.6 }}
+                      className="absolute bottom-4 right-4 sm:bottom-8 sm:right-8 z-30 hidden sm:flex"
+                    >
+                      <div className="bg-zinc-900/95 backdrop-blur-xl rounded-lg shadow-2xl border border-white/10 px-4 py-3 flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
                         </div>
-                      </motion.div>
-
-                      {/* Small floating notification toast (hidden on small mobile) */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.6 }}
-                        className="absolute bottom-4 right-4 sm:bottom-8 sm:right-8 z-30 hidden sm:flex"
-                      >
-                        <div className="bg-zinc-900/95 backdrop-blur-xl rounded-lg shadow-2xl border border-white/10 px-4 py-3 flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                          </div>
-                          <div>
-                            <p className="text-xs font-medium text-white">Container Booked</p>
-                            <p className="text-[10px] text-zinc-400">Mumbai route • MNF-2847</p>
-                          </div>
+                        <div>
+                          <p className="text-xs font-medium text-white">Container Booked</p>
+                          <p className="text-[10px] text-zinc-400">Mumbai route • MNF-2847</p>
                         </div>
-                      </motion.div>
-                    </div>
+                      </div>
+                    </motion.div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>

@@ -9,6 +9,9 @@ export { Testimonial } from "./Testimonial";
 export { FooterCTA } from "./FooterCTA";
 export { Footer } from "./Footer";
 
-// V2 Components (hidden)
+// V2 Components
 export { ModuleShowcase } from "./ModuleShowcase";
 export { RoleBasedValue } from "./RoleBasedValue";
+export { RoleShowcase } from "./RoleShowcase";
+export { ContainerComparison } from "./ContainerComparison";
+export { DashboardFrame } from "./DashboardFrame";

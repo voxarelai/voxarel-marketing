@@ -33,7 +33,9 @@ import {
   ChevronDown,
   Bell,
   Zap,
+  LayoutDashboard,
 } from "lucide-react";
+import { DashboardFrame, NavItem } from "./DashboardFrame";
 
 // ============================================
 // ROLE DEFINITIONS
@@ -831,6 +833,13 @@ function RiderView() {
   );
 }
 
+// Navigation items for the dashboard sidebar (converted from roles)
+const roleNavItems: NavItem[] = roles.map((role) => ({
+  id: role.id,
+  label: role.title,
+  icon: role.icon,
+}));
+
 // ============================================
 // MAIN COMPONENT
 // ============================================
@@ -891,6 +900,22 @@ export function RoleShowcase() {
     }
   };
 
+  // Bottom status for sidebar
+  const bottomStatus = (
+    <div className="space-y-2">
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-emerald-400" />
+        <span className="text-xs text-zinc-400">System Status</span>
+        <span className="ml-auto text-[10px] text-emerald-400 font-medium">Online</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <Users className="h-3.5 w-3.5 text-zinc-500" />
+        <span className="text-xs text-zinc-400">Active Users</span>
+        <span className="ml-auto text-[10px] text-zinc-500 bg-white/5 px-1.5 py-0.5 rounded">24</span>
+      </div>
+    </div>
+  );
+
   return (
     <section className="relative py-24 overflow-hidden">
       {/* Gradient Mesh Background */}
@@ -950,88 +975,53 @@ export function RoleShowcase() {
                       />
                     </div>
 
-                    {/* App Window - centered and prominent */}
+                    {/* App Window with Dashboard Frame */}
                     <motion.div
                       initial={{ opacity: 0, scale: 0.95 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.5, delay: 0.2 }}
                       className="absolute inset-6 flex items-start justify-center pt-4"
+                      onClick={handleUserInteraction}
                     >
                       <div className="relative">
-                        {/* App Window */}
-                        <div
-                          className="w-[calc(100vw-80px)] sm:w-[500px] md:w-[600px] bg-zinc-900/98 backdrop-blur-xl rounded-xl shadow-2xl border border-white/10 overflow-hidden"
-                          onClick={handleUserInteraction}
+                        <DashboardFrame
+                          url="app.voxarel.com"
+                          navItems={roleNavItems}
+                          activeItem={activeRole}
+                          onItemSelect={handleRoleSelect}
+                          header={{
+                            icon: LayoutDashboard,
+                            title: "Voxarel ERP",
+                            subtitle: "6 specialized roles",
+                          }}
+                          bottomStatus={bottomStatus}
                         >
-                          {/* Window Chrome */}
-                          <div className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-zinc-800/90 border-b border-white/5">
-                            <div className="flex gap-1.5 sm:gap-2">
-                              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500" />
-                              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500" />
-                              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500" />
+                          {/* Role Header */}
+                          <div className="flex items-center gap-3 mb-4 pb-3 border-b border-white/5">
+                            <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center`}>
+                              <activeRoleData.icon className={`w-5 h-5 ${colors.text}`} />
                             </div>
-                            <div className="flex-1 flex justify-center">
-                              <div className="px-2 sm:px-4 py-0.5 sm:py-1 bg-white/10 rounded-md text-[10px] sm:text-xs text-zinc-400 font-mono">
-                                app.voxarel.com
-                              </div>
+                            <div>
+                              <h3 className="text-sm sm:text-base font-semibold text-white">{activeRoleData.title}</h3>
+                              <p className={`text-[10px] sm:text-xs ${colors.text}`}>{activeRoleData.tagline}</p>
                             </div>
                           </div>
 
-                          {/* Role Tabs */}
-                          <div className="px-3 sm:px-5 pt-3 sm:pt-4 pb-2 border-b border-white/5">
-                            <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                              {roles.map((role) => {
-                                const roleColors = colorClasses[role.color];
-                                const Icon = role.icon;
-                                const isActive = activeRole === role.id;
-
-                                return (
-                                  <button
-                                    key={role.id}
-                                    onClick={() => handleRoleSelect(role.id)}
-                                    className={`flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-medium transition-all ${
-                                      isActive
-                                        ? `${roleColors.bg} ${roleColors.border} border text-white`
-                                        : "bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-zinc-300"
-                                    }`}
-                                  >
-                                    <Icon className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${isActive ? roleColors.text : ""}`} />
-                                    <span className="hidden sm:inline">{role.title}</span>
-                                  </button>
-                                );
-                              })}
-                            </div>
+                          {/* Role View Content */}
+                          <div className="h-[280px] sm:h-[320px] overflow-hidden">
+                            <AnimatePresence mode="wait">
+                              <motion.div
+                                key={activeRole}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.2 }}
+                              >
+                                {renderRoleView()}
+                              </motion.div>
+                            </AnimatePresence>
                           </div>
-
-                          {/* Content Area */}
-                          <div className="p-3 sm:p-5">
-                            {/* Role Header */}
-                            <div className="flex items-center gap-3 mb-4 pb-3 border-b border-white/5">
-                              <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center`}>
-                                <activeRoleData.icon className={`w-5 h-5 ${colors.text}`} />
-                              </div>
-                              <div>
-                                <h3 className="text-sm sm:text-base font-semibold text-white">{activeRoleData.title}</h3>
-                                <p className={`text-[10px] sm:text-xs ${colors.text}`}>{activeRoleData.tagline}</p>
-                              </div>
-                            </div>
-
-                            {/* Role View Content */}
-                            <div className="h-[250px] sm:h-[280px] md:h-[300px] overflow-hidden">
-                              <AnimatePresence mode="wait">
-                                <motion.div
-                                  key={activeRole}
-                                  initial={{ opacity: 0, y: 10 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  exit={{ opacity: 0, y: -10 }}
-                                  transition={{ duration: 0.2 }}
-                                >
-                                  {renderRoleView()}
-                                </motion.div>
-                              </AnimatePresence>
-                            </div>
-                          </div>
-                        </div>
+                        </DashboardFrame>
 
                         {/* Tour Progress Indicator */}
                         <TourProgress
