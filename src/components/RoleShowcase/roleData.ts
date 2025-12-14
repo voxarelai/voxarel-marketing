@@ -32,7 +32,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 
-export type VisualizationType = "packages" | "containers" | "analytics" | "workflow" | "dataflow" | "orbit" | "awbtree" | "offlinesync";
+export type VisualizationType = "packages" | "containers" | "analytics" | "workflow" | "dataflow" | "orbit" | "awbtree" | "offlinesync" | "labelattach";
 
 export interface RoleFeature {
   id: string;
@@ -92,7 +92,7 @@ export const roles: Role[] = [
         label: "Label Printing",
         icon: Printer,
         description: "Stage 1 label printing at collection point with scan-back",
-        visualizationType: "packages",
+        visualizationType: "labelattach",
       },
     ],
   },

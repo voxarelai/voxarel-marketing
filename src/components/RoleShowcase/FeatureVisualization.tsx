@@ -1006,6 +1006,207 @@ function OfflineSyncScene({ accentColor }: { accentColor: string }) {
 }
 
 // ============================================
+// LABEL ATTACH SCENE - Label floating down to attach to package
+// For Label Printing feature
+// ============================================
+function LabelAttachScene({ accentColor }: { accentColor: string }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const labelRef = useRef<THREE.Group>(null);
+  const packageRef = useRef<THREE.Mesh>(null);
+  const scanLineRef = useRef<THREE.Mesh>(null);
+  const glowRingRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.05;
+    }
+
+    // 4-second cycle: label descends, attaches, scan, reset
+    const cycleTime = state.clock.elapsedTime % 4;
+    const descending = cycleTime < 1.5;
+    const attaching = cycleTime >= 1.5 && cycleTime < 2;
+    const scanning = cycleTime >= 2 && cycleTime < 3;
+    const complete = cycleTime >= 3;
+
+    // Label animation
+    if (labelRef.current) {
+      if (descending) {
+        // Float down
+        const progress = cycleTime / 1.5;
+        labelRef.current.position.y = 2 - progress * 1.5;
+        labelRef.current.position.x = Math.sin(cycleTime * 3) * 0.1;
+        labelRef.current.rotation.z = Math.sin(cycleTime * 2) * 0.1;
+      } else if (attaching || scanning) {
+        // Attached to package
+        labelRef.current.position.y = 0.52;
+        labelRef.current.position.x = 0;
+        labelRef.current.position.z = 0.26;
+        labelRef.current.rotation.z = 0;
+      } else {
+        // Reset to top
+        labelRef.current.position.y = 2;
+        labelRef.current.position.x = 0;
+        labelRef.current.position.z = 0;
+      }
+    }
+
+    // Package pulse when label attaches
+    if (packageRef.current) {
+      if (attaching) {
+        const pulse = 1 + Math.sin((cycleTime - 1.5) * 20) * 0.05;
+        packageRef.current.scale.setScalar(pulse);
+      } else {
+        packageRef.current.scale.setScalar(1);
+      }
+    }
+
+    // Scan line animation
+    if (scanLineRef.current) {
+      if (scanning) {
+        const scanProgress = (cycleTime - 2) / 1;
+        scanLineRef.current.position.x = -0.4 + scanProgress * 0.8;
+        (scanLineRef.current.material as THREE.MeshStandardMaterial).opacity = 0.8;
+      } else {
+        (scanLineRef.current.material as THREE.MeshStandardMaterial).opacity = 0;
+      }
+    }
+
+    // Glow ring on completion
+    if (glowRingRef.current) {
+      if (complete || scanning) {
+        const glowIntensity = scanning ? (cycleTime - 2) : 1;
+        (glowRingRef.current.material as THREE.MeshStandardMaterial).opacity = glowIntensity * 0.6;
+        glowRingRef.current.scale.setScalar(1 + (complete ? Math.sin(state.clock.elapsedTime * 5) * 0.1 : 0));
+      } else {
+        (glowRingRef.current.material as THREE.MeshStandardMaterial).opacity = 0;
+      }
+    }
+  });
+
+  return (
+    <group ref={groupRef}>
+      {/* PACKAGE */}
+      <group position={[0, 0.3, 0]}>
+        <mesh ref={packageRef}>
+          <boxGeometry args={[0.7, 0.5, 0.5]} />
+          <meshStandardMaterial color="#64748b" opacity={0.9} transparent roughness={0.5} metalness={0.2} />
+          <lineSegments>
+            <edgesGeometry args={[new THREE.BoxGeometry(0.7, 0.5, 0.5)]} />
+            <lineBasicMaterial color="#1a202c" />
+          </lineSegments>
+        </mesh>
+
+        {/* Glow ring around package */}
+        <mesh
+          ref={glowRingRef}
+          position={[0, 0, 0]}
+          rotation={[Math.PI / 2, 0, 0]}
+        >
+          <torusGeometry args={[0.6, 0.03, 8, 32]} />
+          <meshStandardMaterial
+            color="#22c55e"
+            emissive="#22c55e"
+            emissiveIntensity={0.8}
+            opacity={0}
+            transparent
+          />
+        </mesh>
+
+        {/* Scan line */}
+        <mesh
+          ref={scanLineRef}
+          position={[0, 0, 0.26]}
+        >
+          <boxGeometry args={[0.02, 0.6, 0.01]} />
+          <meshStandardMaterial
+            color="#22c55e"
+            emissive="#22c55e"
+            emissiveIntensity={1}
+            opacity={0}
+            transparent
+          />
+        </mesh>
+      </group>
+
+      {/* FLOATING LABEL */}
+      <group ref={labelRef} position={[0, 2, 0]}>
+        {/* Label card */}
+        <mesh>
+          <boxGeometry args={[0.5, 0.35, 0.02]} />
+          <meshStandardMaterial color="#ffffff" opacity={0.95} transparent />
+          <lineSegments>
+            <edgesGeometry args={[new THREE.BoxGeometry(0.5, 0.35, 0.02)]} />
+            <lineBasicMaterial color="#1a202c" />
+          </lineSegments>
+        </mesh>
+        {/* Barcode on label */}
+        {[-0.15, -0.08, 0, 0.08, 0.15].map((x, i) => (
+          <mesh key={i} position={[x, -0.05, 0.015]}>
+            <boxGeometry args={[0.04 + (i % 2) * 0.02, 0.12, 0.005]} />
+            <meshStandardMaterial color="#1a202c" />
+          </mesh>
+        ))}
+        {/* Label text */}
+        <Text position={[0, 0.08, 0.015]} fontSize={0.05} color="#1a202c" anchorX="center">
+          STAGE 1
+        </Text>
+        {/* Glow trail */}
+        <mesh position={[0, 0.3, 0]}>
+          <boxGeometry args={[0.3, 0.4, 0.01]} />
+          <meshStandardMaterial
+            color={accentColor}
+            emissive={accentColor}
+            emissiveIntensity={0.3}
+            opacity={0.2}
+            transparent
+          />
+        </mesh>
+      </group>
+
+      {/* PRINTER (background) */}
+      <group position={[0, 2.5, -0.5]}>
+        <mesh>
+          <boxGeometry args={[0.8, 0.4, 0.3]} />
+          <meshStandardMaterial color="#374151" />
+          <lineSegments>
+            <edgesGeometry args={[new THREE.BoxGeometry(0.8, 0.4, 0.3)]} />
+            <lineBasicMaterial color="#1a202c" />
+          </lineSegments>
+        </mesh>
+        {/* Printer slot */}
+        <mesh position={[0, -0.2, 0.1]}>
+          <boxGeometry args={[0.5, 0.03, 0.1]} />
+          <meshStandardMaterial color="#1e293b" />
+        </mesh>
+        {/* Status light */}
+        <mesh position={[0.3, 0.1, 0.16]}>
+          <sphereGeometry args={[0.03, 8, 8]} />
+          <meshStandardMaterial color={accentColor} emissive={accentColor} emissiveIntensity={1} />
+        </mesh>
+        <Text position={[0, 0.35, 0]} fontSize={0.1} color="#94a3b8" anchorX="center">
+          PRINTER
+        </Text>
+      </group>
+
+      {/* Labels */}
+      <Text position={[0, -0.15, 0]} fontSize={0.1} color="#94a3b8" anchorX="center">
+        PACKAGE
+      </Text>
+
+      {/* Base platform */}
+      <mesh position={[0, -0.05, 0]}>
+        <cylinderGeometry args={[0.9, 1.0, 0.1, 24]} />
+        <meshStandardMaterial color="#1e293b" />
+      </mesh>
+      <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.95, 0.02, 8, 32]} />
+        <meshStandardMaterial color={accentColor} emissive={accentColor} emissiveIntensity={0.4} />
+      </mesh>
+    </group>
+  );
+}
+
+// ============================================
 // MAIN COMPONENT
 // ============================================
 interface FeatureVisualizationProps {
@@ -1032,6 +1233,8 @@ export function FeatureVisualization({ type, accentColor }: FeatureVisualization
         return <AWBTreeScene accentColor={accentColor} />;
       case "offlinesync":
         return <OfflineSyncScene accentColor={accentColor} />;
+      case "labelattach":
+        return <LabelAttachScene accentColor={accentColor} />;
       default:
         return <PackagesScene accentColor={accentColor} />;
     }
@@ -1056,6 +1259,8 @@ export function FeatureVisualization({ type, accentColor }: FeatureVisualization
         return { position: [0, 3, 6] as [number, number, number], target: [0, 0.8, 0] as [number, number, number] };
       case "offlinesync":
         return { position: [3, 3, 5] as [number, number, number], target: [0, 1.2, 0] as [number, number, number] };
+      case "labelattach":
+        return { position: [3, 3, 4] as [number, number, number], target: [0, 1.0, 0] as [number, number, number] };
       default:
         return { position: [4, 3, 4] as [number, number, number], target: [0, 0, 0] as [number, number, number] };
     }
