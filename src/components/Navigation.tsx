@@ -102,7 +102,7 @@ export function Navigation() {
           }`}
         >
           <a
-            href="#"
+            href="https://console.voxarel.com/sign-in"
             className={`transition-colors text-sm px-2 ${
               isOverLight ? "text-zinc-700 hover:text-zinc-900" : "text-white hover:text-white"
             }`}
@@ -144,7 +144,7 @@ export function Navigation() {
               Company
             </a>
             <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
-              <a href="#" className="text-zinc-300 hover:text-white text-sm">
+              <a href="https://console.voxarel.com/sign-in" className="text-zinc-300 hover:text-white text-sm">
                 Sign in
               </a>
               <a

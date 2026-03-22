@@ -27,7 +27,7 @@ export function FooterCTA() {
         </p>
 
         <a
-          href="#"
+          href="https://console.voxarel.com/sign-up"
           className="inline-flex items-center px-8 py-4 bg-zinc-900 text-white rounded-full font-medium text-lg hover:bg-zinc-800 transition-colors"
         >
           Book a Demo
