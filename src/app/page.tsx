@@ -1,16 +1,27 @@
+"use client";
+
+import dynamic from "next/dynamic";
 import {
   Navigation,
   Hero,
   TrustBar,
   Stats,
   Features,
-  ContainerComparison,
   InteractiveDemo,
-  RoleShowcase,
   Testimonial,
   FooterCTA,
   Footer,
 } from "@/components";
+
+const ContainerComparison = dynamic(
+  () => import("@/components/ContainerComparison").then((m) => ({ default: m.ContainerComparison })),
+  { ssr: false }
+);
+
+const RoleShowcase = dynamic(
+  () => import("@/components/RoleShowcase").then((m) => ({ default: m.RoleShowcase })),
+  { ssr: false }
+);
 
 export default function Home() {
   return (

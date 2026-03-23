@@ -1,20 +1,18 @@
 export function Footer() {
   const productLinks = [
-    { label: "Container Optimizer", href: "#" },
-    { label: "Shipment Tracking", href: "#" },
-    { label: "Executive Dashboard", href: "#" },
+    { label: "Container Optimizer", href: "#features" },
+    { label: "Shipment Tracking", href: "#features" },
+    { label: "Executive Dashboard", href: "#features" },
   ];
 
   const companyLinks = [
-    { label: "About Us", href: "#" },
-    { label: "Contact", href: "#" },
-    { label: "Careers", href: "#" },
+    { label: "Contact", href: "#contact" },
+    { label: "Sign In", href: "https://console.voxarel.com/sign-in" },
   ];
 
-  const resourceLinks = [
-    { label: "Documentation", href: "#" },
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms of Service", href: "#" },
+  const legalLinks = [
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms of Service", href: "/terms" },
   ];
 
   return (
@@ -48,8 +46,8 @@ export function Footer() {
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-6 py-16 relative z-10">
         <div className="flex flex-col lg:flex-row justify-between gap-12">
-          {/* Left Side - Logo & Compliance */}
-          <div className="flex flex-col gap-8">
+          {/* Left Side - Logo */}
+          <div className="flex flex-col gap-4">
             {/* Logo */}
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-zinc-900 rounded-lg flex items-center justify-center">
@@ -57,25 +55,9 @@ export function Footer() {
               </div>
               <span className="text-xl font-semibold text-zinc-900">Voxarel</span>
             </div>
-
-            {/* Compliance Badges */}
-            <div className="flex flex-col gap-3">
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-medium w-fit">
-                Compliant
-              </span>
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center">
-                  <span className="text-[8px] text-zinc-600 font-semibold">SOC2</span>
-                </div>
-                <div className="w-10 h-10 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center">
-                  <span className="text-[8px] text-zinc-600 font-semibold">ISO</span>
-                </div>
-                <div className="w-10 h-10 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center">
-                  <span className="text-[8px] text-zinc-600 font-semibold">ISO</span>
-                </div>
-                <span className="text-sm text-zinc-400 ml-1">5+</span>
-              </div>
-            </div>
+            <p className="text-sm text-zinc-500 max-w-[240px]">
+              AI-powered logistics platform for GCC freight forwarders.
+            </p>
           </div>
 
           {/* Right Side - Link Columns */}
@@ -114,11 +96,11 @@ export function Footer() {
               </ul>
             </div>
 
-            {/* Resources Column */}
+            {/* Legal Column */}
             <div>
-              <h4 className="text-sm font-medium text-zinc-400 mb-4">Resources</h4>
+              <h4 className="text-sm font-medium text-zinc-400 mb-4">Legal</h4>
               <ul className="space-y-3">
-                {resourceLinks.map((link) => (
+                {legalLinks.map((link) => (
                   <li key={link.label}>
                     <a
                       href={link.href}

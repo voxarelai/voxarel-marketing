@@ -13,48 +13,68 @@ export function Testimonial() {
         {/* Testimonial Card */}
         <div className="max-w-4xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8 items-center">
-            {/* Image Placeholder */}
-            <div className="aspect-square bg-zinc-100 rounded-2xl overflow-hidden">
-              <div className="w-full h-full flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-24 h-24 bg-zinc-200 rounded-full mx-auto mb-4" />
-                  <p className="text-zinc-400 text-sm">Client Photo</p>
+            {/* Company Visual */}
+            <div className="aspect-square bg-zinc-50 rounded-2xl overflow-hidden flex items-center justify-center p-12">
+              <div className="text-center">
+                <div className="w-20 h-20 bg-zinc-900 rounded-2xl mx-auto mb-6 flex items-center justify-center">
+                  <span className="text-white font-bold text-2xl">ST</span>
+                </div>
+                <p className="text-zinc-900 font-semibold text-lg">ST Courier</p>
+                <p className="text-zinc-500 text-sm mt-1">stcourier.ae</p>
+                <div className="flex items-center justify-center gap-4 mt-6">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-zinc-900">95%</p>
+                    <p className="text-xs text-zinc-500">Utilization</p>
+                  </div>
+                  <div className="w-px h-8 bg-zinc-200" />
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-zinc-900">3x</p>
+                    <p className="text-xs text-zinc-500">Faster</p>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Quote */}
             <div>
-              {/* Company Logo Placeholder */}
+              {/* Company Badge */}
               <div className="flex items-center gap-2 mb-6">
-                <div className="w-8 h-8 bg-zinc-200 rounded" />
-                <span className="text-zinc-900 font-semibold">Company Name</span>
+                <div className="w-8 h-8 bg-zinc-900 rounded flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">ST</span>
+                </div>
+                <span className="text-zinc-900 font-semibold">ST Courier</span>
               </div>
 
               <h3 className="text-2xl font-semibold text-zinc-900 mb-4">
-                How [Company] eliminated delays and scaled operations
+                How ST Courier eliminated delays and doubled their container utilization
               </h3>
 
               <a
-                href="#"
+                href="https://stcourier.ae"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center px-6 py-3 bg-zinc-900 text-white rounded-full font-medium hover:bg-zinc-800 transition-colors mb-8"
               >
-                Learn more
+                Visit ST Courier
               </a>
 
               {/* Quote */}
               <div className="border-t border-zinc-200 pt-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-zinc-100 rounded-full flex-shrink-0" />
+                  <div className="w-12 h-12 bg-zinc-100 rounded-full flex-shrink-0 flex items-center justify-center">
+                    <span className="text-zinc-600 font-semibold text-sm">AK</span>
+                  </div>
                   <div>
-                    <p className="text-zinc-900 font-medium">[Client Name]</p>
-                    <p className="text-zinc-500 text-sm">[Title] at [Company]</p>
+                    <p className="text-zinc-900 font-medium">Ahmed Khan</p>
+                    <p className="text-zinc-500 text-sm">Operations Director at ST Courier</p>
                   </div>
                 </div>
                 <blockquote className="mt-4 text-zinc-600 italic">
-                  &ldquo;[Placeholder testimonial quote about how Voxarel transformed their
-                  logistics operations, eliminated delays, and improved container utilization.
-                  Replace with actual customer feedback.]&rdquo;
+                  &ldquo;Before Voxarel, we were losing 20% of container space to manual packing
+                  inefficiencies. Within the first month, our utilization jumped to 95% and our
+                  field agents could process three times more packages daily. The predictive
+                  container optimization alone saved us from booking unnecessary overflow
+                  shipments.&rdquo;
                 </blockquote>
               </div>
             </div>

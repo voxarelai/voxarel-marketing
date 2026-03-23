@@ -9,7 +9,7 @@ export function Hero() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="/hero.png"
+          src="/hero.webp"
           alt="Port with container ships and cranes"
           fill
           priority

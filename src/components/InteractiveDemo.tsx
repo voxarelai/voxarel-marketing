@@ -759,7 +759,7 @@ export function InteractiveDemo() {
                   <div
                     className="relative rounded-xl overflow-hidden bg-cover bg-center bg-no-repeat min-h-[450px] sm:min-h-[500px] md:min-h-[600px]"
                     style={{
-                      backgroundImage: "url('/background_desktop.png')",
+                      backgroundImage: "url('/background_desktop.webp')",
                     }}
                   >
                     {/* Tooltip Bubble - positioned on desktop background (hidden on mobile) */}

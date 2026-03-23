@@ -1,3 +1,5 @@
+import { ContactForm } from "./ContactForm";
+
 export function FooterCTA() {
   return (
     <section id="contact" className="py-24 bg-[#fafafa] relative overflow-hidden">
@@ -10,7 +12,7 @@ export function FooterCTA() {
         <div className="flex items-center justify-center gap-2 mb-6">
           <span className="w-2 h-2 bg-orange-500 rounded-full" />
           <span className="text-sm text-zinc-500 uppercase tracking-wider">
-            Get a Personalized Demo
+            Get in Touch
           </span>
         </div>
 
@@ -21,17 +23,23 @@ export function FooterCTA() {
         </h2>
 
         <p className="text-zinc-600 text-lg mb-10 max-w-2xl mx-auto">
-          Voxarel&apos;s AI-powered platform handles complex logistics at scale, from predictive
-          container optimization to real-time customer tracking, while maintaining 95%+ utilization
-          rates.
+          Tell us about your logistics operations and we&apos;ll show you how
+          Voxarel can help maximize container utilization and streamline your
+          freight forwarding workflow.
         </p>
 
-        <a
-          href="https://console.voxarel.com/sign-up"
-          className="inline-flex items-center px-8 py-4 bg-zinc-900 text-white rounded-full font-medium text-lg hover:bg-zinc-800 transition-colors"
-        >
-          Book a Demo
-        </a>
+        <ContactForm />
+
+        <p className="mt-6 text-sm text-zinc-400">
+          Or{" "}
+          <a
+            href="https://console.voxarel.com/sign-up"
+            className="text-zinc-600 underline hover:text-zinc-900 transition-colors"
+          >
+            sign up directly
+          </a>{" "}
+          to get started.
+        </p>
       </div>
     </section>
   );

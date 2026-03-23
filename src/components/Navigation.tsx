@@ -15,13 +15,24 @@ export function Navigation() {
       // Show glass effect when scrolled
       setScrolled(window.scrollY > 50);
 
-      // Check if nav is over the white testimonials section
-      const testimonialsSection = document.getElementById("testimonials");
-      if (testimonialsSection) {
-        const rect = testimonialsSection.getBoundingClientRect();
-        // Nav is over light section if testimonials top is above 60px (nav height)
-        setIsOverLight(rect.top < 60 && rect.bottom > 0);
+      // Check if nav is over any light-background section
+      const lightSections = ["testimonials", "contact"];
+      const overLight = lightSections.some((id) => {
+        const el = document.getElementById(id);
+        if (!el) return false;
+        const rect = el.getBoundingClientRect();
+        return rect.top < 60 && rect.bottom > 0;
+      });
+      // Also check the footer (no id, use tag)
+      const footer = document.querySelector("footer");
+      if (footer) {
+        const rect = footer.getBoundingClientRect();
+        if (rect.top < 60 && rect.bottom > 0) {
+          setIsOverLight(true);
+          return;
+        }
       }
+      setIsOverLight(overLight);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -122,7 +133,7 @@ export function Navigation() {
         </div>
 
         {/* Mobile Menu Button */}
-        <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+        <button className={`md:hidden ${isOverLight ? "text-zinc-900" : "text-white"}`} onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>

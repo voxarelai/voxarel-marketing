@@ -201,7 +201,7 @@ export function RoleShowcase() {
               <div
                 className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/50"
                 style={{
-                  backgroundImage: "url('/background_desktop.png')",
+                  backgroundImage: "url('/background_desktop.webp')",
                   backgroundSize: "cover",
                   backgroundPosition: "center"
                 }}

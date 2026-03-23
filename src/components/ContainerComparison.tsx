@@ -388,7 +388,7 @@ export function ContainerComparison() {
                   {/* Screen with desktop wallpaper */}
                   <div
                     className="relative rounded-xl overflow-hidden bg-cover bg-center bg-no-repeat min-h-[500px] sm:min-h-[550px] md:min-h-[600px]"
-                    style={{ backgroundImage: "url('/background_desktop.png')" }}
+                    style={{ backgroundImage: "url('/background_desktop.webp')" }}
                   >
                     {/* Tooltip */}
                     <div className="hidden md:block">
