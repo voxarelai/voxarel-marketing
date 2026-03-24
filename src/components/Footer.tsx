@@ -1,8 +1,8 @@
 export function Footer() {
   const productLinks = [
-    { label: "Container Optimizer", href: "#features" },
+    { label: "Container Planning", href: "#features" },
     { label: "Shipment Tracking", href: "#features" },
-    { label: "Executive Dashboard", href: "#features" },
+    { label: "Operations Dashboard", href: "#features" },
   ];
 
   const companyLinks = [
@@ -49,14 +49,11 @@ export function Footer() {
           {/* Left Side - Logo */}
           <div className="flex flex-col gap-4">
             {/* Logo */}
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-zinc-900 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">V</span>
-              </div>
-              <span className="text-xl font-semibold text-zinc-900">Voxarel</span>
+            <div>
+              <img src="/logo-black.png" alt="Voxarel" className="h-10 w-auto" />
             </div>
             <p className="text-sm text-zinc-500 max-w-[240px]">
-              AI-powered logistics platform for GCC freight forwarders.
+              One platform for your entire logistics operation.
             </p>
           </div>
 

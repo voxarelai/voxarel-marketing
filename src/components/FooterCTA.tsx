@@ -17,16 +17,20 @@ export function FooterCTA() {
         </div>
 
         <h2 className="heading-serif text-4xl md:text-6xl text-zinc-900 mb-6">
-          Ready to eliminate
+          Ready to connect
           <br />
-          shipping delays?
+          your entire operation?
         </h2>
 
-        <p className="text-zinc-600 text-lg mb-10 max-w-2xl mx-auto">
-          Tell us about your logistics operations and we&apos;ll show you how
-          Voxarel can help maximize container utilization and streamline your
-          freight forwarding workflow.
+        <p className="text-zinc-600 text-lg mb-4 max-w-2xl mx-auto">
+          Tell us about your operation and we&apos;ll show you how Voxarel
+          connects every person, package, and payment on one platform.
         </p>
+
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-zinc-100 rounded-full border border-zinc-200 mb-10">
+          <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full" />
+          <span className="text-sm text-zinc-600 font-medium">Currently in Beta</span>
+        </div>
 
         <ContactForm />
 

@@ -43,23 +43,23 @@ export function DashboardFrame({
   return (
     <div className="w-full max-w-[900px] bg-white/95 backdrop-blur-xl rounded-xl shadow-2xl shadow-black/20 overflow-hidden">
       {/* Window Chrome - Light */}
-      <div className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-zinc-100/80 border-b border-zinc-200/50">
-        <div className="flex gap-1.5 sm:gap-2">
-          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-zinc-300" />
-          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-zinc-300" />
-          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-zinc-300" />
+      <div className="flex items-center gap-2 px-4 py-3 bg-zinc-100/80 border-b border-zinc-200/50">
+        <div className="flex gap-2">
+          <div className="w-3 h-3 rounded-full bg-zinc-300" />
+          <div className="w-3 h-3 rounded-full bg-zinc-300" />
+          <div className="w-3 h-3 rounded-full bg-zinc-300" />
         </div>
         <div className="flex-1 flex justify-center">
-          <div className="px-3 sm:px-4 py-1 bg-white rounded-md text-[10px] sm:text-xs text-zinc-500 font-mono border border-zinc-200/50">
+          <div className="px-4 py-1 bg-white rounded-md text-xs text-zinc-500 font-mono border border-zinc-200/50">
             {url}
           </div>
         </div>
       </div>
 
       {/* Dashboard Layout */}
-      <div className="flex min-h-[420px] sm:min-h-[460px] md:min-h-[500px]">
+      <div className="flex min-h-[500px]">
         {/* Left Sidebar - Light */}
-        <div className="w-[170px] sm:w-[190px] bg-zinc-50/80 border-r border-zinc-200/50 flex flex-col">
+        <div className="w-[190px] bg-zinc-50/80 border-r border-zinc-200/50 flex flex-col">
           {/* Sidebar Header */}
           {header && (
             <div className="px-3 py-3 border-b border-zinc-200/50">
@@ -123,7 +123,7 @@ export function DashboardFrame({
         </div>
 
         {/* Right Content Area */}
-        <div className="flex-1 p-3 sm:p-4 overflow-hidden bg-white">{children}</div>
+        <div className="flex-1 p-4 overflow-hidden bg-zinc-900">{children}</div>
       </div>
     </div>
   );

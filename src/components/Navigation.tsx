@@ -128,7 +128,7 @@ export function Navigation() {
                 : "bg-white text-zinc-900 hover:bg-zinc-100"
             }`}
           >
-            Talk to us
+            Book a demo
           </a>
         </div>
 
@@ -162,7 +162,7 @@ export function Navigation() {
                 href="#contact"
                 className="px-5 py-2.5 border border-white/20 text-white rounded-full text-sm text-center hover:bg-white/10"
               >
-                Talk to us
+                Book a demo
               </a>
             </div>
           </div>

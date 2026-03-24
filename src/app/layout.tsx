@@ -17,28 +17,30 @@ const SITE_URL = "https://voxarel.com";
 const GA4_ID = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID;
 
 export const metadata: Metadata = {
-  title: "Voxarel - Eliminate Delays. Maximize Every Container.",
+  title: "Voxarel — One platform for your entire logistics operation",
   description:
-    "AI-powered logistics platform for UAE freight forwarding. Predictive container optimization, real-time tracking, and 95%+ utilization rates.",
+    "Connect every person, package and payment in your logistics operation. Real-time visibility and control across shipping, warehouse, finance, inventory and field operations.",
   keywords: [
     "logistics",
     "freight forwarding",
     "UAE",
-    "container optimization",
+    "logistics platform",
     "shipment tracking",
     "cargo",
     "GCC",
     "supply chain",
     "warehouse management",
+    "operations management",
+    "real-time visibility",
   ],
   metadataBase: new URL(SITE_URL),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Voxarel - Eliminate Delays. Maximize Every Container.",
+    title: "Voxarel — One platform for your entire logistics operation",
     description:
-      "AI-powered logistics platform for UAE freight forwarding. 95%+ container utilization, 75% faster processing.",
+      "One platform connecting shipping, warehouse, finance, inventory and field ops in real time. Every role gets what they need, nothing gets lost.",
     url: SITE_URL,
     siteName: "Voxarel",
     type: "website",
@@ -46,9 +48,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Voxarel - Eliminate Delays. Maximize Every Container.",
+    title: "Voxarel — One platform for your entire logistics operation",
     description:
-      "AI-powered logistics platform for UAE freight forwarding. 95%+ container utilization.",
+      "Connect every person, package and payment in your logistics operation. One platform, every role, nothing lost.",
   },
 };
 
@@ -59,14 +61,14 @@ const jsonLd = {
   name: "Voxarel",
   url: SITE_URL,
   description:
-    "AI-powered logistics platform for UAE freight forwarding operations.",
+    "One platform connecting every person, package, and payment in logistics operations.",
   areaServed: {
     "@type": "GeoShape",
     name: "Gulf Cooperation Council (GCC)",
   },
   knowsAbout: [
     "Freight Forwarding",
-    "Container Optimization",
+    "Operations Management",
     "Logistics Management",
     "Supply Chain",
   ],

@@ -30,8 +30,8 @@ export function Hero() {
           className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 mb-8"
         >
           <span className="w-1.5 h-1.5 bg-white rounded-full" />
-          <span className="heading-serif text-sm font-bold text-white tracking-wide">
-            Now serving GCC to India routes
+          <span className="text-sm font-medium text-white tracking-wide">
+            Now in Beta
           </span>
           <span className="text-xs text-white/60">→</span>
         </motion.div>
@@ -43,9 +43,9 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="heading-serif text-4xl md:text-5xl lg:text-6xl text-white mb-5 leading-[1.15]"
         >
-          Eliminate delays.
+          Connect every person, package
           <br />
-          Maximize every container.
+          and payment in your logistics operation.
         </motion.h1>
 
         {/* Subheadline - small and elegant like giga.ai */}
@@ -53,9 +53,9 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="text-sm md:text-base text-white mb-8"
+          className="text-sm md:text-base text-white/90 mb-8 max-w-2xl mx-auto"
         >
-          AI-powered logistics ERP for GCC freight forwarders
+          Real-time visibility and control across shipping, warehouse, finance, inventory and field operations. One platform, every role, nothing lost.
         </motion.p>
 
         {/* CTA - smaller, more refined */}
@@ -68,7 +68,7 @@ export function Hero() {
             href="#contact"
             className="inline-flex items-center px-6 py-2.5 bg-white text-zinc-900 rounded-full font-medium text-sm hover:bg-zinc-100 transition-colors"
           >
-            Talk to us
+            Book a demo
           </a>
         </motion.div>
       </div>

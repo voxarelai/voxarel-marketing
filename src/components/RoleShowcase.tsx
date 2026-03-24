@@ -90,8 +90,8 @@ function FeatureInfoOverlay({ feature }: { feature: RoleFeature; color: string }
 // MAIN COMPONENT
 // ============================================
 export function RoleShowcase() {
-  const [activeRoleId, setActiveRoleId] = useState("field-agent");
-  const [activeFeatureId, setActiveFeatureId] = useState("customer-capture");
+  const [activeRoleId, setActiveRoleId] = useState("ceo");
+  const [activeFeatureId, setActiveFeatureId] = useState("operations-overview");
 
   const activeRole = roles.find((r) => r.id === activeRoleId)!;
   const activeFeature = activeRole.features.find((f) => f.id === activeFeatureId) || activeRole.features[0];
@@ -148,15 +148,15 @@ export function RoleShowcase() {
               {/* Section Header - Refined */}
               <div className="mb-8">
                 <h2 className="text-2xl sm:text-3xl font-medium text-white mb-3 tracking-tight">
-                  Role-based workflows
+                  Every role gets exactly what they need
                 </h2>
                 <p className="text-sm text-zinc-500 leading-relaxed max-w-[240px]">
-                  Purpose-built experiences for every team member in your operation.
+                  One platform, purpose-built workflows. From CEO to driver, everyone stays connected.
                 </p>
 
                 {/* CTA Button */}
                 <button className="mt-6 px-5 py-2.5 text-sm font-medium text-zinc-900 bg-white rounded-full hover:bg-zinc-100 transition-colors">
-                  Explore roles
+                  See all roles
                 </button>
               </div>
 
@@ -189,7 +189,7 @@ export function RoleShowcase() {
           </div>
 
           {/* Right Column: Dashboard Visualization */}
-          <div className="relative">
+          <div className="relative origin-top left-1/2 -translate-x-1/2 scale-[0.6] sm:scale-75 md:scale-100 w-[166%] sm:w-[133%] md:w-full">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

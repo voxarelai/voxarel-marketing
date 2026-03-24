@@ -77,8 +77,8 @@ const trackingSteps = [
 const tourSteps = [
   {
     tab: "predictions",
-    title: "AI-Powered Predictions",
-    message: "Our AI analyzes historical data to predict container fill rates 3-5 days in advance",
+    title: "Container Planning",
+    message: "See which routes are filling up and when containers will be ready to book",
     position: "right" as const,
     verticalPosition: "top" as const,
     scrollY: 0,
@@ -117,8 +117,8 @@ const tourSteps = [
   },
   {
     tab: "dashboard",
-    title: "Container Optimization",
-    message: "Monitor utilization to maximize efficiency and reduce costs",
+    title: "Container Utilization",
+    message: "See how full your containers are and where you can fit more",
     position: "left" as const,
     verticalPosition: "bottom" as const,
     scrollY: 60,
@@ -360,7 +360,7 @@ function PredictionView({
         onClick={() => setExpandedSection(expandedSection === "predictions" ? null : "predictions")}
       >
         <BarChart3 className="h-4 w-4 text-zinc-500" />
-        <span className="text-sm text-zinc-300">AI Predictions</span>
+        <span className="text-sm text-zinc-300">Forecasts</span>
         <ChevronDown className={`h-3.5 w-3.5 text-zinc-500 ml-auto transition-transform ${expandedSection === "predictions" ? "rotate-180" : ""}`} />
       </div>
 
@@ -380,8 +380,8 @@ function PredictionView({
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5">
           <Zap className="h-3.5 w-3.5 text-zinc-500" />
-          <span className="text-xs text-zinc-400">AI Model</span>
-          <span className="ml-auto text-[10px] text-zinc-500 bg-white/5 px-1.5 py-0.5 rounded">v2.4</span>
+          <span className="text-xs text-zinc-400">System</span>
+          <span className="ml-auto text-[10px] text-zinc-500 bg-white/5 px-1.5 py-0.5 rounded">Active</span>
         </div>
       </div>
     </div>
@@ -617,7 +617,7 @@ function DashboardView() {
 
 // Navigation items for the dashboard sidebar
 const demoNavItems: NavItem[] = [
-  { id: "predictions", label: "AI Predictions", icon: Zap },
+  { id: "predictions", label: "Forecasts", icon: Zap },
   { id: "tracking", label: "Tracking", icon: Truck, badge: "2", badgeVariant: "default" },
   { id: "dashboard", label: "Dashboard", icon: BarChart3, badge: "Live", badgeVariant: "success" },
 ];
@@ -685,8 +685,8 @@ export function InteractiveDemo() {
       </div>
       <div className="flex items-center gap-2">
         <Zap className="h-3.5 w-3.5 text-zinc-500" />
-        <span className="text-xs text-zinc-400">AI Model</span>
-        <span className="ml-auto text-[10px] text-zinc-500 bg-white/5 px-1.5 py-0.5 rounded">v2.4</span>
+        <span className="text-xs text-zinc-400">System</span>
+        <span className="ml-auto text-[10px] text-zinc-500 bg-white/5 px-1.5 py-0.5 rounded">Active</span>
       </div>
     </div>
   );
@@ -751,13 +751,13 @@ export function InteractiveDemo() {
               viewport={{ once: true }}
               className="relative"
             >
-              {/* Monitor Frame - LARGE */}
-              <div className="relative">
+              {/* Monitor Frame - scales down on mobile */}
+              <div className="relative origin-top left-1/2 -translate-x-1/2 scale-[0.6] sm:scale-75 md:scale-100 w-[166%] sm:w-[133%] md:w-full">
                 {/* Screen bezel */}
-                <div className="bg-[#0a0a0a] rounded-xl sm:rounded-2xl p-2 sm:p-4 shadow-2xl">
+                <div className="bg-[#0a0a0a] rounded-2xl p-4 shadow-2xl">
                   {/* Screen with desktop wallpaper */}
                   <div
-                    className="relative rounded-xl overflow-hidden bg-cover bg-center bg-no-repeat min-h-[450px] sm:min-h-[500px] md:min-h-[600px]"
+                    className="relative rounded-xl overflow-hidden bg-cover bg-center bg-no-repeat min-h-[600px]"
                     style={{
                       backgroundImage: "url('/background_desktop.webp')",
                     }}
@@ -781,7 +781,7 @@ export function InteractiveDemo() {
                       className="absolute inset-6 flex items-start justify-center pt-4"
                       onClick={handleUserInteraction}
                     >
-                      <div className="relative">
+                      <div className="relative w-full max-w-[900px] mx-auto">
                         <DashboardFrame
                           url="app.voxarel.com"
                           navItems={demoNavItems}

@@ -247,7 +247,7 @@ function StatsSidebar() {
           <span className="text-sm text-white font-medium">{beforeCount} boxes</span>
         </div>
         <div className="flex items-center justify-between py-2 border-b border-white/5">
-          <span className="text-xs text-zinc-400">AI Optimized</span>
+          <span className="text-xs text-zinc-400">Optimized</span>
           <span className="text-sm text-orange-400 font-medium">{afterCount} boxes</span>
         </div>
         <div className="flex items-center justify-between py-2 border-b border-white/5">
@@ -264,7 +264,7 @@ function StatsSidebar() {
       <div className="mt-4 pt-3 border-t border-white/5 px-3">
         <div className="flex items-center gap-2 py-1.5">
           <Zap className="h-3.5 w-3.5 text-orange-500" />
-          <span className="text-xs text-zinc-400">AI Model</span>
+          <span className="text-xs text-zinc-400">Engine</span>
           <span className="ml-auto text-[10px] text-zinc-500 bg-white/5 px-1.5 py-0.5 rounded">v2.4</span>
         </div>
         <div className="flex items-center gap-2 py-1.5">
@@ -295,9 +295,9 @@ function TooltipBubble({ isVisible }: { isVisible: boolean }) {
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/15 via-transparent to-transparent pointer-events-none" />
-            <p className="text-sm font-semibold text-white mb-1.5 relative z-10">AI Optimization</p>
+            <p className="text-sm font-semibold text-white mb-1.5 relative z-10">Smart Packing</p>
             <p className="text-[11px] text-white/80 leading-relaxed relative z-10">
-              Our algorithm finds the optimal box arrangement to maximize container utilization
+              See how smart arrangement fits more cargo in the same container space
             </p>
             <div className="absolute top-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-orange-400/70 to-transparent" />
             <motion.div
@@ -315,7 +315,7 @@ function TooltipBubble({ isVisible }: { isVisible: boolean }) {
 // Navigation items for the dashboard sidebar
 const containerNavItems: NavItem[] = [
   { id: "before", label: "Manual Packing", icon: Layers },
-  { id: "after", label: "AI Optimized", icon: Sparkles, badge: "+25%", badgeVariant: "success" },
+  { id: "after", label: "Optimized", icon: Sparkles, badge: "+25%", badgeVariant: "success" },
   { id: "compare", label: "Compare", icon: GitCompare },
 ];
 
@@ -332,7 +332,7 @@ export function ContainerComparison() {
     <div className="space-y-2">
       <div className="flex items-center gap-2">
         <Zap className="h-3.5 w-3.5 text-orange-500" />
-        <span className="text-xs text-zinc-400">AI Model</span>
+        <span className="text-xs text-zinc-400">Engine</span>
         <span className="ml-auto text-[10px] text-zinc-500 bg-white/5 px-1.5 py-0.5 rounded">v2.4</span>
       </div>
       <div className="flex items-center gap-2">
@@ -358,14 +358,14 @@ export function ContainerComparison() {
           <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
             <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
             <span className="text-xs sm:text-sm text-zinc-400 uppercase tracking-wider">
-              Container Optimization
+              How It Works
             </span>
           </div>
           <h2 className="heading-serif text-3xl sm:text-4xl md:text-6xl text-white mb-3 sm:mb-4">
-            Maximize every cubic meter
+            Fit more in every container
           </h2>
           <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto">
-            See how AI optimization fits more cargo in the same container space.
+            Compare manual packing against smart arrangement. Same container, more cargo, less waste.
           </p>
         </div>
 
@@ -382,12 +382,12 @@ export function ContainerComparison() {
               viewport={{ once: true }}
               className="relative"
             >
-              {/* Monitor Frame */}
-              <div className="relative">
-                <div className="bg-[#0a0a0a] rounded-xl sm:rounded-2xl p-2 sm:p-4 shadow-2xl">
+              {/* Monitor Frame - scales down on mobile */}
+              <div className="relative origin-top left-1/2 -translate-x-1/2 scale-[0.6] sm:scale-75 md:scale-100 w-[166%] sm:w-[133%] md:w-full">
+                <div className="bg-[#0a0a0a] rounded-2xl p-4 shadow-2xl">
                   {/* Screen with desktop wallpaper */}
                   <div
-                    className="relative rounded-xl overflow-hidden bg-cover bg-center bg-no-repeat min-h-[500px] sm:min-h-[550px] md:min-h-[600px]"
+                    className="relative rounded-xl overflow-hidden bg-cover bg-center bg-no-repeat min-h-[600px]"
                     style={{ backgroundImage: "url('/background_desktop.webp')" }}
                   >
                     {/* Tooltip */}

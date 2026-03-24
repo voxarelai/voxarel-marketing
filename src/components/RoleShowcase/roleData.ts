@@ -29,6 +29,7 @@ import {
   Route,
   Bell,
   Camera,
+  Eye,
   LucideIcon,
 } from "lucide-react";
 
@@ -47,16 +48,53 @@ export interface Role {
   title: string;
   icon: LucideIcon;
   tagline: string;
-  color: "orange" | "cyan" | "purple" | "green" | "blue" | "amber";
+  color: "orange" | "cyan" | "purple" | "green" | "blue" | "amber" | "rose";
   features: RoleFeature[];
 }
 
 export const roles: Role[] = [
   {
+    id: "ceo",
+    title: "CEO / Business Owner",
+    icon: Eye,
+    tagline: "See your entire operation in real time, from anywhere, on one screen.",
+    color: "rose",
+    features: [
+      {
+        id: "operations-overview",
+        label: "Operations Overview",
+        icon: LayoutDashboard,
+        description: "Live dashboard showing all branches, shipments, and revenue in one view",
+        visualizationType: "analytics",
+      },
+      {
+        id: "branch-performance",
+        label: "Branch Performance",
+        icon: BarChart3,
+        description: "Branch-by-branch comparison with real-time KPIs",
+        visualizationType: "analytics",
+      },
+      {
+        id: "financial-summary",
+        label: "Financial Summary",
+        icon: DollarSign,
+        description: "Revenue, costs, and margin overview updated in real time",
+        visualizationType: "analytics",
+      },
+      {
+        id: "growth-tracking",
+        label: "Growth Tracking",
+        icon: TrendingUp,
+        description: "Volume trends and expansion metrics across your operation",
+        visualizationType: "analytics",
+      },
+    ],
+  },
+  {
     id: "field-agent",
     title: "Field Agent",
     icon: User,
-    tagline: "Process 60+ packages daily",
+    tagline: "Capture orders, check rates, and close your day faster than pen and paper.",
     color: "orange",
     features: [
       {
@@ -98,9 +136,9 @@ export const roles: Role[] = [
   },
   {
     id: "warehouse",
-    title: "Warehouse",
+    title: "Warehouse Manager",
     icon: Warehouse,
-    tagline: "Scan-driven efficiency",
+    tagline: "Scan, track, and move stock faster — nothing falls through the cracks.",
     color: "cyan",
     features: [
       {
@@ -144,7 +182,7 @@ export const roles: Role[] = [
     id: "branch",
     title: "Branch Manager",
     icon: Building2,
-    tagline: "Complete branch oversight",
+    tagline: "See your branch performance, spot problems early, and never compile a report again.",
     color: "purple",
     features: [
       {
@@ -186,9 +224,9 @@ export const roles: Role[] = [
   },
   {
     id: "operations",
-    title: "Operations",
+    title: "Operations Manager",
     icon: BarChart3,
-    tagline: "Cross-branch control",
+    tagline: "Every branch, every request, every escalation — managed from one live dashboard.",
     color: "green",
     features: [
       {
@@ -230,9 +268,9 @@ export const roles: Role[] = [
   },
   {
     id: "finance",
-    title: "Finance",
+    title: "Finance Manager",
     icon: DollarSign,
-    tagline: "Executive insights",
+    tagline: "From invoice to reconciliation, every transaction tracked, every audit ready.",
     color: "blue",
     features: [
       {
@@ -266,10 +304,10 @@ export const roles: Role[] = [
     ],
   },
   {
-    id: "rider",
-    title: "Rider",
+    id: "driver",
+    title: "Driver",
     icon: Truck,
-    tagline: "Last-mile delivery",
+    tagline: "Know your route, prove your delivery, settle your cash — all in one app.",
     color: "amber",
     features: [
       {
@@ -283,7 +321,7 @@ export const roles: Role[] = [
         id: "route-optimization",
         label: "Route Optimization",
         icon: Route,
-        description: "AI-optimized delivery routes for maximum efficiency",
+        description: "Optimized delivery routes that save time and fuel",
         visualizationType: "workflow",
       },
       {
@@ -341,5 +379,11 @@ export const roleColors = {
     border: "border-amber-500/30",
     text: "text-amber-400",
     accent: "#f59e0b",
+  },
+  rose: {
+    bg: "bg-rose-500/10",
+    border: "border-rose-500/30",
+    text: "text-rose-400",
+    accent: "#f43f5e",
   },
 };

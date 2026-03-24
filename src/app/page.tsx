@@ -28,8 +28,8 @@ export default function Home() {
     <main>
       <Navigation />
       <Hero />
-      <TrustBar />
-      <Stats />
+      {/* <TrustBar /> */}
+      {/* <Stats /> */}
       <Features />
       <ContainerComparison />
       <RoleShowcase />
