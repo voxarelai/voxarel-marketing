@@ -1,13 +1,16 @@
+import { SIGNIN_URL } from "@/lib/config";
+
 export function Footer() {
   const productLinks = [
-    { label: "Container Planning", href: "#features" },
-    { label: "Shipment Tracking", href: "#features" },
-    { label: "Operations Dashboard", href: "#features" },
+    { label: "Leads Portal", href: "/leads-portal" },
+    { label: "Container Planning", href: "/#features" },
+    { label: "Shipment Tracking", href: "/#features" },
+    { label: "Operations Dashboard", href: "/#features" },
   ];
 
   const companyLinks = [
-    { label: "Contact", href: "#contact" },
-    { label: "Sign In", href: "https://console.voxarel.com/sign-in" },
+    { label: "Contact", href: "/#contact" },
+    { label: "Sign In", href: SIGNIN_URL },
   ];
 
   const legalLinks = [

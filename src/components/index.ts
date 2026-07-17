@@ -1,5 +1,6 @@
 export { Navigation } from "./Navigation";
 export { Hero } from "./Hero";
+export { PlatformBridge } from "./PlatformBridge";
 export { TrustBar } from "./TrustBar";
 export { Stats } from "./Stats";
 export { Features } from "./Features";
@@ -11,3 +12,4 @@ export { ContactForm } from "./ContactForm";
 export { RoleShowcase } from "./RoleShowcase";
 export { ContainerComparison } from "./ContainerComparison";
 export { DashboardFrame } from "./DashboardFrame";
+export { CalculatorWidget } from "./CalculatorWidget";

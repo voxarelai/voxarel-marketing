@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { SIGNIN_URL } from "@/lib/config";
 
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -16,7 +18,7 @@ export function Navigation() {
       setScrolled(window.scrollY > 50);
 
       // Check if nav is over any light-background section
-      const lightSections = ["testimonials", "contact"];
+      const lightSections = ["testimonials", "contact", "leads-cta"];
       const overLight = lightSections.some((id) => {
         const el = document.getElementById(id);
         if (!el) return false;
@@ -62,7 +64,7 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
             <a
-              href="#features"
+              href="/#features"
               className={`flex items-center gap-1 transition-colors text-sm px-3 py-1.5 ${
                 isOverLight ? "text-zinc-700 hover:text-zinc-900" : "text-white hover:text-white"
               }`}
@@ -83,7 +85,7 @@ export function Navigation() {
               </svg>
             </a>
             <a
-              href="#testimonials"
+              href="/#testimonials"
               className={`flex items-center gap-1 transition-colors text-sm px-3 py-1.5 ${
                 isOverLight ? "text-zinc-700 hover:text-zinc-900" : "text-white hover:text-white"
               }`}
@@ -103,6 +105,14 @@ export function Navigation() {
                 />
               </svg>
             </a>
+            <Link
+              href="/leads-portal"
+              className={`transition-colors text-sm px-3 py-1.5 ${
+                isOverLight ? "text-zinc-700 hover:text-zinc-900" : "text-white hover:text-white"
+              }`}
+            >
+              Leads Portal
+            </Link>
           </div>
         </div>
 
@@ -113,7 +123,7 @@ export function Navigation() {
           }`}
         >
           <a
-            href="https://console.voxarel.com/sign-in"
+            href={SIGNIN_URL}
             className={`transition-colors text-sm px-2 ${
               isOverLight ? "text-zinc-700 hover:text-zinc-900" : "text-white hover:text-white"
             }`}
@@ -143,23 +153,29 @@ export function Navigation() {
         <div className="md:hidden mt-4 p-4 rounded-2xl nav-pill-scrolled">
           <div className="space-y-4">
             <a
-              href="#features"
+              href="/#features"
               className="block text-zinc-300 hover:text-white transition-colors text-sm"
             >
               Product
             </a>
             <a
-              href="#testimonials"
+              href="/#testimonials"
               className="block text-zinc-300 hover:text-white transition-colors text-sm"
             >
               Company
             </a>
+            <a
+              href="/leads-portal"
+              className="block text-zinc-300 hover:text-white transition-colors text-sm"
+            >
+              Leads Portal
+            </a>
             <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
-              <a href="https://console.voxarel.com/sign-in" className="text-zinc-300 hover:text-white text-sm">
+              <a href={SIGNIN_URL} className="text-zinc-300 hover:text-white text-sm">
                 Sign in
               </a>
               <a
-                href="#contact"
+                href="/#contact"
                 className="px-5 py-2.5 border border-white/20 text-white rounded-full text-sm text-center hover:bg-white/10"
               >
                 Book a demo

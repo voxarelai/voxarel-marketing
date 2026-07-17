@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import {
   Navigation,
   Hero,
+  PlatformBridge,
   TrustBar,
   Stats,
   Features,
@@ -28,6 +29,7 @@ export default function Home() {
     <main>
       <Navigation />
       <Hero />
+      <PlatformBridge />
       {/* <TrustBar /> */}
       {/* <Stats /> */}
       <Features />

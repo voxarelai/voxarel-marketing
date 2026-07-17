@@ -1,4 +1,5 @@
 import { ContactForm } from "./ContactForm";
+import { SIGNUP_URL } from "@/lib/config";
 
 export function FooterCTA() {
   return (
@@ -37,7 +38,7 @@ export function FooterCTA() {
         <p className="mt-6 text-sm text-zinc-400">
           Or{" "}
           <a
-            href="https://console.voxarel.com/sign-up"
+            href={SIGNUP_URL}
             className="text-zinc-600 underline hover:text-zinc-900 transition-colors"
           >
             sign up directly
