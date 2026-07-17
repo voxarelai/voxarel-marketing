@@ -34,4 +34,5 @@ npm run build  # Production build (also typechecks)
 ## Key Conventions
 - Client components use `"use client"` directive
 - No env vars required; external links come from `src/lib/site.ts`
-- Deployed via the `voxarel-marketing` Vercel project (linkage in untracked `.vercel/`); GitHub remote is `voxarelai/voxarel-marketing`
+- Deploys: pushing `main` (GitHub `voxarelai/voxarel-marketing`) auto-deploys via Vercel to **voxarels-projects/voxarel-marketing** → www.voxarel.com (voxarel.com 307s to www). Local `.vercel/` is linked to this project.
+- Beware: a same-named `voxarel-marketing` project exists in the `zahid-sages-projects` Vercel team — that one belongs to the product monorepo's previews, NOT this site. Always use `--scope voxarels-projects` for CLI operations.
