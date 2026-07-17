@@ -1,44 +1,29 @@
-"use client";
-
-import dynamic from "next/dynamic";
-import {
-  Navigation,
-  Hero,
-  PlatformBridge,
-  TrustBar,
-  Stats,
-  Features,
-  InteractiveDemo,
-  Testimonial,
-  FooterCTA,
-  Footer,
-} from "@/components";
-
-const ContainerComparison = dynamic(
-  () => import("@/components/ContainerComparison").then((m) => ({ default: m.ContainerComparison })),
-  { ssr: false }
-);
-
-const RoleShowcase = dynamic(
-  () => import("@/components/RoleShowcase").then((m) => ({ default: m.RoleShowcase })),
-  { ssr: false }
-);
+import { Navigation } from "@/components/Navigation";
+import { Hero } from "@/components/Hero";
+import { ProofBar } from "@/components/ProofBar";
+import { Modules } from "@/components/Modules";
+import { OldWay } from "@/components/OldWay";
+import { Roles } from "@/components/Roles";
+import { PulseSection } from "@/components/PulseSection";
+import { TrackSection } from "@/components/TrackSection";
+import { CtaBand } from "@/components/CtaBand";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main>
+    <>
       <Navigation />
-      <Hero />
-      <PlatformBridge />
-      {/* <TrustBar /> */}
-      {/* <Stats /> */}
-      <Features />
-      <ContainerComparison />
-      <RoleShowcase />
-      <InteractiveDemo />
-      <Testimonial />
-      <FooterCTA />
+      <main>
+        <Hero />
+        <ProofBar />
+        <Modules />
+        <OldWay />
+        <Roles />
+        <PulseSection />
+        <TrackSection />
+      </main>
+      <CtaBand />
       <Footer />
-    </main>
+    </>
   );
 }

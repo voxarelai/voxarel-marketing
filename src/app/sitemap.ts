@@ -1,30 +1,13 @@
 import type { MetadataRoute } from "next";
 
+const BASE = "https://voxarel.com";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
-    {
-      url: "https://voxarel.com",
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: "https://voxarel.com/leads-portal",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: "https://voxarel.com/privacy",
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: "https://voxarel.com/terms",
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
+    { url: `${BASE}/`, changeFrequency: "weekly", priority: 1 },
+    { url: `${BASE}/track`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${BASE}/demo`, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/privacy`, changeFrequency: "yearly", priority: 0.2 },
+    { url: `${BASE}/terms`, changeFrequency: "yearly", priority: 0.2 },
   ];
 }

@@ -1,0 +1,77 @@
+<!--
+  OG image source (1200x630). To regenerate public/og.png:
+    1. Serve the repo root:  python3 -m http.server 8777
+    2. Screenshot this page at 1200x630, deviceScaleFactor 2 (Playwright/Chromium)
+    3. Downscale the 2400x1260 capture to 1200x630 -> public/og.png
+  Colors mirror Voxarel_Brand/00-Guidelines/design-tokens.md (petrol-950 #0b2c36, mint-300 #86D8C4).
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:P;src:url(src/fonts/poppins-latin-800-normal.woff2) format('woff2');font-weight:800}
+@font-face{font-family:P;src:url(src/fonts/poppins-latin-700-normal.woff2) format('woff2');font-weight:700}
+@font-face{font-family:P;src:url(src/fonts/poppins-latin-600-normal.woff2) format('woff2');font-weight:600}
+@font-face{font-family:L;src:url(src/fonts/lato-latin-400-normal.woff2) format('woff2');font-weight:400}
+@font-face{font-family:L;src:url(src/fonts/lato-latin-700-normal.woff2) format('woff2');font-weight:700}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1200px;height:630px;background:#0b2c36;overflow:hidden;position:relative;font-family:L}
+.grid{position:absolute;inset:0;background-image:linear-gradient(to right,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.045) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 100% 90% at 30% 20%,black 20%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse 100% 90% at 30% 20%,black 20%,transparent 90%)}
+.glow1{position:absolute;width:720px;height:720px;right:-180px;top:-260px;border-radius:50%;background:radial-gradient(circle,rgba(95,181,162,.38) 0%,rgba(95,181,162,0) 65%)}
+.glow2{position:absolute;width:560px;height:560px;left:-200px;bottom:-320px;border-radius:50%;background:radial-gradient(circle,rgba(95,181,162,.16) 0%,rgba(95,181,162,0) 65%)}
+.left{position:absolute;left:64px;top:58px;width:600px}
+.logo{height:42px;display:block}
+.kick{margin-top:52px;font-family:P;font-weight:600;font-size:13.5px;letter-spacing:.24em;color:#86D8C4}
+h1{margin-top:18px;font-family:P;font-weight:800;font-size:57px;line-height:1.09;letter-spacing:-.5px;color:#fff}
+.sub{margin-top:22px;font-size:21px;line-height:1.5;color:#cfe6df;max-width:520px}
+.foot{position:absolute;left:64px;bottom:52px;display:flex;align-items:center;gap:14px;font-family:P;font-weight:600;font-size:19px}
+.foot .url{color:#86D8C4}
+.foot .dot{width:5px;height:5px;border-radius:50%;background:#5FB5A2;opacity:.6}
+.foot .live{color:#9db9bd;font-family:L;font-weight:700;font-size:17px}
+/* dashboard mock */
+.mock{position:absolute;right:-36px;top:92px;width:504px;background:#fff;border-radius:18px;box-shadow:0 46px 90px -18px rgba(0,0,0,.5);transform:rotate(-2.2deg);padding:19px 21px}
+.mhead{display:flex;justify-content:space-between;align-items:center}
+.mtitle{font-family:P;font-weight:700;font-size:14.5px;color:#16282E}
+.pill{display:flex;align-items:center;gap:6px;border:1px solid #E2ECE9;border-radius:99px;padding:4px 10px;font-family:L;font-weight:700;font-size:10.5px;color:#2E8C7A}
+.pill i{width:6px;height:6px;border-radius:50%;background:#5FB5A2;display:block}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
+.kpi{border:1px solid #E2ECE9;border-radius:12px;padding:11px 13px;background:#fff}
+.kl{font-family:L;font-weight:700;font-size:9.5px;letter-spacing:.06em;color:#93a2a4;text-transform:uppercase}
+.kv{font-family:P;font-weight:700;font-size:19px;color:#104050;margin-top:3px}
+.kn{font-family:L;font-size:10px;color:#2E8C7A;margin-top:2px}
+.rows{border:1px solid #E2ECE9;border-radius:12px;margin-top:11px;overflow:hidden}
+.row{display:flex;justify-content:space-between;align-items:center;padding:9px 13px;border-top:1px solid #EDF3F1;font-size:11px}
+.row:first-child{border-top:0}
+.awb{font-family:L;font-weight:700;color:#104050;width:96px}
+.rt{color:#5b6b6f;flex:1}
+.st{font-family:L;font-weight:700;font-size:9px;padding:3px 8px;border-radius:99px}
+.s1{background:rgba(16,64,80,.09);color:#104050}
+.s2{background:rgba(95,181,162,.18);color:#2E8C7A}
+.s3{background:rgba(46,140,122,.1);color:#2E8C7A}
+/* pulse chip */
+.chip{position:absolute;right:392px;top:474px;background:#fff;border-radius:14px;box-shadow:0 24px 48px -12px rgba(0,0,0,.45);padding:12px 16px;display:flex;align-items:center;gap:10px;transform:rotate(2deg)}
+.pav{width:28px;height:28px;border-radius:50%;background:#104050;color:#86D8C4;font-family:P;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+.ct{font-family:L;font-weight:700;font-size:12.5px;color:#16282E}
+.cs{font-family:L;font-size:10px;color:#2E8C7A}
+</style></head><body>
+<div class="grid"></div><img src="public/elements/mesh.svg" style="position:absolute;left:-160px;bottom:-210px;width:620px;opacity:.20" /><div class="glow1"></div><div class="glow2"></div>
+<div class="left">
+  <img class="logo" src="public/voxarel-logo-white.png">
+  <div class="kick">ONE PLATFORM FOR LOGISTICS OPERATIONS</div>
+  <h1>Connect every person, package and payment.</h1>
+  <div class="sub">Shipping, warehouse, finance, inventory and field ops — one platform, every role, nothing lost.</div>
+</div>
+<div class="foot"><span class="url">voxarel.com</span></div>
+<div class="mock">
+  <div class="mhead"><span class="mtitle">Operations overview</span><span class="pill"><i></i>Live</span></div>
+  <div class="kpis">
+    <div class="kpi"><div class="kl">In transit</div><div class="kv">128</div><div class="kn">+12 today</div></div>
+    <div class="kpi"><div class="kl">Collections today</div><div class="kv">24</div><div class="kn">3 branches</div></div>
+    <div class="kpi"><div class="kl">Pending approvals</div><div class="kv">6</div><div class="kn">2 urgent</div></div>
+    <div class="kpi"><div class="kl">COD to settle</div><div class="kv">AED 18,400</div><div class="kn">5 drivers</div></div>
+  </div>
+  <div class="rows">
+    <div class="row"><span class="awb">S-DXB-00231</span><span class="rt">Dubai → Chennai</span><span class="st s1">In transit</span></div>
+    <div class="row"><span class="awb">S-DXB-00228</span><span class="rt">Dubai → Kochi</span><span class="st s2">Out for delivery</span></div>
+    <div class="row"><span class="awb">S-DXB-00224</span><span class="rt">Dubai → Hyderabad</span><span class="st s3">Delivered</span></div>
+  </div>
+</div>
+<div class="chip"><span class="pav">P</span><span><div class="ct">Ask Pulse anything…</div><div class="cs">Connected to your live data</div></span></div>
+</body></html>

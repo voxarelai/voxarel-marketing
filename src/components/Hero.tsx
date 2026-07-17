@@ -1,119 +1,82 @@
-"use client";
-
-import { motion } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { CalculatorWidget } from "./CalculatorWidget";
-import { SIGNUP_URL } from "@/lib/config";
+import { ArrowRight, Check } from "@/components/icons";
+import { ProductMock } from "@/components/ProductMock";
+import { Reveal } from "@/components/Reveal";
+import { DEMO_URL, TRACK_URL } from "@/lib/site";
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <Image
-          src="/hero.webp"
-          alt="Port with container ships and cranes"
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-        {/* Vertical gradient overlay */}
-        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/50 via-black/40 to-[#09090b]" />
-        {/* Extra left-side darkening so copy reads on large screens */}
-        <div className="absolute inset-0 z-[1] hidden bg-gradient-to-r from-black/50 to-transparent lg:block" />
-      </div>
+    <section className="relative overflow-hidden pb-20 pt-36 sm:pb-24 sm:pt-44">
+      {/* Background: faint grid + mint glow */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(226,236,233,0.7) 1px, transparent 1px), linear-gradient(to bottom, rgba(226,236,233,0.7) 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+          maskImage: "radial-gradient(ellipse 90% 70% at 50% 0%, black 35%, transparent 100%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 90% 70% at 50% 0%, black 35%, transparent 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute -top-48 left-1/2 -z-10 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-mint/20 blur-3xl"
+      />
 
-      {/* Content */}
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20 pt-32 lg:pt-36">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
-          {/* Left column — pitch */}
-          <div className="text-center lg:text-left">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 backdrop-blur-sm"
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-white" />
-              <span className="text-sm font-medium tracking-wide text-white">
-                Now in Beta
-              </span>
-              <span className="text-xs text-white/60">→</span>
-            </motion.div>
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <Reveal>
+            <p className="font-display text-[12px] font-bold uppercase tracking-[0.22em] text-mint-deep">
+              One platform for logistics operations
+            </p>
+          </Reveal>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="heading-serif mb-5 text-4xl leading-[1.1] text-white md:text-5xl"
-            >
-              Instant freight quotes on your website. Every visitor, a lead.
-            </motion.h1>
+          <Reveal delay={80}>
+            <h1 className="font-display mt-5 text-balance text-[2.5rem] font-extrabold leading-[1.08] tracking-tight text-petrol-deep sm:text-6xl">
+              Connect every person, package and payment in your logistics operation.
+            </h1>
+          </Reveal>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="mx-auto mb-8 max-w-xl text-sm text-white/90 md:text-base lg:mx-0"
-            >
-              Add your rates, drop in one line of code, and turn the visitors on
-              your freight site into qualified leads — with your branding, your
-              pricing, your customers.
-            </motion.p>
+          <Reveal delay={160}>
+            <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
+              Real-time visibility and control across shipping, warehouse, finance, inventory and
+              field operations. One platform, every role, nothing lost.
+            </p>
+          </Reveal>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex flex-col items-center gap-3 sm:flex-row lg:items-center lg:justify-start"
-            >
+          <Reveal delay={240}>
+            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
-                href={SIGNUP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-full bg-white px-6 py-2.5 text-sm font-medium text-zinc-900 transition-colors hover:bg-zinc-100"
+                href={DEMO_URL}
+                className="group inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-petrol px-8 text-[16px] font-bold text-white shadow-[0_8px_24px_-8px_rgba(16,64,80,0.5)] transition-all hover:bg-petrol-deep"
               >
-                Get started
-              </a>
-              <Link
-                href="/leads-portal"
-                className="group inline-flex items-center gap-1.5 rounded-full border border-white/20 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/10"
-              >
-                See how it works
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </Link>
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="mt-4 text-xs text-white/50"
-            >
-              Already shipping with us?{" "}
-              <a href="/#contact" className="text-white/80 underline-offset-4 hover:underline">
                 Book a demo
+                <ArrowRight className="h-4.5 w-4.5 transition-transform group-hover:translate-x-0.5" />
               </a>
-            </motion.p>
-          </div>
+              <a
+                href={TRACK_URL}
+                className="inline-flex h-[52px] items-center justify-center rounded-xl border border-hair bg-white px-8 text-[16px] font-bold text-petrol transition-colors hover:bg-tint"
+              >
+                Track a shipment
+              </a>
+            </div>
+          </Reveal>
 
-          {/* Right column — live calculator demo */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-            className="ambient-glow mx-auto w-full max-w-md lg:mr-0 lg:ml-auto"
-          >
-            <CalculatorWidget variant="panel" />
-          </motion.div>
+          <Reveal delay={320}>
+            <p className="mt-7 inline-flex items-center gap-2 text-[15px] font-bold text-muted">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-mint/20">
+                <Check className="h-3 w-3 text-mint-deep" strokeWidth={2.6} />
+              </span>
+              Live in production at ST&nbsp;Courier
+            </p>
+          </Reveal>
         </div>
-      </div>
 
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 z-[2] h-40 bg-gradient-to-t from-[#09090b] to-transparent" />
+        <Reveal delay={200} className="mt-16 sm:mt-20">
+          <ProductMock />
+        </Reveal>
+      </div>
     </section>
   );
 }

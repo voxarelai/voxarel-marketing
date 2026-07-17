@@ -1,102 +1,114 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import { LegalPage, type LegalSection } from "@/components/LegalLayout";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - Voxarel",
-  description: "How Voxarel collects, uses, and protects your data.",
+  title: "Privacy policy — Voxarel",
+  description: "How Voxarel handles your data — in plain words.",
 };
 
-export default function PrivacyPolicy() {
+const sections: LegalSection[] = [
+  {
+    title: "Who we are",
+    paragraphs: [
+      <>
+        Voxarel is operated by Azraq Ventures LLC, registered at Shams, Sharjah Media City,
+        United Arab Emirates (Licence No. 2433833.01). For anything in this policy, write to{" "}
+        <a href={`mailto:${CONTACT_EMAIL}`} className="font-bold text-mint-deep hover:underline">
+          {CONTACT_EMAIL}
+        </a>
+        .
+      </>,
+    ],
+  },
+  {
+    title: "What we collect on this site",
+    paragraphs: [
+      "We collect only what each feature needs to work:",
+    ],
+    bullets: [
+      <>
+        <b className="text-ink">Demo requests</b> — your name, work email, company, and anything
+        you choose to add (phone, branch count, notes). We use it to arrange and run your demo.
+        No mailing lists, no drip campaigns.
+      </>,
+      <>
+        <b className="text-ink">Shipment tracking</b> — the tracking number you enter. If you
+        unlock full details, we process the one-time code exchange and keep a log of lookups and
+        verifications to keep the service safe (rate limiting and abuse prevention).
+      </>,
+      <>
+        <b className="text-ink">Shipment claims</b> — if a booking has no contact on file and you
+        submit a claim, we pass the name, email, and phone you provide to the carrier that owns
+        the booking so they can confirm the shipment is yours.
+      </>,
+      <>
+        <b className="text-ink">Technical basics</b> — standard server logs (IP address, browser
+        type, pages requested) kept for security. The site uses no advertising trackers. If we
+        add product analytics later, we will update this policy first.
+      </>,
+    ],
+  },
+  {
+    title: "Shipment data belongs to the carrier",
+    paragraphs: [
+      "The shipments you can track here are operated by logistics companies that run on Voxarel — they are the controllers of that data. Voxarel processes it on their behalf to run their operation and to show you tracking. If you want shipment information corrected or removed, the fastest route is the carrier you shipped with; write to us instead and we will route your request to them.",
+    ],
+  },
+  {
+    title: "How verification works",
+    paragraphs: [
+      "To show the private details of a shipment (names, addresses, documents, proof of delivery), we first verify that you are its sender or receiver. We send a one-time code to the email or phone number already on the booking. Contact details are always shown masked and are used for nothing other than sending that code. Verification gives your browser access to that one shipment for a short period, after which it expires.",
+    ],
+  },
+  {
+    title: "Who we share data with",
+    paragraphs: [
+      "We do not sell personal data, full stop. We share it only with:",
+    ],
+    bullets: [
+      "The carrier that owns the booking (for tracking claims and shipment questions).",
+      "Service providers that help us run the site — hosting and email delivery — under agreements that limit what they may do with it.",
+      "Authorities, where the law requires it.",
+    ],
+  },
+  {
+    title: "How long we keep things",
+    paragraphs: [
+      "Demo requests: for as long as the conversation is live, and a reasonable period after. Security and verification logs: long enough to investigate abuse and meet audit needs. Shipment data: governed by our agreement with the carrier that owns it.",
+    ],
+  },
+  {
+    title: "Your rights",
+    paragraphs: [
+      <>
+        You can ask what we hold about you, ask us to correct it, or ask us to delete it — write
+        to{" "}
+        <a href={`mailto:${CONTACT_EMAIL}`} className="font-bold text-mint-deep hover:underline">
+          {CONTACT_EMAIL}
+        </a>{" "}
+        and we will respond promptly. We handle personal data in line with the UAE Personal Data
+        Protection Law, and we are mindful of the data-protection laws of the countries our
+        clients&apos; shipments touch, including India.
+      </>,
+    ],
+  },
+  {
+    title: "Changes to this policy",
+    paragraphs: [
+      "If we change this policy, we will update this page and its effective date. Meaningful changes will be called out plainly, not buried.",
+    ],
+  },
+];
+
+export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-white text-zinc-900">
-      {/* Header */}
-      <header className="border-b border-zinc-200 py-6 px-6">
-        <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <div className="w-7 h-7 bg-zinc-900 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xs">V</span>
-            </div>
-            <span className="font-semibold text-zinc-900">Voxarel</span>
-          </Link>
-          <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-900 transition-colors">
-            Back to home
-          </Link>
-        </div>
-      </header>
-
-      {/* Content */}
-      <main className="max-w-3xl mx-auto px-6 py-16">
-        <h1 className="heading-serif text-4xl mb-2">Privacy Policy</h1>
-        <p className="text-sm text-zinc-500 mb-12">Last updated: March 2026</p>
-
-        <div className="space-y-8 text-zinc-600 leading-relaxed">
-          <section>
-            <h2 className="text-lg font-semibold text-zinc-900 mb-3">1. Information We Collect</h2>
-            <p className="mb-3">
-              When you use our website or submit a contact form, we may collect:
-            </p>
-            <ul className="list-disc pl-6 space-y-1">
-              <li>Name and email address (when you contact us)</li>
-              <li>Company name (optional, when you contact us)</li>
-              <li>Usage data through Google Analytics (pages visited, time on site, device type)</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-zinc-900 mb-3">2. How We Use Your Information</h2>
-            <ul className="list-disc pl-6 space-y-1">
-              <li>To respond to your inquiries and provide product information</li>
-              <li>To improve our website experience based on usage patterns</li>
-              <li>To send relevant communications about our platform (only if you contact us first)</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-zinc-900 mb-3">3. Third-Party Services</h2>
-            <p className="mb-3">We use the following third-party services:</p>
-            <ul className="list-disc pl-6 space-y-1">
-              <li><strong>Google Analytics</strong> — to understand how visitors use our website. Google Analytics uses cookies to collect anonymous usage data. You can opt out by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" className="underline hover:text-zinc-900">Google Analytics opt-out browser add-on</a>.</li>
-              <li><strong>Formspree</strong> — to process contact form submissions. Your form data is transmitted securely and stored by Formspree. See <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener noreferrer" className="underline hover:text-zinc-900">Formspree&apos;s privacy policy</a>.</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-zinc-900 mb-3">4. Data Retention</h2>
-            <p>
-              Contact form submissions are retained for as long as necessary to respond to your inquiry
-              and maintain our business relationship. Analytics data is retained according to Google
-              Analytics&apos; default retention settings (14 months).
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-zinc-900 mb-3">5. Data Security</h2>
-            <p>
-              We take reasonable measures to protect your personal information. All form submissions
-              are transmitted over HTTPS. We do not sell, rent, or share your personal information
-              with third parties for marketing purposes.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-zinc-900 mb-3">6. Your Rights</h2>
-            <p>
-              You may request access to, correction of, or deletion of your personal data at any time
-              by contacting us. If you are located in the UAE or GCC region, your data rights are
-              governed by applicable local data protection regulations.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-zinc-900 mb-3">7. Contact</h2>
-            <p>
-              For privacy-related inquiries, please{" "}
-              <Link href="/#contact" className="underline hover:text-zinc-900">contact us</Link> through
-              our website.
-            </p>
-          </section>
-        </div>
-      </main>
-    </div>
+    <LegalPage
+      kicker="Privacy"
+      title="Privacy policy."
+      intro="In plain words: we collect what the site needs to work, we don't sell it, and shipment data belongs to the carrier you shipped with."
+      effective="16 July 2026"
+      sections={sections}
+    />
   );
 }

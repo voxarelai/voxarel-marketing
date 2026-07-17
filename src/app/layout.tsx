@@ -1,77 +1,48 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
-import Script from "next/script";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
+const poppins = localFont({
+  src: [
+    { path: "../fonts/poppins-latin-600-normal.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/poppins-latin-700-normal.woff2", weight: "700", style: "normal" },
+    { path: "../fonts/poppins-latin-800-normal.woff2", weight: "800", style: "normal" },
+  ],
+  variable: "--font-poppins",
+  display: "swap",
 });
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
+const lato = localFont({
+  src: [
+    { path: "../fonts/lato-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/lato-latin-400-italic.woff2", weight: "400", style: "italic" },
+    { path: "../fonts/lato-latin-700-normal.woff2", weight: "700", style: "normal" },
+  ],
+  variable: "--font-lato",
+  display: "swap",
 });
-
-const SITE_URL = "https://voxarel.com";
-const GA4_ID = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID;
 
 export const metadata: Metadata = {
-  title: "Voxarel — One platform for your entire logistics operation",
+  metadataBase: new URL("https://voxarel.com"),
+  title: "Voxarel — Connect every person, package and payment",
   description:
-    "Connect every person, package and payment in your logistics operation. Real-time visibility and control across shipping, warehouse, finance, inventory and field operations.",
-  keywords: [
-    "logistics",
-    "freight forwarding",
-    "UAE",
-    "logistics platform",
-    "shipment tracking",
-    "cargo",
-    "GCC",
-    "supply chain",
-    "warehouse management",
-    "operations management",
-    "real-time visibility",
-  ],
-  metadataBase: new URL(SITE_URL),
-  alternates: {
-    canonical: "/",
-  },
+    "Real-time visibility and control across shipping, warehouse, finance, inventory and field operations. One platform, every role, nothing lost.",
   openGraph: {
-    title: "Voxarel — One platform for your entire logistics operation",
+    title: "Voxarel — Connect every person, package and payment",
     description:
-      "One platform connecting shipping, warehouse, finance, inventory and field ops in real time. Every role gets what they need, nothing gets lost.",
-    url: SITE_URL,
-    siteName: "Voxarel",
+      "Real-time visibility and control across shipping, warehouse, finance, inventory and field operations. One platform, every role, nothing lost.",
     type: "website",
-    locale: "en_US",
+    url: "https://voxarel.com",
+    siteName: "Voxarel",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Voxarel" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Voxarel — One platform for your entire logistics operation",
+    title: "Voxarel — Connect every person, package and payment",
     description:
-      "Connect every person, package and payment in your logistics operation. One platform, every role, nothing lost.",
+      "Real-time visibility and control across shipping, warehouse, finance, inventory and field operations.",
+    images: ["/og.png"],
   },
-};
-
-// JSON-LD structured data
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Voxarel",
-  url: SITE_URL,
-  description:
-    "One platform connecting every person, package, and payment in logistics operations.",
-  areaServed: {
-    "@type": "GeoShape",
-    name: "Gulf Cooperation Council (GCC)",
-  },
-  knowsAbout: [
-    "Freight Forwarding",
-    "Operations Management",
-    "Logistics Management",
-    "Supply Chain",
-  ],
 };
 
 export default function RootLayout({
@@ -80,37 +51,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <head>
-        {/* JSON-LD structured data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
-      <body
-        className={`${inter.variable} ${playfair.variable} antialiased bg-[#09090b] text-white`}
-      >
-        {children}
-
-        {/* GA4 */}
-        {GA4_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga4-init" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${GA4_ID}');
-              `}
-            </Script>
-          </>
-        )}
-      </body>
+    <html lang="en" className={`${poppins.variable} ${lato.variable}`}>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
