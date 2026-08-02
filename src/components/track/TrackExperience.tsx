@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import posthog from "posthog-js";
 import {
   Search,
   Lock,
@@ -36,10 +37,15 @@ export function TrackExperience() {
   const [claimRole, setClaimRole] = useState<"sender" | "receiver">("receiver");
   const resultRef = useRef<HTMLDivElement>(null);
 
-  const search = (raw: string) => {
+  const search = (raw: string, captureSearch = true) => {
     const v = raw.trim().toUpperCase();
     if (!v) return;
     const s = lookupShipment(v);
+    if (captureSearch) {
+      posthog.capture("shipment_tracking_search", {
+        result: s ? "found" : "not_found",
+      });
+    }
     setLastQuery(v);
     setShipment(s);
     setView(s ? "found" : "notfound");
@@ -54,7 +60,7 @@ export function TrackExperience() {
     const awb = new URLSearchParams(window.location.search).get("awb");
     if (awb) {
       setQuery(awb.toUpperCase());
-      search(awb);
+      search(awb, false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -68,18 +74,26 @@ export function TrackExperience() {
 
   const startUnlock = () => {
     if (!shipment) return;
+    posthog.capture("shipment_details_unlock_started", {
+      verification_method: shipment.contact.kind === "none" ? "claim" : shipment.contact.kind,
+    });
     setAccess(shipment.contact.kind === "none" ? "claim" : "otpSend");
     setOtp("");
     setOtpError(false);
   };
 
   const sendCode = () => {
+    if (!shipment) return;
+    posthog.capture("shipment_verification_code_requested", {
+      delivery_method: shipment.contact.kind,
+    });
     setAccess("otpCode");
     setResendIn(45);
   };
 
   const verify = () => {
     if (otp === DEMO_OTP) {
+      posthog.capture("shipment_details_unlocked");
       setAccess("unlocked");
       setOtpError(false);
     } else {
@@ -179,7 +193,12 @@ export function TrackExperience() {
                   onSend={sendCode}
                   onVerify={verify}
                   onBack={() => setAccess("locked")}
-                  onClaimSubmit={() => setAccess("claimSent")}
+                  onClaimSubmit={() => {
+                    posthog.capture("shipment_claim_submitted", {
+                      claimant_role: claimRole,
+                    });
+                    setAccess("claimSent");
+                  }}
                 />
               )}
             </div>

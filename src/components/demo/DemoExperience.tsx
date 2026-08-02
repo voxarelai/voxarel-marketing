@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import posthog from "posthog-js";
 import { ArrowRight, Check, Mail } from "@/components/icons";
 import { CONTACT_EMAIL } from "@/lib/site";
 
@@ -55,6 +56,11 @@ export function DemoExperience() {
 
   const deliver = () => {
     if (!validate()) return;
+    posthog.capture("demo_request_composed", {
+      has_phone: Boolean(f.phone.trim()),
+      branch_count: f.branches || "not_specified",
+      has_message: Boolean(f.message.trim()),
+    });
     const subject = `Demo request — ${f.company.trim()}`;
     const body = [
       `Name: ${f.name.trim()}`,

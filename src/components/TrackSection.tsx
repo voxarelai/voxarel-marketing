@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import posthog from "posthog-js";
 import { Search } from "@/components/icons";
 import { Reveal } from "@/components/Reveal";
 
@@ -9,7 +10,11 @@ export function TrackSection() {
 
   const track = () => {
     const v = awb.trim().toUpperCase();
-    if (v) window.location.href = `/track?awb=${encodeURIComponent(v)}`;
+    if (!v) return;
+    posthog.capture("shipment_tracking_search", {
+      entry_point: "homepage",
+    });
+    window.location.href = `/track?awb=${encodeURIComponent(v)}`;
   };
 
   return (
