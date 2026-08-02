@@ -116,7 +116,7 @@ export function DemoExperience() {
 
             <div className="mt-10 border-t border-hair pt-6">
               <p className="text-[14.5px] font-bold text-muted">
-                Live in production at ST&nbsp;Courier — real branches, real shipments, every day.
+                Live in production at ST&nbsp;Courier. Real branches, real shipments, every day.
               </p>
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
