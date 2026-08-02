@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* archive/ (retired v1 site) and mockups/ (design prototypes) — keep Tailwind out */
+/* archive/ (retired v1 site) and mockups/ (design prototypes). Keep Tailwind out */
 @source not "../../archive";
 @source not "../../mockups";
 

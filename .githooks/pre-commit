@@ -1,0 +1,6 @@
+#!/bin/sh
+# Writing standard: no Unicode dashes in src. See _SPINE.md section 0.1.
+if ! node scripts/check-dashes.mjs >/dev/null 2>&1; then
+  echo "Blocked: Unicode dash in src. Run: npm run check:dashes"
+  exit 1
+fi

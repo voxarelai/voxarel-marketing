@@ -4,8 +4,8 @@ import { CONTACT_EMAIL } from "@/lib/site";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/privacy" },
-  title: "Privacy policy — Voxarel",
-  description: "How Voxarel handles your data — in plain words.",
+  title: "Privacy policy | Voxarel",
+  description: "How Voxarel handles your data, in plain words.",
 };
 
 const sections: LegalSection[] = [
@@ -29,22 +29,22 @@ const sections: LegalSection[] = [
     ],
     bullets: [
       <>
-        <b className="text-ink">Demo requests</b> — your name, work email, company, and anything
+        <b className="text-ink">Demo requests</b>: your name, work email, company, and anything
         you choose to add (phone, branch count, notes). We use it to arrange and run your demo.
         No mailing lists, no drip campaigns.
       </>,
       <>
-        <b className="text-ink">Shipment tracking</b> — the tracking number you enter. If you
+        <b className="text-ink">Shipment tracking</b>: the tracking number you enter. If you
         unlock full details, we process the one-time code exchange and keep a log of lookups and
         verifications to keep the service safe (rate limiting and abuse prevention).
       </>,
       <>
-        <b className="text-ink">Shipment claims</b> — if a booking has no contact on file and you
+        <b className="text-ink">Shipment claims</b>: if a booking has no contact on file and you
         submit a claim, we pass the name, email, and phone you provide to the carrier that owns
         the booking so they can confirm the shipment is yours.
       </>,
       <>
-        <b className="text-ink">Technical basics</b> — standard server logs (IP address, browser
+        <b className="text-ink">Technical basics</b>: standard server logs (IP address, browser
         type, pages requested) kept for security. We use PostHog for privacy-first product
         analytics, listed with the other processors below. No advertising trackers.
       </>,
@@ -53,7 +53,7 @@ const sections: LegalSection[] = [
   {
     title: "Shipment data belongs to the carrier",
     paragraphs: [
-      "The shipments you can track here are operated by logistics companies that run on Voxarel — they are the controllers of that data. Voxarel processes it on their behalf to run their operation and to show you tracking. If you want shipment information corrected or removed, the fastest route is the carrier you shipped with; write to us instead and we will route your request to them.",
+      "The shipments you can track here are operated by logistics companies that run on Voxarel. They are the controllers of that data. Voxarel processes it on their behalf to run their operation and to show you tracking. If you want shipment information corrected or removed, the fastest route is the carrier you shipped with; write to us instead and we will route your request to them.",
     ],
   },
   {
@@ -69,7 +69,7 @@ const sections: LegalSection[] = [
     ],
     bullets: [
       "The carrier that owns the booking (for tracking claims and shipment questions).",
-      "Service providers that help us run the site — hosting and email delivery — under agreements that limit what they may do with it.",
+      "Service providers that help us run the site (hosting and email delivery) under agreements that limit what they may do with it.",
       "Authorities, where the law requires it.",
     ],
   },
@@ -100,7 +100,7 @@ const sections: LegalSection[] = [
     title: "Your rights",
     paragraphs: [
       <>
-        You can ask what we hold about you, ask us to correct it, or ask us to delete it — write
+        You can ask what we hold about you, ask us to correct it, or ask us to delete it. Write
         to{" "}
         <a href={`mailto:${CONTACT_EMAIL}`} className="font-bold text-mint-deep hover:underline">
           {CONTACT_EMAIL}

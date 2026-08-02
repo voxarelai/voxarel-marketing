@@ -1,5 +1,5 @@
 /**
- * Public tracking client — talks to our own Next.js proxy (/api/track/*),
+ * Public tracking client: talks to our own Next.js proxy (/api/track/*),
  * which forwards to the console's public tracking API server-side (no CORS).
  * Contract: docs/tracking-p1-devteam-DELIVERED.md
  */
@@ -97,7 +97,7 @@ export function getTier1(awb: string) {
   return call<Tier1>(encodeURIComponent(awb));
 }
 
-/** OTP request — always resolves ok-shaped (anti-enumeration). */
+/** OTP request: always resolves ok-shaped (anti-enumeration). */
 export function requestOtp(awb: string, email: string) {
   return call<{ sentTo: string; expiresInSec: number; resendInSec: number }>(
     "otp/request",
@@ -110,7 +110,7 @@ export function requestOtp(awb: string, email: string) {
   );
 }
 
-/** OTP verify — one opaque error for any miss; returns a 30-min bearer token. */
+/** OTP verify: one opaque error for any miss; returns a 30-min bearer token. */
 export function verifyOtp(input: {
   awb: string;
   email: string;
@@ -128,7 +128,7 @@ export function verifyOtp(input: {
   );
 }
 
-/** Tier-2 details — requires the bearer token from verify. */
+/** Tier-2 details: requires the bearer token from verify. */
 export function getDetails(awb: string, token: string) {
   return call<Details>(`${encodeURIComponent(awb)}/details`, {
     headers: { authorization: `Bearer ${token}` },
@@ -148,7 +148,7 @@ export function register(input: { email: string; phone?: string }) {
   );
 }
 
-/** Loose client-side pre-validation (encoded 7–10 char OR legacy S/A/D-XXX-#####). */
+/** Loose client-side pre-validation (encoded 7-10 char OR legacy S/A/D-XXX-#####). */
 export function isValidAwb(raw: string): boolean {
   const v = raw.trim().toUpperCase();
   return /^[A-Z0-9]{7,10}$/.test(v) || /^[SAD]-[A-Z][A-Z0-9]{2,4}-\d{5}(-\d{2})?$/.test(v);

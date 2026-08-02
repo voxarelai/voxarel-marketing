@@ -84,7 +84,7 @@ function SignUpModal({
 function Chooser({ onPick }: { onPick: (m: SignUpMode) => void }) {
   return (
     <div className="px-6 py-6">
-      <p className="text-[13.5px] text-muted">First — which one are you?</p>
+      <p className="text-[13.5px] text-muted">First, which one are you?</p>
       <button
         onClick={() => onPick("customer")}
         className="mt-4 flex w-full items-center gap-4 rounded-xl border border-hair p-4 text-left transition-colors hover:border-mint hover:bg-tint/50"
@@ -97,7 +97,7 @@ function Chooser({ onPick }: { onPick: (m: SignUpMode) => void }) {
             I&apos;m a customer
           </span>
           <span className="text-[13px] text-muted">
-            Tracking a shipment — see details &amp; get updates.
+            Tracking a shipment, see details &amp; get updates.
           </span>
         </span>
       </button>
@@ -178,7 +178,7 @@ function CustomerForm({
       <>
         <Success
           title="You're all set"
-          body="Your Voxarel contact is created. Track a shipment any time — we'll keep you posted."
+          body="Your Voxarel contact is created. Track a shipment any time. We'll keep you posted."
         />
         <div className="px-6 pb-6">
           <button onClick={onDone} className={primaryBtn.replace("mt-5 ", "")}>
@@ -255,7 +255,7 @@ function BusinessForm({
     <div className="px-6 py-6">
       <BackLink onClick={onBack} label="Customer or business" />
       <div className="inline-flex items-center gap-1.5 rounded-full border border-mint/30 bg-mint/[0.06] px-3 py-1 text-[11px] font-semibold text-mint-deep">
-        Guided demo workflow — coming soon
+        Guided demo workflow, coming soon
       </div>
       <h3 className="font-display mt-4 text-[16px] font-semibold text-petrol-deep">
         See Voxarel for your business

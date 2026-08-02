@@ -1,0 +1,22 @@
+name: Writing standard
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  dashes:
+    name: No Unicode dashes in src
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check for Unicode dashes
+        run: node scripts/check-dashes.mjs

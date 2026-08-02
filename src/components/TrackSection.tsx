@@ -27,7 +27,7 @@ export function TrackSection() {
               Track a shipment
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-muted">
-              No login needed — live status for any Voxarel shipment.
+              No login needed. Live status for any Voxarel shipment.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">

@@ -23,13 +23,13 @@ export default function NotFound() {
         />
         <div className="mx-auto max-w-6xl px-5 text-center sm:px-8">
           <p className="font-display text-[12px] font-bold uppercase tracking-[0.22em] text-mint-deep">
-            404 — Lost in transit
+            404: Lost in transit
           </p>
           <h1 className="font-display mt-5 text-balance text-4xl font-extrabold tracking-tight text-petrol-deep sm:text-6xl">
             This page went missing.
           </h1>
           <p className="mx-auto mt-5 max-w-md text-pretty text-lg leading-relaxed text-muted">
-            The address exists, the page doesn&apos;t — like a parcel with no shipment attached.
+            The address exists, the page doesn&apos;t, like a parcel with no shipment attached.
             Let&apos;s get you back on route.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">

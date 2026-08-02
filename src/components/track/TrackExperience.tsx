@@ -351,7 +351,7 @@ function DetailsPanel({
         <div className="flex items-center gap-2.5 border-b border-hair bg-mint/[0.08] px-6 py-4 sm:px-8">
           <Shield className="h-4 w-4 text-mint-deep" />
           <span className="text-[13.5px] font-semibold text-mint-deep">
-            Verified — full details unlocked for this session
+            Verified. Full details unlocked for this session
           </span>
         </div>
         <div className="grid gap-px bg-hair sm:grid-cols-2">
@@ -527,7 +527,7 @@ function NotFound({ awb }: { awb: string }) {
         We couldn&apos;t find <span className="tabular-nums text-petrol">{awb}</span>
       </div>
       <p className="mx-auto mt-2 max-w-sm text-[14px] leading-relaxed text-muted">
-        Check the number for typos — a new booking can take a few minutes to appear. If it
+        Check the number for typos. A new booking can take a few minutes to appear. If it
         still doesn&apos;t show, contact the carrier who booked your shipment.
       </p>
     </div>

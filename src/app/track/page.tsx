@@ -5,9 +5,9 @@ import { TrackExperience } from "@/components/track/TrackExperience";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/track" },
-  title: "Track a shipment — Voxarel",
+  title: "Track a shipment | Voxarel",
   description:
-    "Live tracking for shipments moving on Voxarel. Check status instantly — verify with a one-time code to see full details.",
+    "Live tracking for shipments moving on Voxarel. Check status instantly. Verify with a one-time code to see full details.",
 };
 
 export default function TrackPage() {

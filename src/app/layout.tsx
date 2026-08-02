@@ -30,11 +30,11 @@ const lato = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "/" },
-  title: "Voxarel — Connect every person, package and payment",
+  title: "Voxarel | Connect every person, package and payment",
   description:
     "Real-time visibility and control across shipping, warehouse, finance, inventory and field operations. One platform, every role, nothing lost.",
   openGraph: {
-    title: "Voxarel — Connect every person, package and payment",
+    title: "Voxarel. Connect every person, package and payment",
     description:
       "Real-time visibility and control across shipping, warehouse, finance, inventory and field operations. One platform, every role, nothing lost.",
     type: "website",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Voxarel — Connect every person, package and payment",
+    title: "Voxarel. Connect every person, package and payment",
     description:
       "Real-time visibility and control across shipping, warehouse, finance, inventory and field operations.",
     images: ["/og.png"],

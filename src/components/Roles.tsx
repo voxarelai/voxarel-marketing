@@ -46,7 +46,7 @@ export function Roles() {
                 Every role gets exactly what they need.
               </h2>
               <p className="mt-5 text-pretty text-lg leading-relaxed text-muted">
-                One platform, seven very different jobs. Each person sees their own work — not
+                One platform, seven very different jobs. Each person sees their own work, not
                 everyone else&apos;s.
               </p>
             </div>

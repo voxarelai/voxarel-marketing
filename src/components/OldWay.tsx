@@ -8,7 +8,7 @@ const pairs = [
   },
   {
     before: "The weekly report is a best guess, compiled by hand",
-    after: "Your numbers are live — no compiling, no guessing",
+    after: "Your numbers are live, no compiling, no guessing",
   },
   {
     before: "Month-end takes a week of late nights",

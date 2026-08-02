@@ -12,9 +12,9 @@ import { BRANCH_OPTIONS } from "@/lib/leads/branch-options";
 const PLACEMENT = "demo_page" as const;
 
 const EXPECT = [
-  "We walk your actual flow — collection to delivery to reconciliation, on your services and corridors",
+  "We walk your actual flow: collection to delivery to reconciliation, on your services and corridors",
   "Your questions answered by the people who built it, not a sales script",
-  "A clear answer by the end — if Voxarel isn't the right fit, we'll tell you",
+  "A clear answer by the end. If Voxarel isn't the right fit, we'll tell you",
 ];
 
 type Fields = {
@@ -148,7 +148,7 @@ export function DemoExperience() {
 
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
-          {/* Left — the pitch */}
+          {/* Left, the pitch */}
           <div>
             <p className="font-display text-[12px] font-bold uppercase tracking-[0.22em] text-mint-deep">
               Book a demo
@@ -159,7 +159,7 @@ export function DemoExperience() {
             </h1>
             <p className="mt-5 max-w-lg text-pretty text-lg leading-relaxed text-muted">
               Thirty minutes, on your own workflow. Bring the WhatsApp groups and the Excel
-              sheets — we&apos;ll show you what they look like as one system.
+              sheets. We&apos;ll show you what they look like as one system.
             </p>
 
             <ul className="mt-9 max-w-lg space-y-4">
@@ -188,7 +188,7 @@ export function DemoExperience() {
             </div>
           </div>
 
-          {/* Right — the form */}
+          {/* Right, the form */}
           <div>
             {sent ? (
               <div className="rounded-2xl border border-mint/50 bg-white p-8 text-center shadow-[0_24px_64px_-24px_rgba(16,64,80,0.3)]">
@@ -196,11 +196,11 @@ export function DemoExperience() {
                   <Check className="h-5.5 w-5.5 text-mint-deep" strokeWidth={2.6} />
                 </span>
                 <div className="font-display mt-4 text-[18px] font-bold text-ink">
-                  {fallback ? "Almost there — hit send" : "Request received"}
+                  {fallback ? "Almost there, hit send" : "Request received"}
                 </div>
                 <p className="mx-auto mt-2 max-w-sm text-[14.5px] leading-relaxed text-muted">
                   {fallback
-                    ? "Your email app just opened with everything filled in — send it and we'll come back within one business day."
+                    ? "Your email app just opened with everything filled in. Send it and we'll come back within one business day."
                     : "We have your details. Someone will reply within one business day, and you will get a confirmation email in the next few minutes."}
                 </p>
                 <p className="mx-auto mt-4 max-w-sm text-[13px] leading-relaxed text-faint">

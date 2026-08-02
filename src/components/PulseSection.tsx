@@ -4,7 +4,7 @@ import { Reveal } from "@/components/Reveal";
 const points = [
   "Plain-language answers, pulled from your live data",
   "Flags approvals the moment they need sign-off",
-  "Works where your team already is — web and WhatsApp",
+  "Works where your team already is: web and WhatsApp",
 ];
 
 export function PulseSection() {
@@ -15,14 +15,14 @@ export function PulseSection() {
           <Reveal>
             <div>
               <p className="font-display text-[12px] font-bold uppercase tracking-[0.22em] text-mint-deep">
-                Pulse — built-in AI
+                Pulse, built-in AI
               </p>
               <div className="mt-3.5 h-[6px] w-[86px] rounded-[3px] bg-mint" />
               <h2 className="font-display mt-5 text-balance text-3xl font-extrabold tracking-tight text-petrol-deep sm:text-[2.6rem] sm:leading-[1.15]">
                 Ask your operation anything.
               </h2>
               <p className="mt-5 text-pretty text-lg leading-relaxed text-muted">
-                Pulse answers from your live data — shipments, approvals, stock, cash — so your
+                Pulse answers from your live data (shipments, approvals, stock, cash), so your
                 team stops digging through reports and starts asking questions.
               </p>
               <ul className="mt-8 space-y-3.5">

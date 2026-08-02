@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/register" },
   title: "Join Voxarel",
   description:
-    "Register with Voxarel to track your shipments and get updates — or request a demo for your logistics business.",
+    "Register with Voxarel to track your shipments and get updates, or request a demo for your logistics business.",
 };
 
 export default function RegisterPage() {

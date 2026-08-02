@@ -83,7 +83,7 @@ export function UnlockModal({
       {step === "form" && (
         <div className="px-6 py-6">
           <p className="text-[13.5px] leading-relaxed text-muted">
-            Register with Voxarel — we confirm it&apos;s really you, then keep you posted
+            Register with Voxarel. We confirm it&apos;s really you, then keep you posted
             on this parcel.
           </p>
           <label className="mt-5 block text-[12.5px] font-bold text-ink">Your email</label>
@@ -112,7 +112,7 @@ export function UnlockModal({
             <a href="/terms" className="font-semibold text-petrol">
               Terms
             </a>
-            . Shipment and product updates — unsubscribe anytime.
+            . Shipment and product updates. Unsubscribe anytime.
           </p>
           {error && <p className="mt-2 text-[13px] font-semibold text-red-500">{error}</p>}
           <button onClick={sendCode} disabled={busy} className={`mt-5 ${primary}`}>

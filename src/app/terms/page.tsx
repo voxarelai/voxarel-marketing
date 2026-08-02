@@ -4,8 +4,8 @@ import { CONTACT_EMAIL } from "@/lib/site";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/terms" },
-  title: "Terms of use — Voxarel",
-  description: "The terms for using voxarel.com — in plain words.",
+  title: "Terms of use | Voxarel",
+  description: "The terms for using voxarel.com, in plain words.",
 };
 
 const sections: LegalSection[] = [
@@ -25,7 +25,7 @@ const sections: LegalSection[] = [
   {
     title: "Using the site",
     paragraphs: [
-      "Use the site normally — to learn about Voxarel, request a demo, and track shipments you are involved with. Don't do the obvious bad things:",
+      "Use the site normally, to learn about Voxarel, request a demo, and track shipments you are involved with. Don't do the obvious bad things:",
     ],
     bullets: [
       "No automated scraping, bulk querying, or probing of the tracking service without our written permission. We rate-limit and block abuse.",
@@ -37,19 +37,19 @@ const sections: LegalSection[] = [
   {
     title: "Tracking information",
     paragraphs: [
-      "Tracking data comes live from the systems of the carrier that operates your shipment. We show it as it is given to us. Statuses and arrival estimates are operational information, not promises — the carrier's contract with you governs the actual service. Private shipment details are only shown after verification, and access expires automatically.",
+      "Tracking data comes live from the systems of the carrier that operates your shipment. We show it as it is given to us. Statuses and arrival estimates are operational information, not promises. The carrier's contract with you governs the actual service. Private shipment details are only shown after verification, and access expires automatically.",
     ],
   },
   {
     title: "The Voxarel platform is separate",
     paragraphs: [
-      "These terms cover this website only. Use of the Voxarel platform itself — by logistics companies and their teams — is governed by separate agreements between Azraq Ventures LLC and each client organization.",
+      "These terms cover this website only. Use of the Voxarel platform itself (by logistics companies and their teams) is governed by separate agreements between Azraq Ventures LLC and each client organization.",
     ],
   },
   {
     title: "Our content",
     paragraphs: [
-      "The Voxarel name, logo, and everything on this site — text, design, illustrations — belong to Azraq Ventures LLC. Don't reuse them without permission, except as the law allows.",
+      "The Voxarel name, logo, and everything on this site (text, design, illustrations) belong to Azraq Ventures LLC. Don't reuse them without permission, except as the law allows.",
     ],
   },
   {

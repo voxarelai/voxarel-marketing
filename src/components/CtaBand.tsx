@@ -36,7 +36,7 @@ export function CtaBand() {
             See your entire operation on one screen.
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-pretty text-lg leading-relaxed text-[#cfe6df]">
-            Book a demo and we&apos;ll walk you through Voxarel on your own workflow — branches,
+            Book a demo and we&apos;ll walk you through Voxarel on your own workflow: branches,
             corridors, cash and all.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">

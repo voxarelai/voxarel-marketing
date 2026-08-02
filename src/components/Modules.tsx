@@ -14,13 +14,13 @@ const modules: Module[] = [
     icon: Package,
     title: "Shipping",
     description:
-      "Quotes, bookings, corridor rates, invoices and proof of delivery — every shipment tracked from first call to final signature.",
+      "Quotes, bookings, corridor rates, invoices and proof of delivery. Every shipment tracked from first call to final signature.",
   },
   {
     icon: Warehouse,
     title: "Warehouse",
     description:
-      "Scan in, scan out. Bin locations, expiry flags and variance checks — so nothing sits forgotten in a corner.",
+      "Scan in, scan out. Bin locations, expiry flags and variance checks, so nothing sits forgotten in a corner.",
   },
   {
     icon: Receipt,
@@ -32,20 +32,20 @@ const modules: Module[] = [
     icon: Layers,
     title: "Inventory",
     description:
-      "Live stock levels across every branch — what's in, what's moving, and what needs attention before it becomes a problem.",
+      "Live stock levels across every branch: what's in, what's moving, and what needs attention before it becomes a problem.",
   },
   {
     icon: Route,
     title: "Field operations",
     description:
-      "Collections, routes and cash settlement on a phone — faster for your agents and drivers than pen and paper.",
+      "Collections, routes and cash settlement on a phone. Faster for your agents and drivers than pen and paper.",
   },
   {
     icon: Pulse,
-    title: "Pulse — built-in AI",
+    title: "Pulse, built-in AI",
     badge: "New",
     description:
-      "Ask about shipments, stock or approvals in plain language — on the web or WhatsApp — and get answers from your live data.",
+      "Ask about shipments, stock or approvals in plain language (on the web or WhatsApp) and get answers from your live data.",
   },
 ];
 
@@ -64,7 +64,7 @@ export function Modules() {
             </h2>
             <p className="mt-5 text-pretty text-lg leading-relaxed text-muted">
               Today it lives in WhatsApp groups, Excel sheets and someone&apos;s memory. Voxarel
-              puts it in one system — where every role gets what they need and nothing gets lost.
+              puts it in one system, where every role gets what they need and nothing gets lost.
             </p>
           </div>
         </Reveal>
