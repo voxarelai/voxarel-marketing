@@ -1,13 +1,14 @@
 import type { MetadataRoute } from "next";
-
-const BASE = "https://voxarel.com";
+import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const now = new Date();
   return [
-    { url: `${BASE}/`, changeFrequency: "weekly", priority: 1 },
-    { url: `${BASE}/track`, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${BASE}/demo`, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${BASE}/privacy`, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${BASE}/terms`, changeFrequency: "yearly", priority: 0.2 },
+    { url: `${SITE_URL}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
+    { url: `${SITE_URL}/track`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}/demo`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${SITE_URL}/register`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE_URL}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
+    { url: `${SITE_URL}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
   ];
 }

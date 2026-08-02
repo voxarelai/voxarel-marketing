@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/Hero";
 import { ProofBar } from "@/components/ProofBar";
@@ -8,6 +9,10 @@ import { PulseSection } from "@/components/PulseSection";
 import { TrackSection } from "@/components/TrackSection";
 import { CtaBand } from "@/components/CtaBand";
 import { Footer } from "@/components/Footer";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (

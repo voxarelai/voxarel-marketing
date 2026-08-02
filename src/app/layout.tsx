@@ -3,6 +3,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "@/components/auth/AuthModals";
 import { PageView } from "@/components/analytics/PageView";
+import { JsonLd } from "@/components/JsonLd";
+import { organizationSchema, softwareApplicationSchema } from "@/lib/schema";
+import { SITE_URL } from "@/lib/site";
 
 const poppins = localFont({
   src: [
@@ -25,7 +28,8 @@ const lato = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://voxarel.com"),
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   title: "Voxarel — Connect every person, package and payment",
   description:
     "Real-time visibility and control across shipping, warehouse, finance, inventory and field operations. One platform, every role, nothing lost.",
@@ -34,7 +38,7 @@ export const metadata: Metadata = {
     description:
       "Real-time visibility and control across shipping, warehouse, finance, inventory and field operations. One platform, every role, nothing lost.",
     type: "website",
-    url: "https://voxarel.com",
+    url: SITE_URL,
     siteName: "Voxarel",
     images: [{ url: "/og.png", width: 1200, height: 630, alt: "Voxarel" }],
   },
@@ -55,6 +59,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable} ${lato.variable}`}>
       <body className="antialiased">
+        <JsonLd data={[organizationSchema, softwareApplicationSchema]} />
         <PageView />
         <AuthProvider>{children}</AuthProvider>
       </body>

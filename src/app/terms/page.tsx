@@ -3,6 +3,7 @@ import { LegalPage, type LegalSection } from "@/components/LegalLayout";
 import { CONTACT_EMAIL } from "@/lib/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/terms" },
   title: "Terms of use — Voxarel",
   description: "The terms for using voxarel.com — in plain words.",
 };
