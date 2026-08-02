@@ -9,7 +9,6 @@ type Result = { ok: boolean; error?: string };
 const resend = new Resend(process.env.RESEND_API_KEY ?? "re_placeholder");
 const FROM = process.env.LEAD_FROM ?? "partners@voxarel.com";
 const NOTIFY = process.env.LEAD_NOTIFY_TO ?? "partners@voxarel.com";
-const BOOK_URL = "https://www.voxarel.com/demo/book";
 
 export function summarise(rec: LeadRecord): string {
   return [
@@ -35,7 +34,10 @@ export function summarise(rec: LeadRecord): string {
 export async function toHubSpot(rec: LeadRecord, hutk?: string): Promise<Result> {
   const portal = process.env.HUBSPOT_PORTAL_ID;
   const guid = process.env.HUBSPOT_FORM_GUID;
-  if (!portal || !guid) return { ok: false, error: "hubspot_env_missing" };
+  // HubSpot deferred: with no portal/guid set, skip cleanly (like the console
+  // target) so a lead still clears the retry queue on the two emails alone.
+  // Setting the env vars later activates real CRM delivery with no code change.
+  if (!portal || !guid) return { ok: true };
 
   const fields = [
     { objectTypeId: "0-1", name: "email", value: rec.email },
@@ -102,8 +104,6 @@ export async function toVisitorReceipt(rec: LeadRecord): Promise<Result> {
         `Hello ${rec.name},`,
         "",
         "We have your demo request. Someone will reply within one business day.",
-        "",
-        `Want to pick a time now? ${BOOK_URL}`,
         "",
         "The demo is thirty minutes on your own workflow. Bring the WhatsApp",
         "groups and the spreadsheets.",
