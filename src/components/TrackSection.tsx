@@ -44,7 +44,7 @@ export function TrackSection() {
                 Track
               </button>
             </div>
-            <p className="mt-3.5 text-[13px] text-faint">e.g. S-DXB-00001</p>
+            <p className="mt-3.5 text-[13px] text-faint">Works with any Voxarel tracking number.</p>
           </div>
         </Reveal>
       </div>

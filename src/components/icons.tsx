@@ -146,3 +146,32 @@ export const MapPin = (p: SVGProps<SVGSVGElement>) => (
     <circle cx="12" cy="10.5" r="2.3" />
   </Base>
 );
+
+export const Clock = (p: SVGProps<SVGSVGElement>) => (
+  <Base {...p}>
+    <circle cx="12" cy="12" r="8" />
+    <path d="M12 8v4.2l3 1.8" />
+  </Base>
+);
+
+export const AlertTriangle = (p: SVGProps<SVGSVGElement>) => (
+  <Base {...p}>
+    <path d="M12 4l9 15.5H3z" />
+    <path d="M12 10v4" />
+    <path d="M12 17h.01" />
+  </Base>
+);
+
+export const ChevronLeft = (p: SVGProps<SVGSVGElement>) => (
+  <Base {...p}>
+    <path d="M14 6l-6 6 6 6" />
+  </Base>
+);
+
+export const Archive = (p: SVGProps<SVGSVGElement>) => (
+  <Base {...p}>
+    <rect x="4" y="5" width="16" height="4" rx="1" />
+    <path d="M5 9v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9" />
+    <path d="M10 13h4" />
+  </Base>
+);
