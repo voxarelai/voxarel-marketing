@@ -9,6 +9,8 @@ type Result = { ok: boolean; error?: string };
 const resend = new Resend(process.env.RESEND_API_KEY ?? "re_placeholder");
 const FROM = process.env.LEAD_FROM ?? "partners@voxarel.com";
 const NOTIFY = process.env.LEAD_NOTIFY_TO ?? "partners@voxarel.com";
+const WHATSAPP_URL =
+  "https://wa.me/971585898696?text=Hi%20Voxarel%2C%20I%20just%20requested%20a%20demo";
 
 export function summarise(rec: LeadRecord): string {
   return [
@@ -94,19 +96,51 @@ export async function toInternalAlert(rec: LeadRecord): Promise<Result> {
   }
 }
 
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+const SEE_LIST = [
+  "What every agent is holding in cash at 6pm, without a single phone call",
+  "A booking become an invoice, with VAT, and COD settled per driver with the card fee already deducted",
+  "Four branches quoting off one rate card, compared side by side",
+  "A voided invoice with the reason, the approval, and the before and after your auditor asks for",
+  "A tracking page and an invoice your customer opens on their phone, no login",
+];
+
+/** Branded, email-safe HTML receipt. Plain-text version is the fallback. */
+function receiptHtml(rec: LeadRecord): string {
+  const name = escapeHtml(rec.name.split(" ")[0] || rec.name);
+  const bullets = SEE_LIST.map(
+    (b) =>
+      `<tr><td width="24" valign="top" style="padding:6px 0;"><span style="color:#2e8c7a;font-weight:700;">&#10003;</span></td><td style="padding:6px 0;font-size:14.5px;line-height:1.55;color:#5b6b6f;">${b}</td></tr>`
+  ).join("");
+  return `<!doctype html><html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><style>.h{font-family:'Poppins','Segoe UI',Helvetica,Arial,sans-serif}@media (max-width:620px){.card{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}.stat{display:block!important;width:100%!important;padding-bottom:10px!important}}</style></head><body style="margin:0;background:#e8eeec;font-family:Lato,Arial,sans-serif;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#e8eeec;padding:24px 12px;"><tr><td align="center"><table role="presentation" class="card" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background:#ffffff;border-radius:16px;overflow:hidden;"><tr><td class="px" style="background:#0b2c36;padding:24px 40px;"><img src="https://www.voxarel.com/voxarel-logo-white.png" alt="Voxarel" height="24" style="height:24px;width:auto;display:block;border:0;"/></td></tr><tr><td style="height:3px;background:#5fb5a2;line-height:3px;font-size:0;">&nbsp;</td></tr><tr><td class="px" style="padding:36px 40px 0;"><div class="h" style="font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#2e8c7a;">Demo request received</div><h1 class="h" style="margin:12px 0 0;font-size:26px;line-height:1.22;font-weight:700;letter-spacing:-.02em;color:#0b2c36;">Let&rsquo;s get you a look at Voxarel.</h1><p style="margin:16px 0 0;font-size:16px;line-height:1.65;color:#5b6b6f;">Hi ${name}, we&rsquo;ll reply within <strong style="color:#16282e;">one business day</strong>. Want it sooner? Message us on WhatsApp and we&rsquo;ll lock a time today.</p></td></tr><tr><td class="px" style="padding:22px 40px 0;"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="background:#104050;border-radius:12px;"><a href="${WHATSAPP_URL}" style="display:inline-block;padding:15px 30px;font-family:'Poppins',Helvetica,Arial,sans-serif;font-size:15px;font-weight:700;color:#ffffff;text-decoration:none;">Book faster on WhatsApp &rarr;</a></td></tr></table><p style="margin:12px 0 0;font-size:13px;line-height:1.5;color:#93a2a4;">Prefer email? Just reply with a couple of times that work.</p></td></tr><tr><td class="px" style="padding:30px 40px 0;"><p style="margin:0;font-size:15.5px;line-height:1.7;color:#16282e;">Most delivery software stops at the door. That is the easy half. Voxarel runs the hard half: rates, invoices and VAT, <strong>COD settlement</strong>, agent commissions, warehouse stock, and keeping every branch honest with each other. One platform for the booking, the box, the paperwork and the money.</p></td></tr><tr><td class="px" style="padding:26px 40px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f8f7;border:1px solid #e6edeb;border-radius:12px;"><tr><td style="padding:18px 22px;"><div class="h" style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#93a2a4;">Live in production &middot; a courier network moving Gulf to India</div><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px;"><tr><td class="stat" width="33%" valign="top" style="padding-right:8px;"><div class="h" style="font-size:22px;font-weight:700;color:#0b2c36;line-height:1;">12+</div><div style="font-size:12px;color:#5b6b6f;margin-top:4px;">branches live</div></td><td class="stat" width="33%" valign="top" style="padding-right:8px;"><div class="h" style="font-size:22px;font-weight:700;color:#0b2c36;line-height:1;">200+</div><div style="font-size:12px;color:#5b6b6f;margin-top:4px;">field agents</div></td><td class="stat" width="34%" valign="top"><div class="h" style="font-size:22px;font-weight:700;color:#0b2c36;line-height:1;">1 week &rarr; hours</div><div style="font-size:12px;color:#5b6b6f;margin-top:4px;">month-end reconciliation</div></td></tr></table></td></tr></table></td></tr><tr><td class="px" style="padding:28px 40px 0;"><div class="h" style="font-size:13px;font-weight:700;color:#16282e;">What you&rsquo;ll see in 30 minutes, on your own shipments</div><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:10px;">${bullets}</table><p style="margin:16px 0 0;font-size:14.5px;line-height:1.6;color:#5b6b6f;">Bring the WhatsApp groups and the spreadsheets. We run it on <strong style="color:#16282e;">your</strong> workflow and your corridor, not a slide deck.</p></td></tr><tr><td class="px" style="padding:26px 40px 0;"><p style="margin:0;font-size:16px;line-height:1.6;color:#5b6b6f;">Talk soon,<br/><strong style="color:#16282e;">The Voxarel team</strong></p></td></tr><tr><td class="px" style="padding:22px 40px 0;"><div style="height:1px;background:#e6edeb;line-height:1px;font-size:0;">&nbsp;</div></td></tr><tr><td class="px" style="padding:16px 40px 32px;"><p style="margin:0;font-size:12px;line-height:1.6;color:#a9b6b8;">Voxarel &middot; the operating infrastructure of Gulf trade<br/>Operated by Azraq Ventures LLC, Dubai &middot; <a href="https://www.voxarel.com" style="color:#93a2a4;text-decoration:none;">voxarel.com</a></p></td></tr></table></td></tr></table></body></html>`;
+}
+
 export async function toVisitorReceipt(rec: LeadRecord): Promise<Result> {
   try {
     const { error } = await resend.emails.send({
       from: FROM,
       to: rec.email,
-      subject: "Your Voxarel demo request",
+      subject: "Let's get you a look at Voxarel",
+      html: receiptHtml(rec),
       text: [
-        `Hello ${rec.name},`,
+        `Hi ${rec.name},`,
         "",
         "We have your demo request. Someone will reply within one business day.",
+        "Want it sooner? Message us on WhatsApp: https://wa.me/971585898696",
         "",
-        "The demo is thirty minutes on your own workflow. Bring the WhatsApp",
-        "groups and the spreadsheets.",
+        "In 30 minutes, on your own shipments, we will show you the parts most",
+        "delivery software skips: your agents' cash position, COD settled per",
+        "driver, invoices with VAT, four branches on one rate card, and a void",
+        "an auditor can follow.",
+        "",
+        "Bring the WhatsApp groups and the spreadsheets. Not a slide deck.",
         "",
         "Voxarel",
         "partners@voxarel.com",
