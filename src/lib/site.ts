@@ -1,3 +1,10 @@
+/** The canonical origin. Use www; the bare apex host 307s to this. */
+export const SITE_URL = "https://www.voxarel.com";
+
+/** Confirm the slug on the live LinkedIn page before merge. If the page does
+ *  not exist, delete this and drop sameAs rather than emitting a 404 URL. */
+export const LINKEDIN_URL = "https://www.linkedin.com/company/voxarel";
+
 export const CONSOLE_URL = "https://console.voxarel.com";
 export const SIGN_IN_URL = CONSOLE_URL;
 
@@ -12,5 +19,4 @@ export const DEMO_MAILTO = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent
   "Voxarel demo request"
 )}`;
 
-export const LEGAL_LINE =
-  "Operated by Azraq Ventures LLC · Shams, Sharjah Media City · Licence No. 2433833.01";
+export const LEGAL_LINE = "Operated by Azraq Ventures LLC, Dubai";

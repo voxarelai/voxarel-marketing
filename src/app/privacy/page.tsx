@@ -3,6 +3,7 @@ import { LegalPage, type LegalSection } from "@/components/LegalLayout";
 import { CONTACT_EMAIL } from "@/lib/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/privacy" },
   title: "Privacy policy — Voxarel",
   description: "How Voxarel handles your data — in plain words.",
 };
@@ -12,8 +13,8 @@ const sections: LegalSection[] = [
     title: "Who we are",
     paragraphs: [
       <>
-        Voxarel is operated by Azraq Ventures LLC, registered at Shams, Sharjah Media City,
-        United Arab Emirates (Licence No. 2433833.01). For anything in this policy, write to{" "}
+        Voxarel is operated by Azraq Ventures LLC, based in Dubai, United Arab Emirates. For
+        anything in this policy, write to{" "}
         <a href={`mailto:${CONTACT_EMAIL}`} className="font-bold text-mint-deep hover:underline">
           {CONTACT_EMAIL}
         </a>

@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { DemoExperience } from "@/components/demo/DemoExperience";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/demo" },
   title: "Book a demo — Voxarel",
   description:
     "Thirty minutes, on your own workflow. See your logistics operation — shipping, warehouse, finance, field — running as one system.",
