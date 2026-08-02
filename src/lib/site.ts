@@ -1,7 +1,7 @@
 export const CONSOLE_URL = "https://console.voxarel.com";
 export const SIGN_IN_URL = CONSOLE_URL;
 
-/** The site's own tracking page (see src/app/track + docs/TRACKING_PLAN.md). */
+/** The site's own tracking page (see src/app/track + docs/SHIPMENT_TRACKING_PLAN.md). */
 export const TRACK_URL = "/track";
 
 /** The site's own demo-request page. */

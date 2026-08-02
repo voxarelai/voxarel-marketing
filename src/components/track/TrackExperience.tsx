@@ -22,6 +22,7 @@ import {
   Archive,
   Clock,
 } from "@/components/icons";
+import { track } from "@/lib/analytics";
 
 type View = "idle" | "loading" | "notfound" | "error" | "found";
 type DetailsState =
@@ -59,6 +60,7 @@ export function TrackExperience() {
   const search = async (raw: string) => {
     const awb = raw.trim().toUpperCase();
     if (!awb) return;
+    track("track_search_submit", { source: "track_page" });
     if (!isValidAwb(awb)) {
       setView("error");
       setErrorMsg("That doesn't look like a tracking number. Check and try again.");

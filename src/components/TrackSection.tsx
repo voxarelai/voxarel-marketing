@@ -3,13 +3,16 @@
 import { useState } from "react";
 import { Search } from "@/components/icons";
 import { Reveal } from "@/components/Reveal";
+import { track as trackEvent } from "@/lib/analytics";
 
 export function TrackSection() {
   const [awb, setAwb] = useState("");
 
   const track = () => {
     const v = awb.trim().toUpperCase();
-    if (v) window.location.href = `/track?awb=${encodeURIComponent(v)}`;
+    if (!v) return;
+    trackEvent("track_search_submit", { source: "home" });
+    window.location.href = `/track?awb=${encodeURIComponent(v)}`;
   };
 
   return (

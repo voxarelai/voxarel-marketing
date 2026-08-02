@@ -1,22 +1,27 @@
+"use client";
+
 import Image from "next/image";
 import { CONTACT_EMAIL, DEMO_URL, LEGAL_LINE, SIGN_IN_URL, TRACK_URL } from "@/lib/site";
+import { track, type VoxarelEvent } from "@/lib/analytics";
 
-const columns = [
+type FooterLink = { label: string; href: string; ev?: VoxarelEvent };
+
+const columns: { title: string; links: FooterLink[] }[] = [
   {
     title: "Product",
     links: [
       { label: "Platform", href: "/#platform" },
       { label: "Roles", href: "/#roles" },
       { label: "Pulse", href: "/#pulse" },
-      { label: "Track a shipment", href: TRACK_URL },
+      { label: "Track a shipment", href: TRACK_URL, ev: "cta_track_click" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "Book a demo", href: DEMO_URL },
-      { label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
-      { label: "Sign in", href: SIGN_IN_URL },
+      { label: "Book a demo", href: DEMO_URL, ev: "cta_demo_click" },
+      { label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, ev: "contact_email_click" },
+      { label: "Sign in", href: SIGN_IN_URL, ev: "cta_signin_click" },
     ],
   },
 ];
@@ -49,6 +54,7 @@ export function Footer() {
                     <li key={l.label}>
                       <a
                         href={l.href}
+                        onClick={() => l.ev && track(l.ev, { placement: "footer" })}
                         className="text-[14.5px] font-bold text-muted transition-colors hover:text-petrol"
                       >
                         {l.label}

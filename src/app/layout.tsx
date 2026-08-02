@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "@/components/auth/AuthModals";
+import { PageView } from "@/components/analytics/PageView";
 
 const poppins = localFont({
   src: [
@@ -54,6 +55,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable} ${lato.variable}`}>
       <body className="antialiased">
+        <PageView />
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Menu, Close } from "@/components/icons";
 import { SIGN_IN_URL } from "@/lib/site";
 import { useAuthModals } from "@/components/auth/AuthModals";
+import { track } from "@/lib/analytics";
 
 const links = [
   { label: "Platform", href: "/#platform" },
@@ -51,6 +52,7 @@ export function Navigation() {
             <a
               key={l.href}
               href={l.href}
+              onClick={() => l.href === "/track" && track("cta_track_click", { placement: "nav" })}
               className="font-sans text-[15px] font-bold text-muted transition-colors hover:text-petrol"
             >
               {l.label}
@@ -61,6 +63,7 @@ export function Navigation() {
         <div className="hidden items-center gap-3 md:flex">
           <a
             href={SIGN_IN_URL}
+            onClick={() => track("cta_signin_click", { placement: "nav" })}
             className="rounded-lg px-4 py-2 text-[15px] font-bold text-petrol transition-colors hover:bg-tint"
           >
             Sign in
@@ -88,7 +91,10 @@ export function Navigation() {
             <a
               key={l.href}
               href={l.href}
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                setOpen(false);
+                if (l.href === "/track") track("cta_track_click", { placement: "nav_mobile" });
+              }}
               className="block border-b border-hair py-3.5 text-[15px] font-bold text-ink"
             >
               {l.label}
@@ -97,6 +103,7 @@ export function Navigation() {
           <div className="mt-5 flex flex-col gap-3">
             <a
               href={SIGN_IN_URL}
+              onClick={() => track("cta_signin_click", { placement: "nav_mobile" })}
               className="rounded-lg border border-hair px-4 py-3 text-center text-[15px] font-bold text-petrol"
             >
               Sign in
