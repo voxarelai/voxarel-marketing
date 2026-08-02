@@ -90,7 +90,6 @@ export function TrackExperience() {
       setQuery(awb.toUpperCase());
       search(awb);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const openUnlock = () => {
