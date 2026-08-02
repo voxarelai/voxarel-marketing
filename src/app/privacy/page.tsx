@@ -44,8 +44,8 @@ const sections: LegalSection[] = [
       </>,
       <>
         <b className="text-ink">Technical basics</b> — standard server logs (IP address, browser
-        type, pages requested) kept for security. The site uses no advertising trackers. If we
-        add product analytics later, we will update this policy first.
+        type, pages requested) kept for security. We use PostHog for privacy-first product
+        analytics, listed with the other processors below. No advertising trackers.
       </>,
     ],
   },
@@ -70,6 +70,23 @@ const sections: LegalSection[] = [
       "The carrier that owns the booking (for tracking claims and shipment questions).",
       "Service providers that help us run the site — hosting and email delivery — under agreements that limit what they may do with it.",
       "Authorities, where the law requires it.",
+    ],
+  },
+  {
+    title: "Who processes data for us, and where",
+    paragraphs: [
+      "These are the third parties that handle site data on our behalf. We add a row here whenever a new one goes live.",
+    ],
+    bullets: [
+      <>
+        <b className="text-ink">PostHog</b> (product analytics): hosted in the EU
+        (eu.i.posthog.com). Configured to mask all typed text and page attributes, with no
+        session recording.
+      </>,
+      <>
+        <b className="text-ink">Vercel</b> (website hosting and logs): served from its edge
+        network, with functions running in the region set in our project settings.
+      </>,
     ],
   },
   {

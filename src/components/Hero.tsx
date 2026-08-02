@@ -1,7 +1,10 @@
+"use client";
+
 import { ArrowRight, Check } from "@/components/icons";
 import { ProductMock } from "@/components/ProductMock";
 import { Reveal } from "@/components/Reveal";
 import { DEMO_URL, TRACK_URL } from "@/lib/site";
+import { track } from "@/lib/analytics";
 
 export function Hero() {
   return (
@@ -49,6 +52,7 @@ export function Hero() {
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href={DEMO_URL}
+                onClick={() => track("cta_demo_click", { placement: "hero" })}
                 className="group inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-petrol px-8 text-[16px] font-bold text-white shadow-[0_8px_24px_-8px_rgba(16,64,80,0.5)] transition-all hover:bg-petrol-deep"
               >
                 Book a demo
@@ -56,6 +60,7 @@ export function Hero() {
               </a>
               <a
                 href={TRACK_URL}
+                onClick={() => track("cta_track_click", { placement: "hero" })}
                 className="inline-flex h-[52px] items-center justify-center rounded-xl border border-hair bg-white px-8 text-[16px] font-bold text-petrol transition-colors hover:bg-tint"
               >
                 Track a shipment

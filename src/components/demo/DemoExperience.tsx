@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowRight, Check, Mail } from "@/components/icons";
 import { CONTACT_EMAIL } from "@/lib/site";
+import { track } from "@/lib/analytics";
 
 /**
  * DESIGN NOTE — delivery mechanism
@@ -37,8 +38,13 @@ export function DemoExperience() {
   const [f, setF] = useState<Fields>(EMPTY);
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({});
   const [sent, setSent] = useState(false);
+  const startedRef = useRef(false);
 
   const set = (k: keyof Fields) => (v: string) => {
+    if (!startedRef.current) {
+      startedRef.current = true;
+      track("demo_form_start", { placement: "demo_page" });
+    }
     setF((prev) => ({ ...prev, [k]: v }));
     setErrors((prev) => ({ ...prev, [k]: undefined }));
   };
@@ -50,11 +56,18 @@ export function DemoExperience() {
       e.email = "That email doesn't look right.";
     if (!f.company.trim()) e.company = "Please add your company.";
     setErrors(e);
-    return Object.keys(e).length === 0;
+    const keys = Object.keys(e) as (keyof Fields)[];
+    keys.forEach((field) => track("demo_form_error", { field, reason: e[field] }));
+    return keys.length === 0;
   };
 
   const deliver = () => {
     if (!validate()) return;
+    track("demo_form_submit", {
+      branches: f.branches,
+      has_phone: Boolean(f.phone.trim()),
+      has_message: Boolean(f.message.trim()),
+    });
     const subject = `Demo request — ${f.company.trim()}`;
     const body = [
       `Name: ${f.name.trim()}`,
@@ -120,6 +133,7 @@ export function DemoExperience() {
               </p>
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
+                onClick={() => track("contact_email_click", { placement: "demo_page" })}
                 className="mt-3 inline-flex items-center gap-2 text-[14.5px] font-bold text-mint-deep hover:underline"
               >
                 <Mail className="h-4 w-4" />
@@ -144,7 +158,11 @@ export function DemoExperience() {
                 </p>
                 <p className="mx-auto mt-4 max-w-sm text-[13px] leading-relaxed text-faint">
                   Nothing opened? Write to us directly at{" "}
-                  <a href={`mailto:${CONTACT_EMAIL}`} className="font-bold text-mint-deep">
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    onClick={() => track("contact_email_click", { placement: "demo_page" })}
+                    className="font-bold text-mint-deep"
+                  >
                     {CONTACT_EMAIL}
                   </a>
                   .

@@ -1,7 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import { ArrowRight } from "@/components/icons";
 import { Reveal } from "@/components/Reveal";
 import { CONTACT_EMAIL, DEMO_URL } from "@/lib/site";
+import { track } from "@/lib/analytics";
 
 export function CtaBand() {
   return (
@@ -39,6 +42,7 @@ export function CtaBand() {
           <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={DEMO_URL}
+              onClick={() => track("cta_demo_click", { placement: "cta_band" })}
               className="group inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-white px-8 text-[16px] font-bold text-petrol transition-colors hover:bg-tint"
             >
               Book a demo
@@ -46,6 +50,7 @@ export function CtaBand() {
             </a>
             <a
               href={`mailto:${CONTACT_EMAIL}`}
+              onClick={() => track("contact_email_click", { placement: "cta_band" })}
               className="text-[15px] font-bold text-mint-bright underline-offset-4 hover:underline"
             >
               or write to {CONTACT_EMAIL}
