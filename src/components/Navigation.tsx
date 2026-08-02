@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, Close } from "@/components/icons";
-import { DEMO_URL, SIGN_IN_URL } from "@/lib/site";
+import { SIGN_IN_URL } from "@/lib/site";
+import { useAuthModals } from "@/components/auth/AuthModals";
 
 const links = [
   { label: "Platform", href: "/#platform" },
@@ -16,6 +17,7 @@ const links = [
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { openSignUp } = useAuthModals();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -63,12 +65,12 @@ export function Navigation() {
           >
             Sign in
           </a>
-          <a
-            href={DEMO_URL}
+          <button
+            onClick={() => openSignUp()}
             className="rounded-lg bg-petrol px-5 py-2.5 text-[15px] font-bold text-white shadow-sm transition-colors hover:bg-petrol-deep"
           >
-            Book a demo
-          </a>
+            Sign up
+          </button>
         </div>
 
         <button
@@ -99,12 +101,15 @@ export function Navigation() {
             >
               Sign in
             </a>
-            <a
-              href={DEMO_URL}
+            <button
+              onClick={() => {
+                setOpen(false);
+                openSignUp();
+              }}
               className="rounded-lg bg-petrol px-4 py-3 text-center text-[15px] font-bold text-white"
             >
-              Book a demo
-            </a>
+              Sign up
+            </button>
           </div>
         </div>
       )}

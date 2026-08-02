@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
-/* archive/ holds the retired v1 site — keep Tailwind from scanning it */
+/* archive/ (retired v1 site) and mockups/ (design prototypes) — keep Tailwind out */
 @source not "../../archive";
+@source not "../../mockups";
 
 @theme {
   /* ---- Voxarel brand (mirrors Voxarel_Brand/00-Guidelines/design-tokens.md) ---- */
@@ -36,6 +37,13 @@ body {
 
 ::selection {
   background: #86d8c466;
+}
+
+/* Refined two-layer card shadow (contact + ambient) */
+.card {
+  box-shadow:
+    0 1px 2px rgba(16, 64, 80, 0.05),
+    0 12px 32px -20px rgba(16, 64, 80, 0.18);
 }
 
 /* Reveal-on-scroll (applied via JS, degrades gracefully) */
