@@ -10,9 +10,17 @@ import type { LeadRecord, TargetName, TargetResult } from "./schema";
  * Upstash database is provisioned. Calls fail until the env vars are real, and
  * the route turns that into a 503 + mailto fallback instead of a lost lead.
  */
+// The Vercel Upstash Marketplace integration injects these under KV_* names.
+// Accept both so the store works whichever way the database was connected.
 export const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL ?? "https://disabled.upstash.io",
-  token: process.env.UPSTASH_REDIS_REST_TOKEN ?? "disabled",
+  url:
+    process.env.UPSTASH_REDIS_REST_URL ??
+    process.env.KV_REST_API_URL ??
+    "https://disabled.upstash.io",
+  token:
+    process.env.UPSTASH_REDIS_REST_TOKEN ??
+    process.env.KV_REST_API_TOKEN ??
+    "disabled",
 });
 
 export const limiter = new Ratelimit({
