@@ -1,27 +1,21 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { type FormEvent, useRef, useState } from "react";
 import { ArrowRight, Check, Mail } from "@/components/icons";
 import { CONTACT_EMAIL } from "@/lib/site";
-import { track } from "@/lib/analytics";
+import { track, identifyLead } from "@/lib/analytics";
+import { readAttribution } from "@/lib/attribution";
+import { getLeadId } from "@/lib/lead-id";
+import { BRANCH_OPTIONS } from "@/lib/leads/branch-options";
 
-/**
- * DESIGN NOTE — delivery mechanism
- * --------------------------------
- * Until the console exposes a public leads endpoint, submitting composes a
- * prefilled email to partners@voxarel.com (the visitor's mail app opens; they
- * hit send). When the API exists, swap `deliver()` for:
- *   POST {CONSOLE_URL}/api/v1/public/leads  { source: "website-demo", ...fields }
- * and change the success copy to "Request received". Nothing else changes.
- */
+/** The tour ticket turns this into a prop so the tour-end form sends "tour_end". */
+const PLACEMENT = "demo_page" as const;
 
 const EXPECT = [
   "We walk your actual flow — collection to delivery to reconciliation, on your services and corridors",
   "Your questions answered by the people who built it, not a sales script",
   "A clear answer by the end — if Voxarel isn't the right fit, we'll tell you",
 ];
-
-const BRANCH_OPTIONS = ["Just one", "2–5", "6–15", "More than 15"];
 
 type Fields = {
   name: string;
@@ -38,12 +32,17 @@ export function DemoExperience() {
   const [f, setF] = useState<Fields>(EMPTY);
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({});
   const [sent, setSent] = useState(false);
-  const startedRef = useRef(false);
+  const [pending, setPending] = useState(false);
+  const [fallback, setFallback] = useState(false);
+  const [hp, setHp] = useState(""); // honeypot
+  const startedAt = useRef<number>(Date.now());
+  const touched = useRef(false);
 
-  const set = (k: keyof Fields) => (v: string) => {
-    if (!startedRef.current) {
-      startedRef.current = true;
-      track("demo_form_start", { placement: "demo_page" });
+  const onFieldChange = (k: keyof Fields) => (v: string) => {
+    if (!touched.current) {
+      touched.current = true;
+      startedAt.current = Date.now();
+      track("demo_form_start", { placement: PLACEMENT });
     }
     setF((prev) => ({ ...prev, [k]: v }));
     setErrors((prev) => ({ ...prev, [k]: undefined }));
@@ -56,19 +55,14 @@ export function DemoExperience() {
       e.email = "That email doesn't look right.";
     if (!f.company.trim()) e.company = "Please add your company.";
     setErrors(e);
-    const keys = Object.keys(e) as (keyof Fields)[];
-    keys.forEach((field) => track("demo_form_error", { field, reason: e[field] }));
-    return keys.length === 0;
+    for (const [field, reason] of Object.entries(e)) {
+      track("demo_form_error", { field, reason });
+    }
+    return Object.keys(e).length === 0;
   };
 
-  const deliver = () => {
-    if (!validate()) return;
-    track("demo_form_submit", {
-      branches: f.branches,
-      has_phone: Boolean(f.phone.trim()),
-      has_message: Boolean(f.message.trim()),
-    });
-    const subject = `Demo request — ${f.company.trim()}`;
+  const mailtoFallback = () => {
+    const subject = `Demo request: ${f.company.trim()}`;
     const body = [
       `Name: ${f.name.trim()}`,
       `Company: ${f.company.trim()}`,
@@ -82,7 +76,59 @@ export function DemoExperience() {
     window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
       subject
     )}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+  };
+
+  const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+    if (pending) return; // double-submit guard
+    if (!validate()) return;
+
+    setPending(true);
+    const leadId = getLeadId();
+
+    track("demo_form_submit", {
+      branches: f.branches || "not_given",
+      has_phone: Boolean(f.phone.trim()),
+      has_message: Boolean(f.message.trim()),
+    });
+
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          lead_id: leadId,
+          name: f.name.trim(),
+          email: f.email.trim(),
+          company: f.company.trim(),
+          phone: f.phone.trim(),
+          branches: f.branches,
+          message: f.message.trim(),
+          placement: PLACEMENT,
+          company_website: hp,
+          started_at: startedAt.current,
+          attr: readAttribution(),
+        }),
+      });
+      if (!res.ok) throw new Error(`status_${res.status}`);
+
+      identifyLead(leadId, {
+        email: f.email.trim(),
+        company: f.company.trim(),
+        branches: f.branches,
+      });
+      setSent(true);
+    } catch (err) {
+      // Last resort only. Our own route was unreachable.
+      track("lead_fallback_mailto", {
+        reason: err instanceof Error ? err.message : "unknown",
+      });
+      mailtoFallback();
+      setFallback(true);
+      setSent(true);
+    } finally {
+      setPending(false);
+    }
   };
 
   return (
@@ -150,14 +196,16 @@ export function DemoExperience() {
                   <Check className="h-5.5 w-5.5 text-mint-deep" strokeWidth={2.6} />
                 </span>
                 <div className="font-display mt-4 text-[18px] font-bold text-ink">
-                  Almost there — hit send
+                  {fallback ? "Almost there — hit send" : "Request received"}
                 </div>
                 <p className="mx-auto mt-2 max-w-sm text-[14.5px] leading-relaxed text-muted">
-                  Your email app just opened with everything filled in — send it and we&apos;ll
-                  come back within one business day.
+                  {fallback
+                    ? "Your email app just opened with everything filled in — send it and we'll come back within one business day."
+                    : "We have your details. Someone will reply within one business day, and you will get a confirmation email in the next few minutes."}
                 </p>
                 <p className="mx-auto mt-4 max-w-sm text-[13px] leading-relaxed text-faint">
-                  Nothing opened? Write to us directly at{" "}
+                  {fallback ? "Nothing opened? " : "Nothing arrived? "}
+                  Write to us directly at{" "}
                   <a
                     href={`mailto:${CONTACT_EMAIL}`}
                     onClick={() => track("contact_email_click", { placement: "demo_page" })}
@@ -169,84 +217,131 @@ export function DemoExperience() {
                 </p>
               </div>
             ) : (
-              <div className="rounded-2xl border border-hair bg-white p-6 shadow-[0_24px_64px_-24px_rgba(16,64,80,0.3)] sm:p-8">
+              <form
+                onSubmit={onSubmit}
+                noValidate
+                className="relative rounded-2xl border border-hair bg-white p-6 shadow-[0_24px_64px_-24px_rgba(16,64,80,0.3)] sm:p-8"
+              >
                 <div className="space-y-4">
                   <Field
+                    id="lead-name"
+                    name="name"
                     label="Full name"
                     required
+                    autoComplete="name"
                     value={f.name}
-                    onChange={set("name")}
+                    onChange={onFieldChange("name")}
                     placeholder="Your name"
                     error={errors.name}
                   />
                   <Field
+                    id="lead-email"
+                    name="email"
                     label="Work email"
                     required
                     type="email"
+                    autoComplete="email"
+                    inputMode="email"
                     value={f.email}
-                    onChange={set("email")}
+                    onChange={onFieldChange("email")}
                     placeholder="you@company.com"
                     error={errors.email}
                   />
                   <Field
+                    id="lead-company"
+                    name="company"
                     label="Company"
                     required
+                    autoComplete="organization"
                     value={f.company}
-                    onChange={set("company")}
+                    onChange={onFieldChange("company")}
                     placeholder="Company name"
                     error={errors.company}
                   />
                   <Field
+                    id="lead-phone"
+                    name="phone"
                     label="Phone / WhatsApp"
+                    type="tel"
+                    autoComplete="tel"
+                    inputMode="tel"
                     value={f.phone}
-                    onChange={set("phone")}
-                    placeholder="+971 …"
-                    hint="Optional — WhatsApp works great for scheduling"
+                    onChange={onFieldChange("phone")}
+                    placeholder="+971 ..."
+                    hint="Optional. WhatsApp works well for scheduling."
                   />
 
-                  <div>
-                    <FieldLabel label="How many branches?" />
+                  <fieldset className="border-0 p-0">
+                    <legend className="text-[13px] font-bold uppercase tracking-wide text-muted">
+                      How many branches?
+                    </legend>
                     <div className="mt-1.5 grid grid-cols-2 gap-2">
                       {BRANCH_OPTIONS.map((b) => (
-                        <button
+                        <label
                           key={b}
-                          type="button"
-                          onClick={() => set("branches")(f.branches === b ? "" : b)}
-                          className={`h-[42px] rounded-xl border text-[14px] font-bold transition-colors ${
+                          className={`flex h-[42px] cursor-pointer items-center justify-center rounded-xl border text-[14px] font-bold transition-colors has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-mint/15 ${
                             f.branches === b
                               ? "border-petrol bg-petrol text-white"
                               : "border-hair bg-white text-muted hover:text-petrol"
                           }`}
                         >
+                          <input
+                            type="radio"
+                            name="branches"
+                            value={b}
+                            checked={f.branches === b}
+                            onChange={() => onFieldChange("branches")(b)}
+                            className="sr-only"
+                          />
                           {b}
-                        </button>
+                        </label>
                       ))}
                     </div>
-                  </div>
+                  </fieldset>
 
                   <div>
-                    <FieldLabel label="Anything specific you want to see?" />
+                    <FieldLabel htmlFor="lead-message" label="Anything specific you want to see?" />
                     <textarea
+                      id="lead-message"
+                      name="message"
                       rows={3}
                       value={f.message}
-                      onChange={(e) => set("message")(e.target.value)}
-                      placeholder="e.g. corridor pricing, warehouse scanning, driver app…"
+                      onChange={(e) => onFieldChange("message")(e.target.value)}
+                      placeholder="e.g. corridor pricing, warehouse scanning, driver app"
                       className="mt-1.5 w-full rounded-xl border border-hair bg-white px-4 py-3 text-[15px] leading-relaxed text-ink placeholder:text-faint focus:border-mint focus:outline-none focus:ring-4 focus:ring-mint/15"
                     />
                   </div>
                 </div>
 
+                {/* Honeypot. Hidden from people, visible to bots. */}
+                <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+                  <label htmlFor="company_website">Company website</label>
+                  <input
+                    id="company_website"
+                    name="company_website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={hp}
+                    onChange={(e) => setHp(e.target.value)}
+                  />
+                </div>
+
                 <button
-                  onClick={deliver}
-                  className="group mt-5 inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-petrol text-[16px] font-bold text-white shadow-[0_8px_24px_-8px_rgba(16,64,80,0.5)] transition-colors hover:bg-petrol-deep"
+                  type="submit"
+                  disabled={pending}
+                  aria-busy={pending}
+                  className="group mt-5 inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-petrol text-[16px] font-bold text-white shadow-[0_8px_24px_-8px_rgba(16,64,80,0.5)] transition-colors hover:bg-petrol-deep disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  Request a demo
-                  <ArrowRight className="h-4.5 w-4.5 transition-transform group-hover:translate-x-0.5" />
+                  {pending ? "Sending your request" : "Request a demo"}
+                  {!pending && (
+                    <ArrowRight className="h-4.5 w-4.5 transition-transform group-hover:translate-x-0.5" />
+                  )}
                 </button>
                 <p className="mt-3 text-center text-[12.5px] text-faint">
                   We only use this to arrange your demo. No mailing lists.
                 </p>
-              </div>
+              </form>
             )}
           </div>
         </div>
@@ -255,33 +350,64 @@ export function DemoExperience() {
   );
 }
 
-function FieldLabel({ label, required }: { label: string; required?: boolean }) {
+function FieldLabel({
+  htmlFor,
+  label,
+  required,
+}: {
+  htmlFor: string;
+  label: string;
+  required?: boolean;
+}) {
   return (
-    <label className="text-[13px] font-bold uppercase tracking-wide text-muted">
+    <label
+      htmlFor={htmlFor}
+      className="block text-[13px] font-bold uppercase tracking-wide text-muted"
+    >
       {label}
-      {required && <span className="text-mint-deep"> *</span>}
+      {required && (
+        <span className="text-mint-deep" aria-hidden="true">
+          {" *"}
+        </span>
+      )}
+      {required && <span className="sr-only"> (required)</span>}
     </label>
   );
 }
 
 function Field(props: {
+  id: string;
+  name: string;
   label: string;
   value: string;
   onChange: (v: string) => void;
   placeholder: string;
   type?: string;
+  autoComplete?: string;
+  inputMode?: "text" | "email" | "tel";
   required?: boolean;
   hint?: string;
   error?: string;
 }) {
+  const errorId = `${props.id}-error`;
+  const hintId = `${props.id}-hint`;
+  const describedBy = props.error ? errorId : props.hint ? hintId : undefined;
+
   return (
     <div>
-      <FieldLabel label={props.label} required={props.required} />
+      <FieldLabel htmlFor={props.id} label={props.label} required={props.required} />
       <input
+        id={props.id}
+        name={props.name}
         type={props.type ?? "text"}
         value={props.value}
         onChange={(e) => props.onChange(e.target.value)}
         placeholder={props.placeholder}
+        autoComplete={props.autoComplete}
+        inputMode={props.inputMode}
+        required={props.required}
+        aria-invalid={props.error ? true : undefined}
+        aria-describedby={describedBy}
         className={`mt-1.5 h-[48px] w-full rounded-xl border bg-white px-4 text-[15px] text-ink placeholder:text-faint focus:outline-none focus:ring-4 ${
           props.error
             ? "border-red-300 focus:border-red-400 focus:ring-red-100"
@@ -289,9 +415,13 @@ function Field(props: {
         }`}
       />
       {props.error ? (
-        <p className="mt-1.5 text-[13px] font-bold text-red-500">{props.error}</p>
+        <p id={errorId} role="alert" className="mt-1.5 text-[13px] font-bold text-red-500">
+          {props.error}
+        </p>
       ) : props.hint ? (
-        <p className="mt-1.5 text-[12.5px] text-faint">{props.hint}</p>
+        <p id={hintId} className="mt-1.5 text-[12.5px] text-faint">
+          {props.hint}
+        </p>
       ) : null}
     </div>
   );
