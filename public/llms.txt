@@ -1,0 +1,66 @@
+# Voxarel
+# https://www.voxarel.com/llms.txt
+# Specification: https://llmstxt.org
+
+> Voxarel is logistics operations software for cargo and courier companies. It gives a
+> forwarder one system to run bookings and shipping quotes, warehouse stock, finance
+> (invoicing, VAT, COD settlement), inventory across branches, mobile field operations, and
+> Pulse, a built-in AI assistant that answers questions about shipments, stock and approvals
+> in plain language. Voxarel is built for the Gulf-to-India corridor: cargo and courier
+> businesses moving freight between the GCC (UAE, Saudi Arabia, Oman, Qatar, Kuwait, Bahrain)
+> and India. It is operated by Azraq Ventures LLC, based in Dubai, United Arab Emirates, and is
+> used in production by an international courier network running 12+ branches and 200+ field
+> agents between the Gulf and India.
+
+## What Voxarel is for
+
+Voxarel replaces the patchwork of WhatsApp groups, spreadsheets and disconnected apps that
+cargo and courier companies use to run day-to-day operations. Everything, whether a booking, a
+warehouse scan, an invoice, or a driver's cash settlement, lives in one system, so every role
+sees the same up-to-date picture.
+
+## Who uses Voxarel
+
+Cargo companies, courier companies, cargo consolidators and freight forwarders operating on the
+Gulf-to-India corridor. Inside those businesses, Voxarel serves the CEO or owner, operations and
+branch managers, warehouse managers, finance managers, field agents and drivers. Each gets a
+view tailored to their job.
+
+## Platform modules
+
+1. Shipping: quotes, bookings, corridor rates, invoices and proof of delivery. Every shipment
+   tracked from first call to final signature.
+2. Warehouse: barcode scan in and out, bin locations, expiry flags and variance checks.
+3. Finance: invoice to payment to reconciliation. Month-end closes in hours; records are
+   audit-ready on demand.
+4. Inventory: live stock levels across every branch, showing what is in, what is moving, and
+   what needs attention.
+5. Field operations: collections, routes and cash settlement from a phone, for agents and
+   drivers.
+6. Pulse AI: a built-in assistant. Ask about shipments, stock or approvals in plain language;
+   answers come from live operational data.
+
+## Key pages
+
+- [Home](https://www.voxarel.com/): Overview of the platform and who it is for.
+- [Book a demo](https://www.voxarel.com/demo): Request a 30-minute walkthrough on your own workflow.
+- [Track a shipment](https://www.voxarel.com/track): Public shipment tracking by number, with verification for full details.
+
+## Company
+
+- Legal entity: Azraq Ventures LLC
+- Location: Dubai, United Arab Emirates
+- Markets served: GCC (UAE, Saudi Arabia, Oman, Qatar, Kuwait, Bahrain) and India
+- Contact: partners@voxarel.com
+- LinkedIn: https://www.linkedin.com/company/voxarel
+
+## Legal
+
+- [Privacy policy](https://www.voxarel.com/privacy)
+- [Terms of use](https://www.voxarel.com/terms)
+
+## Crawler policy
+
+All pages of www.voxarel.com may be crawled and cited by AI search engines; see
+https://www.voxarel.com/robots.txt for the authoritative machine-readable policy. Content may
+be cited with attribution to Voxarel.

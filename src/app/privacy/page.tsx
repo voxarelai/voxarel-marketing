@@ -6,6 +6,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/privacy" },
   title: "Privacy policy | Voxarel",
   description: "How Voxarel handles your data, in plain words.",
+  openGraph: {
+    title: "Privacy policy | Voxarel",
+    description: "How Voxarel handles your data, in plain words.",
+    type: "website",
+    url: "/privacy",
+    siteName: "Voxarel",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Voxarel" }],
+  },
 };
 
 const sections: LegalSection[] = [

@@ -6,6 +6,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/terms" },
   title: "Terms of use | Voxarel",
   description: "The terms for using voxarel.com, in plain words.",
+  openGraph: {
+    title: "Terms of use | Voxarel",
+    description: "The terms for using voxarel.com, in plain words.",
+    type: "website",
+    url: "/terms",
+    siteName: "Voxarel",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Voxarel" }],
+  },
 };
 
 const sections: LegalSection[] = [

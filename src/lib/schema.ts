@@ -2,6 +2,19 @@ import { CONTACT_EMAIL, LINKEDIN_URL, SITE_URL } from "@/lib/site";
 
 export const ORG_ID = `${SITE_URL}/#organization`;
 export const APP_ID = `${SITE_URL}/#software`;
+export const SITE_ID = `${SITE_URL}/#website`;
+
+// The Gulf-to-India corridor Voxarel serves today: the GCC on the Middle East side
+// and India on the South Asia side. Widen this as new markets go live.
+const CORRIDOR_AREA_SERVED = [
+  { "@type": "Country", name: "United Arab Emirates" },
+  { "@type": "Country", name: "Saudi Arabia" },
+  { "@type": "Country", name: "Oman" },
+  { "@type": "Country", name: "Qatar" },
+  { "@type": "Country", name: "Kuwait" },
+  { "@type": "Country", name: "Bahrain" },
+  { "@type": "Country", name: "India" },
+];
 
 export const organizationSchema = {
   "@context": "https://schema.org",
@@ -20,13 +33,28 @@ export const organizationSchema = {
     height: 77,
   },
   email: CONTACT_EMAIL,
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: CONTACT_EMAIL,
+    contactType: "sales",
+    availableLanguage: ["English"],
+  },
   address: {
     "@type": "PostalAddress",
     addressLocality: "Dubai",
     addressCountry: "AE",
   },
-  areaServed: [{ "@type": "Country", name: "United Arab Emirates" }],
+  areaServed: CORRIDOR_AREA_SERVED,
   sameAs: [LINKEDIN_URL],
+};
+
+export const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": SITE_ID,
+  name: "Voxarel",
+  url: SITE_URL,
+  publisher: { "@id": ORG_ID },
 };
 
 export const softwareApplicationSchema = {
@@ -40,7 +68,7 @@ export const softwareApplicationSchema = {
   operatingSystem: "Web",
   provider: { "@id": ORG_ID },
   description:
-    "One platform for logistics operations. Bookings, warehouse stock, invoicing, VAT, COD settlement and agent commissions across every branch.",
+    "Logistics operations software for cargo and courier companies on the Gulf-to-India corridor. Bookings, warehouse stock, invoicing, VAT, COD settlement and agent commissions across every branch.",
   featureList: [
     "Shipping: quotes, bookings, corridor rates, invoices and proof of delivery",
     "Warehouse: barcode scan in and out, bin locations, expiry flags, variance checks",
@@ -51,7 +79,15 @@ export const softwareApplicationSchema = {
   ],
   audience: {
     "@type": "BusinessAudience",
-    audienceType: "Courier companies, cargo consolidators and freight forwarders",
+    audienceType: "Cargo companies, courier companies, cargo consolidators and freight forwarders",
   },
-  areaServed: [{ "@type": "Country", name: "United Arab Emirates" }],
+  // No public price to state; the Offer records that the product is available
+  // and points to the demo request rather than inventing a price.
+  offers: {
+    "@type": "Offer",
+    url: `${SITE_URL}/demo`,
+    availability: "https://schema.org/InStock",
+    seller: { "@id": ORG_ID },
+  },
+  areaServed: CORRIDOR_AREA_SERVED,
 };

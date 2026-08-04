@@ -4,7 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/components/auth/AuthModals";
 import { PageView } from "@/components/analytics/PageView";
 import { JsonLd } from "@/components/JsonLd";
-import { organizationSchema, softwareApplicationSchema } from "@/lib/schema";
+import { organizationSchema, softwareApplicationSchema, websiteSchema } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
 
 const poppins = localFont({
@@ -40,14 +40,26 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "Voxarel",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Voxarel" }],
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Voxarel: logistics operations software for cargo and courier companies",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Voxarel. Connect every person, package and payment",
     description:
       "Real-time visibility and control across shipping, warehouse, finance, inventory and field operations.",
-    images: ["/og.png"],
+    images: [
+      {
+        url: "/og.png",
+        alt: "Voxarel: logistics operations software for cargo and courier companies",
+      },
+    ],
   },
 };
 
@@ -59,7 +71,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable} ${lato.variable}`}>
       <body className="antialiased">
-        <JsonLd data={[organizationSchema, softwareApplicationSchema]} />
+        <JsonLd data={[organizationSchema, websiteSchema, softwareApplicationSchema]} />
         <PageView />
         <AuthProvider>{children}</AuthProvider>
       </body>
