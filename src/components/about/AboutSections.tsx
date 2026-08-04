@@ -34,17 +34,17 @@ export function AboutSections() {
           className="absolute -top-48 left-1/2 -z-10 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-mint/20 blur-3xl"
         />
         <div className="mx-auto max-w-3xl px-5 text-center sm:px-8">
-          <Reveal>
+          <Reveal eager>
             <p className="font-display text-[12px] font-bold uppercase tracking-[0.22em] text-mint-deep">
               About
             </p>
           </Reveal>
-          <Reveal delay={80}>
+          <Reveal eager delay={80}>
             <h1 className="font-display mt-5 text-balance text-[2.5rem] font-extrabold leading-[1.08] tracking-tight text-petrol-deep sm:text-6xl">
               Why Voxarel exists.
             </h1>
           </Reveal>
-          <Reveal delay={160}>
+          <Reveal eager delay={160}>
             <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
               Cargo moves faster than the tools that run it. We are building the system that keeps
               up.

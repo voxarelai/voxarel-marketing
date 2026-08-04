@@ -6,14 +6,19 @@ export function Reveal({
   children,
   className = "",
   delay = 0,
+  eager = false,
 }: {
   children: ReactNode;
   className?: string;
   delay?: number;
+  // eager: for above-the-fold content. Animates in via pure CSS from first
+  // paint, so it never waits for JS/hydration and keeps LCP fast.
+  eager?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (eager) return;
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(
@@ -27,7 +32,18 @@ export function Reveal({
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [eager]);
+
+  if (eager) {
+    return (
+      <div
+        className={`reveal-eager ${className}`}
+        style={delay ? { animationDelay: `${delay}ms` } : undefined}
+      >
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div

@@ -60,6 +60,23 @@ body {
   transform: translateY(0);
 }
 
+/* Eager reveal for above-the-fold content: animates in from first paint via
+   CSS, so it never waits for JS/hydration and keeps LCP fast. */
+.reveal-eager {
+  animation: reveal-in 0.7s ease-out both;
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -68,5 +85,8 @@ body {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .reveal-eager {
+    animation: none;
   }
 }

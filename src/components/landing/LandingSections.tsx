@@ -36,22 +36,22 @@ export function LandingSections({ data }: { data: LandingData }) {
         />
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="mx-auto max-w-3xl text-center">
-            <Reveal>
+            <Reveal eager>
               <p className="font-display text-[12px] font-bold uppercase tracking-[0.22em] text-mint-deep">
                 {data.eyebrow}
               </p>
             </Reveal>
-            <Reveal delay={80}>
+            <Reveal eager delay={80}>
               <h1 className="font-display mt-5 text-balance text-[2.4rem] font-extrabold leading-[1.1] tracking-tight text-petrol-deep sm:text-[3.4rem]">
                 {data.h1}
               </h1>
             </Reveal>
-            <Reveal delay={160}>
+            <Reveal eager delay={160}>
               <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
                 {data.sub}
               </p>
             </Reveal>
-            <Reveal delay={240}>
+            <Reveal eager delay={240}>
               <div className="mt-9">
                 <a
                   href={DEMO_URL}
