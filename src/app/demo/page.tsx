@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { DemoExperience } from "@/components/demo/DemoExperience";
+import { DemoInfo } from "@/components/demo/DemoInfo";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/demo" },
@@ -32,6 +33,7 @@ export default function DemoPage() {
       <Navigation />
       <main>
         <DemoExperience />
+        <DemoInfo />
       </main>
       <Footer />
     </>

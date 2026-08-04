@@ -19,6 +19,7 @@ const columns: { title: string; links: FooterLink[] }[] = [
   {
     title: "Company",
     links: [
+      { label: "About", href: "/about" },
       { label: "Book a demo", href: DEMO_URL, ev: "cta_demo_click" },
       { label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, ev: "contact_email_click" },
       { label: "Sign in", href: SIGN_IN_URL, ev: "cta_signin_click" },

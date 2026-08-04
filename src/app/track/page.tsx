@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { TrackExperience } from "@/components/track/TrackExperience";
+import { TrackInfo, trackFaqs } from "@/components/track/TrackInfo";
+import { JsonLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/track" },
@@ -26,14 +28,26 @@ export const metadata: Metadata = {
   },
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: trackFaqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 export default function TrackPage() {
   return (
     <>
       <Navigation />
       <main>
         <TrackExperience />
+        <TrackInfo />
       </main>
       <Footer />
+      <JsonLd data={faqSchema} />
     </>
   );
 }

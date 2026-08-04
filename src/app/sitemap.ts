@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${SITE_URL}/`, lastModified: new Date("2026-08-04") },
     { url: `${SITE_URL}/features`, lastModified: new Date("2026-08-04") },
+    { url: `${SITE_URL}/about`, lastModified: new Date("2026-08-04") },
     { url: `${SITE_URL}/track`, lastModified: new Date("2026-08-04") },
     { url: `${SITE_URL}/demo`, lastModified: new Date("2026-08-04") },
     { url: `${SITE_URL}/privacy`, lastModified: new Date("2026-07-16") },
