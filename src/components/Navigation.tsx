@@ -10,6 +10,7 @@ import { track } from "@/lib/analytics";
 
 const links = [
   { label: "Features", href: "/features" },
+  { label: "Resources", href: "/resources" },
   { label: "Roles", href: "/#roles" },
   { label: "Pulse", href: "/#pulse" },
   { label: "Track", href: "/track" },
