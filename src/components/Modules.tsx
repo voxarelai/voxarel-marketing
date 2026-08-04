@@ -1,5 +1,5 @@
 import type { ComponentType, SVGProps } from "react";
-import { Package, Warehouse, Receipt, Layers, Route, Pulse } from "@/components/icons";
+import { Package, Warehouse, Receipt, Layers, Route, Pulse, ArrowRight } from "@/components/icons";
 import { Reveal } from "@/components/Reveal";
 
 type Module = {
@@ -60,11 +60,12 @@ export function Modules() {
             </p>
             <div className="mx-auto mt-3.5 h-[6px] w-[86px] rounded-[3px] bg-mint" />
             <h2 className="font-display mt-5 text-balance text-3xl font-extrabold tracking-tight text-petrol-deep sm:text-[2.6rem] sm:leading-[1.15]">
-              Your whole operation, one platform.
+              One connected system.
             </h2>
             <p className="mt-5 text-pretty text-lg leading-relaxed text-muted">
               Today it lives in WhatsApp groups, Excel sheets and someone&apos;s memory. Voxarel
-              puts it in one system, where every role gets what they need and nothing gets lost.
+              puts it in one connected system, where a quote, its shipment, its money and its
+              paperwork are all the same thread.
             </p>
           </div>
         </Reveal>
@@ -92,6 +93,18 @@ export function Modules() {
             );
           })}
         </div>
+
+        <Reveal>
+          <div className="mt-12 text-center">
+            <a
+              href="/features"
+              className="group inline-flex items-center gap-1.5 font-display text-[15px] font-bold text-petrol transition-colors hover:text-petrol-deep"
+            >
+              See everything Voxarel does
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </a>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -10,7 +10,7 @@ const columns: { title: string; links: FooterLink[] }[] = [
   {
     title: "Product",
     links: [
-      { label: "Platform", href: "/#platform" },
+      { label: "Features", href: "/features" },
       { label: "Roles", href: "/#roles" },
       { label: "Pulse", href: "/#pulse" },
       { label: "Track a shipment", href: TRACK_URL, ev: "cta_track_click" },

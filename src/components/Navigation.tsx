@@ -9,7 +9,7 @@ import { useAuthModals } from "@/components/auth/AuthModals";
 import { track } from "@/lib/analytics";
 
 const links = [
-  { label: "Platform", href: "/#platform" },
+  { label: "Features", href: "/features" },
   { label: "Roles", href: "/#roles" },
   { label: "Pulse", href: "/#pulse" },
   { label: "Track", href: "/track" },
