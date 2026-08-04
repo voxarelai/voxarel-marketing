@@ -17,6 +17,14 @@ const columns: { title: string; links: FooterLink[] }[] = [
     ],
   },
   {
+    title: "Solutions",
+    links: [
+      { label: "Cargo software", href: "/cargo-management-software" },
+      { label: "Courier software", href: "/courier-management-software" },
+      { label: "Logistics software UAE", href: "/logistics-software-uae" },
+    ],
+  },
+  {
     title: "Company",
     links: [
       { label: "About", href: "/about" },
@@ -44,7 +52,7 @@ export function Footer() {
               Connect every person, package and payment.
             </p>
           </div>
-          <div className="flex gap-16 sm:gap-24">
+          <div className="grid grid-cols-2 gap-x-10 gap-y-8 sm:flex sm:gap-14 lg:gap-20">
             {columns.map((col) => (
               <div key={col.title}>
                 <div className="font-display text-[12px] font-bold uppercase tracking-[0.18em] text-faint">
