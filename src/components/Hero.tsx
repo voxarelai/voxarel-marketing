@@ -1,9 +1,9 @@
 "use client";
 
-import { ArrowRight, Check } from "@/components/icons";
+import { ArrowRight } from "@/components/icons";
 import { ProductMock } from "@/components/ProductMock";
 import { Reveal } from "@/components/Reveal";
-import { DEMO_URL, TRACK_URL } from "@/lib/site";
+import { DEMO_URL } from "@/lib/site";
 import { track } from "@/lib/analytics";
 
 export function Hero() {
@@ -31,20 +31,20 @@ export function Hero() {
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
             <p className="font-display text-[12px] font-bold uppercase tracking-[0.22em] text-mint-deep">
-              One platform for logistics operations
+              The logistics platform
             </p>
           </Reveal>
 
           <Reveal delay={80}>
             <h1 className="font-display mt-5 text-balance text-[2.5rem] font-extrabold leading-[1.08] tracking-tight text-petrol-deep sm:text-6xl">
-              Connect every person, package and payment in your logistics operation.
+              The operating system for logistics.
             </h1>
           </Reveal>
 
           <Reveal delay={160}>
             <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
-              Real-time visibility and control across shipping, warehouse, finance, inventory and
-              field operations. One platform, every role, nothing lost.
+              Bookings, warehouse, finance and field teams, unified into one real-time system of
+              record, from the first quote to the final settlement.
             </p>
           </Reveal>
 
@@ -59,28 +59,21 @@ export function Hero() {
                 <ArrowRight className="h-4.5 w-4.5 transition-transform group-hover:translate-x-0.5" />
               </a>
               <a
-                href={TRACK_URL}
-                onClick={() => track("cta_track_click", { placement: "hero" })}
+                href="#product"
+                onClick={() => track("cta_tour_click", { placement: "hero" })}
                 className="inline-flex h-[52px] items-center justify-center rounded-xl border border-hair bg-white px-8 text-[16px] font-bold text-petrol transition-colors hover:bg-tint"
               >
-                Track a shipment
+                See it live
               </a>
             </div>
           </Reveal>
-
-          <Reveal delay={320}>
-            <p className="mt-7 inline-flex items-center gap-2 text-[15px] font-bold text-muted">
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-mint/20">
-                <Check className="h-3 w-3 text-mint-deep" strokeWidth={2.6} />
-              </span>
-              Live in production at ST&nbsp;Courier
-            </p>
-          </Reveal>
         </div>
 
-        <Reveal delay={200} className="mt-16 sm:mt-20">
-          <ProductMock />
-        </Reveal>
+        <div id="product" className="scroll-mt-24">
+          <Reveal delay={200} className="mt-16 sm:mt-20">
+            <ProductMock />
+          </Reveal>
+        </div>
       </div>
     </section>
   );

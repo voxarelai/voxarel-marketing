@@ -26,7 +26,7 @@ export function ProofBar() {
           <div className="hidden h-14 w-px shrink-0 bg-hair sm:block" />
 
           <p className="max-w-sm text-center text-[15px] leading-relaxed text-muted sm:text-left">
-            An international courier network moving cargo between the Gulf and India.
+            An international courier network running its entire operation on Voxarel.
             Every branch, every agent, every invoice, on one platform.
           </p>
 

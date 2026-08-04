@@ -30,13 +30,13 @@ const lato = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "/" },
-  title: "Voxarel | Connect every person, package and payment",
+  title: "Voxarel | The operating system for logistics",
   description:
-    "Real-time visibility and control across shipping, warehouse, finance, inventory and field operations. One platform, every role, nothing lost.",
+    "Voxarel is the platform modern logistics companies run on. Bookings, warehouse, finance and field operations, unified into one real-time system of record.",
   openGraph: {
-    title: "Voxarel. Connect every person, package and payment",
+    title: "Voxarel. The operating system for logistics",
     description:
-      "Real-time visibility and control across shipping, warehouse, finance, inventory and field operations. One platform, every role, nothing lost.",
+      "Voxarel is the platform modern logistics companies run on. Bookings, warehouse, finance and field operations, unified into one real-time system of record.",
     type: "website",
     url: SITE_URL,
     siteName: "Voxarel",
@@ -51,9 +51,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Voxarel. Connect every person, package and payment",
+    title: "Voxarel. The operating system for logistics",
     description:
-      "Real-time visibility and control across shipping, warehouse, finance, inventory and field operations.",
+      "The platform modern logistics companies run on. Bookings, warehouse, finance and field operations in one real-time system of record.",
     images: [
       {
         url: "/og.png",
