@@ -43,8 +43,25 @@ view tailored to their job.
 ## Key pages
 
 - [Home](https://www.voxarel.com/): Overview of the platform and who it is for.
+- [Features](https://www.voxarel.com/features): Everything Voxarel does, module by module.
+- [About](https://www.voxarel.com/about): Why Voxarel exists and who operates it.
 - [Book a demo](https://www.voxarel.com/demo): Request a 30-minute walkthrough on your own workflow.
 - [Track a shipment](https://www.voxarel.com/track): Public shipment tracking by number, with verification for full details.
+
+## Solutions
+
+- [Cargo management software](https://www.voxarel.com/cargo-management-software)
+- [Courier management software](https://www.voxarel.com/courier-management-software)
+- [Freight forwarding software](https://www.voxarel.com/freight-forwarding-software)
+- [3PL software](https://www.voxarel.com/3pl-software)
+- [Gulf to India cargo software](https://www.voxarel.com/gulf-to-india-cargo)
+- [Logistics software in the UAE](https://www.voxarel.com/logistics-software-uae)
+
+## Guides
+
+- [Cash on delivery reconciliation: why it breaks, and how to fix it](https://www.voxarel.com/resources/cash-on-delivery-reconciliation)
+- [Cargo consolidation explained: how groupage works and how to price it](https://www.voxarel.com/resources/cargo-consolidation-explained)
+- [How to choose courier and cargo management software](https://www.voxarel.com/resources/how-to-choose-logistics-software)
 
 ## Company
 
