@@ -22,6 +22,9 @@ const columns: { title: string; links: FooterLink[] }[] = [
     links: [
       { label: "Cargo software", href: "/cargo-management-software" },
       { label: "Courier software", href: "/courier-management-software" },
+      { label: "Freight forwarding software", href: "/freight-forwarding-software" },
+      { label: "3PL software", href: "/3pl-software" },
+      { label: "Gulf to India cargo", href: "/gulf-to-india-cargo" },
       { label: "Logistics software UAE", href: "/logistics-software-uae" },
     ],
   },

@@ -22,6 +22,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/cargo-management-software`, lastModified: new Date("2026-08-04") },
     { url: `${SITE_URL}/courier-management-software`, lastModified: new Date("2026-08-04") },
     { url: `${SITE_URL}/logistics-software-uae`, lastModified: new Date("2026-08-04") },
+    { url: `${SITE_URL}/freight-forwarding-software`, lastModified: new Date("2026-08-04") },
+    { url: `${SITE_URL}/gulf-to-india-cargo`, lastModified: new Date("2026-08-04") },
+    { url: `${SITE_URL}/3pl-software`, lastModified: new Date("2026-08-04") },
     { url: `${SITE_URL}/privacy`, lastModified: new Date("2026-07-16") },
     { url: `${SITE_URL}/terms`, lastModified: new Date("2026-07-16") },
   ];
