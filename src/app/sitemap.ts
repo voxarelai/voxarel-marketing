@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site";
 import { articles } from "@/content/resources";
+import { lanes } from "@/lib/lanes";
 
 // lastModified is set per page and bumped in the same change that edits a page's
 // content. It is not auto-stamped with `new Date()` at build time, which would
@@ -25,6 +26,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/freight-forwarding-software`, lastModified: new Date("2026-08-04") },
     { url: `${SITE_URL}/gulf-to-india-cargo`, lastModified: new Date("2026-08-04") },
     { url: `${SITE_URL}/3pl-software`, lastModified: new Date("2026-08-04") },
+    { url: `${SITE_URL}/shipping`, lastModified: new Date("2026-08-05") },
+    ...lanes.map((l) => ({
+      url: `${SITE_URL}/shipping/${l.slug}`,
+      lastModified: new Date("2026-08-05"),
+    })),
     { url: `${SITE_URL}/privacy`, lastModified: new Date("2026-07-16") },
     { url: `${SITE_URL}/terms`, lastModified: new Date("2026-07-16") },
   ];
