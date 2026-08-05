@@ -1,21 +1,40 @@
-import { ArrowRight } from "@/components/icons";
+import type { ReactNode } from "react";
+import Link from "next/link";
+import { ArrowRight, Check } from "@/components/icons";
 import { BrandRings } from "@/components/BrandRings";
 import { Reveal } from "@/components/Reveal";
 import { DEMO_URL, TRACK_URL } from "@/lib/site";
-import type { Lane } from "@/lib/lanes";
+import { lanes, type Lane } from "@/lib/lanes";
+
+// Standard India import documents (direction-agnostic across Gulf to India lanes).
+const importDocs = [
+  "Commercial invoice",
+  "Packing list",
+  "Certificate of origin (for CEPA duty benefit)",
+  "Bill of lading (sea) or airway bill (air)",
+  "Payment terms or letter of credit, where applicable",
+];
 
 export function laneFaqs(l: Lane): { q: string; a: string }[] {
   const air = l.airTransit === "n/a" ? null : l.airTransit;
   return [
     {
       q: `How long does cargo take from ${l.origin} to ${l.destination}?`,
-      a: `By sea, cargo on the ${l.origin} to ${l.destination} lane typically takes ${l.seaTransit} door to door${
-        air ? `; by air, ${air}` : ""
-      }. Customs clearance at ${l.destination} adds time when paperwork is incomplete, which is why Voxarel tracks every document against the shipment.`,
+      a: `By sea, cargo on the ${l.origin} to ${l.destination} lane typically takes ${l.seaTransit} port to port, and longer door to door once customs and inland delivery are added${
+        air ? `. By air, it moves in ${air}` : ""
+      }. Voxarel tracks every document against the shipment so customs delays are caught early.`,
+    },
+    {
+      q: `How are ${l.origin} to ${l.destination} shipping rates calculated?`,
+      a: `Rates are quoted per kg for air, and per CBM or per container for sea, on chargeable weight (the greater of actual weight or volume), plus surcharges and destination handling. Voxarel prices the lane from your own corridor rates and returns an instant quote.`,
+    },
+    {
+      q: `What is the cheapest way to ship from ${l.origin} to ${l.destination}?`,
+      a: `Sea freight is cheapest for anything that is not urgent, especially as a full container (FCL) or a shared consolidation (LCL). Air is faster but costs more per kg, so it suits urgent, high-value or perishable cargo.`,
     },
     {
       q: `What documents are needed to ship from ${l.origin} to India?`,
-      a: "Usually a commercial invoice, packing list, airway bill or bill of lading, and any commodity-specific certificates. Voxarel keeps each document attached to the shipment and flags what is missing before dispatch.",
+      a: `Usually a commercial invoice, packing list, certificate of origin, and a bill of lading (sea) or airway bill (air), plus payment terms where applicable. Under the India-UAE CEPA, a valid certificate of origin can reduce or remove customs duty. Voxarel keeps each document attached to the shipment and flags what is missing before dispatch.`,
     },
     {
       q: `Can I collect cash on delivery in ${l.destination}?`,
@@ -28,13 +47,30 @@ export function laneFaqs(l: Lane): { q: string; a: string }[] {
   ];
 }
 
+function Section({
+  id,
+  title,
+  children,
+}: {
+  id: string;
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="border-b border-hair py-8" id={id}>
+      <h3 className="font-display text-[19px] font-medium tracking-tight text-ink">{title}</h3>
+      <div className="mt-3 max-w-[70ch] space-y-3 text-[15.5px] leading-relaxed text-muted">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export function CorridorSections({ lane: l }: { lane: Lane }) {
   const air = l.airTransit === "n/a" ? null : l.airTransit;
   const facts = [
     { big: l.seaTransit, unit: "", label: "Sea transit" },
-    air
-      ? { big: air, unit: "", label: "Air transit" }
-      : { big: "Sea only", unit: "", label: "Mode" },
+    air ? { big: air, unit: "", label: "Air transit" } : { big: "Sea only", unit: "", label: "Mode" },
     { big: `~${l.distanceKm.toLocaleString("en-US")}`, unit: "km", label: "Distance" },
     { big: "AED · INR", unit: "", label: "Dual-currency COD" },
   ];
@@ -57,6 +93,9 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
     },
   ];
   const faqs = laneFaqs(l);
+  const related = lanes
+    .filter((x) => x.slug !== l.slug && (x.origin === l.origin || x.destination === l.destination))
+    .slice(0, 5);
 
   return (
     <>
@@ -75,13 +114,14 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
           </Reveal>
           <Reveal eager delay={80}>
             <h1 className="font-display mt-5 max-w-[20ch] text-balance text-[2.3rem] font-medium leading-[1.04] tracking-tight text-petrol-deep sm:text-[3.3rem]">
-              {l.origin} to {l.destination} cargo and courier, on one system.
+              {l.origin} to {l.destination}: sea &amp; air cargo, on one system.
             </h1>
           </Reveal>
           <Reveal eager delay={160}>
             <p className="mt-6 max-w-[56ch] text-pretty text-lg leading-relaxed text-muted sm:text-xl">
-              {l.blurb} Book, track, clear and settle every shipment on Voxarel, with cash on
-              delivery in rupees, customs docs and reconciliation in one place.
+              {l.blurb} Sea freight in {l.seaTransit}
+              {air ? `, air cargo in ${air}` : ""}. Book, track, clear and settle every shipment on
+              Voxarel, with cash on delivery in rupees, customs docs and reconciliation in one place.
             </p>
           </Reveal>
 
@@ -150,14 +190,102 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
             </div>
           </Reveal>
           <p className="mt-3.5 max-w-[70ch] text-[13.5px] text-faint">
-            Typical door-to-door times for the {l.origin} to {l.destination} lane via{" "}
-            {l.originPort} and {l.destPort}. Common commodities: {l.commodities.join(", ")}.
+            Via {l.originPort} and {l.destPort}. Common commodities: {l.commodities.join(", ")}.
           </p>
         </div>
       </section>
 
-      {/* How Voxarel runs this lane */}
+      {/* Informational content (earns the high-intent ranking) */}
       <section className="py-20 sm:py-24">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <Reveal>
+            <div className="max-w-[70ch]">
+              <h2 className="font-display text-3xl font-medium tracking-tight text-petrol-deep sm:text-[2.2rem]">
+                Shipping from {l.origin} to {l.destination}
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed text-muted">
+                Whether you move a full container, a consolidated LCL shipment or urgent air cargo,
+                here is how the {l.origin} to {l.destination} lane works, and how Voxarel runs it end
+                to end.
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal>
+            <div className="mt-10 border-t border-hair">
+              <Section id="sea" title={`Sea freight from ${l.origin} to ${l.destination}`}>
+                <p>
+                  Ocean cargo sails from {l.originPort} to {l.destPort}, typically {l.seaTransit}{" "}
+                  port to port. Move a full container (FCL) or share space in a consolidation (LCL);
+                  LCL is billed on chargeable weight, the greater of actual weight or volume. The
+                  great-circle distance on this lane is about{" "}
+                  {l.distanceKm.toLocaleString("en-US")} km.
+                </p>
+              </Section>
+
+              <Section id="air" title={`Air cargo from ${l.origin} to ${l.destination}`}>
+                {air ? (
+                  <p>
+                    Air freight from {l.origin} ({l.originCode}) to {l.destination} ({l.destCode})
+                    moves in {air}, best for urgent, high-value or perishable cargo. Air is billed on
+                    chargeable weight, the greater of actual kilos or volumetric weight.
+                  </p>
+                ) : (
+                  <p>
+                    This lane is served as an ocean port-to-port route. For time-critical cargo, pair
+                    it with an air leg from a nearby Gulf gateway; Voxarel books and tracks both legs
+                    on the same shipment.
+                  </p>
+                )}
+              </Section>
+
+              <Section id="transit" title={`${l.origin} to ${l.destination} transit time`}>
+                <p>
+                  By sea: {l.seaTransit} port to port, longer door to door once customs and inland
+                  delivery are added{air ? `. By air: ${air}` : ""}. Customs clearance at{" "}
+                  {l.destination} adds time when documents are incomplete, which is why Voxarel tracks
+                  every document against the shipment.
+                </p>
+              </Section>
+
+              <Section
+                id="rates"
+                title={`${l.origin} to ${l.destination} shipping rates and customs duty`}
+              >
+                <p>
+                  Rates are quoted per kg for air, and per CBM or per container for sea, on
+                  chargeable weight, plus surcharges and destination handling. Under the India-UAE
+                  CEPA (in force since May 2022), many goods qualify for reduced or zero customs duty
+                  with a valid certificate of origin. Voxarel prices the lane from your own corridor
+                  rates and returns an instant quote, no rate sheets to dig through.
+                </p>
+              </Section>
+
+              <Section
+                id="customs"
+                title={`Customs and documents for ${l.origin} to ${l.destination}`}
+              >
+                <p>Clearing cargo into India from the UAE usually needs:</p>
+                <ul className="space-y-2">
+                  {importDocs.map((d) => (
+                    <li key={d} className="flex gap-2.5 text-[15px] text-muted">
+                      <Check className="mt-[5px] h-3.5 w-3.5 shrink-0 text-mint-deep" strokeWidth={2.6} />
+                      <span>{d}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p>
+                  Voxarel keeps each document attached to the shipment and flags what is missing
+                  before dispatch, so a shipment never leaves incomplete.
+                </p>
+              </Section>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* How Voxarel runs this lane (software / conversion) */}
+      <section className="border-t border-hair bg-ivory py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <Reveal>
             <div className="max-w-[60ch]">
@@ -166,17 +294,14 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
                 Built for this lane
               </p>
               <h2 className="font-display mt-4 text-3xl font-medium tracking-tight text-petrol-deep sm:text-[2.2rem]">
-                Everything the {l.origin} to {l.destination} lane needs.
+                Run the {l.origin} to {l.destination} lane on Voxarel.
               </h2>
             </div>
           </Reveal>
           <Reveal>
             <div className="mt-10 border-t border-hair">
               {capabilities.map((c, i) => (
-                <div
-                  key={c.h}
-                  className="grid grid-cols-[42px_1fr] gap-3.5 border-b border-hair py-7"
-                >
+                <div key={c.h} className="grid grid-cols-[42px_1fr] gap-3.5 border-b border-hair py-7">
                   <div className="font-mono text-[12.5px] tabular-nums text-mint-deep">
                     {String(i + 1).padStart(2, "0")}
                   </div>
@@ -196,7 +321,7 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
       </section>
 
       {/* FAQ */}
-      <section className="border-t border-hair py-20 sm:py-24">
+      <section className="py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <Reveal>
             <h2 className="font-display text-3xl font-medium tracking-tight text-petrol-deep sm:text-[2.2rem]">
@@ -205,7 +330,7 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
           </Reveal>
           <div className="mt-10 max-w-[74ch] border-t border-hair">
             {faqs.map((f, i) => (
-              <Reveal key={f.q} delay={(i % 3) * 70}>
+              <Reveal key={f.q} delay={(i % 3) * 60}>
                 <div className="border-b border-hair py-6">
                   <h3 className="font-display text-[17px] font-medium tracking-tight text-ink">
                     {f.q}
@@ -217,6 +342,35 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
           </div>
         </div>
       </section>
+
+      {/* Related corridors (internal linking) */}
+      {related.length > 0 && (
+        <section className="border-t border-hair pb-20 pt-16 sm:pb-28">
+          <div className="mx-auto max-w-6xl px-5 sm:px-8">
+            <p className="font-display text-[12px] font-medium uppercase tracking-[0.15em] text-faint">
+              Related corridors
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              {related.map((r) => (
+                <Link
+                  key={r.slug}
+                  href={`/shipping/${r.slug}`}
+                  className="font-display rounded-lg border border-hair bg-white px-4 py-2.5 text-[14px] font-medium text-petrol transition-colors hover:bg-tint"
+                >
+                  {r.origin} to {r.destination}
+                </Link>
+              ))}
+              <Link
+                href="/shipping"
+                className="font-display inline-flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-[14px] font-medium text-muted transition-colors hover:text-petrol"
+              >
+                All corridors
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
     </>
   );
 }
