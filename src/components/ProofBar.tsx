@@ -27,15 +27,12 @@ export function ProofBar() {
               every booking, every invoice, on one platform.
             </p>
           </div>
-          <dl className="mt-7 grid grid-cols-2 gap-y-6 border-t border-hair pt-6 sm:grid-cols-4">
-            {stats.map((s, i) => (
-              <div
-                key={s.l}
-                className={i < stats.length - 1 ? "pr-6 sm:border-r sm:border-hair" : "pr-6"}
-              >
+          <dl className="mt-7 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-hair pt-6 sm:grid-cols-4 sm:gap-x-10">
+            {stats.map((s) => (
+              <div key={s.l}>
                 <dt className="font-display text-[clamp(28px,3vw,38px)] font-semibold leading-none tracking-tight tabular-nums text-petrol-deep">
                   {s.v}
-                  <span className="text-mint-deep">{s.accent}</span>
+                  <span className="ml-1 text-[0.62em] font-medium text-mint-deep">{s.accent}</span>
                 </dt>
                 <dd className="font-display mt-3 text-[11.5px] font-medium uppercase tracking-[0.04em] text-faint">
                   {s.l}
