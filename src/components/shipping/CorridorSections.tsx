@@ -172,7 +172,7 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
       {/* Corridor facts */}
       <section className="pb-2">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          <Reveal>
+          <Reveal eager>
             <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-hair bg-hair sm:grid-cols-4">
               {facts.map((f) => (
                 <div key={f.label} className="bg-white px-5 py-4">
@@ -198,7 +198,7 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
       {/* Informational content (earns the high-intent ranking) */}
       <section className="py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          <Reveal>
+          <Reveal eager>
             <div className="max-w-[70ch]">
               <h2 className="font-display text-3xl font-medium tracking-tight text-petrol-deep sm:text-[2.2rem]">
                 Shipping from {l.origin} to {l.destination}
@@ -211,7 +211,7 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
             </div>
           </Reveal>
 
-          <Reveal>
+          <Reveal eager>
             <div className="mt-10 border-t border-hair">
               <Section id="sea" title={`Sea freight from ${l.origin} to ${l.destination}`}>
                 <p>
@@ -287,7 +287,7 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
       {/* How Voxarel runs this lane (software / conversion) */}
       <section className="border-t border-hair bg-ivory py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          <Reveal>
+          <Reveal eager>
             <div className="max-w-[60ch]">
               <p className="font-display inline-flex items-center gap-2.5 text-[12px] font-medium uppercase tracking-[0.15em] text-mint-deep">
                 <span className="h-1.5 w-1.5 rounded-full bg-mint" />
@@ -298,7 +298,7 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
               </h2>
             </div>
           </Reveal>
-          <Reveal>
+          <Reveal eager>
             <div className="mt-10 border-t border-hair">
               {capabilities.map((c, i) => (
                 <div key={c.h} className="grid grid-cols-[42px_1fr] gap-3.5 border-b border-hair py-7">
@@ -323,14 +323,14 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
       {/* FAQ */}
       <section className="py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          <Reveal>
+          <Reveal eager>
             <h2 className="font-display text-3xl font-medium tracking-tight text-petrol-deep sm:text-[2.2rem]">
               {l.origin} to {l.destination} shipping, answered.
             </h2>
           </Reveal>
           <div className="mt-10 max-w-[74ch] border-t border-hair">
             {faqs.map((f, i) => (
-              <Reveal key={f.q} delay={(i % 3) * 60}>
+              <Reveal eager key={f.q} delay={(i % 3) * 60}>
                 <div className="border-b border-hair py-6">
                   <h3 className="font-display text-[17px] font-medium tracking-tight text-ink">
                     {f.q}
