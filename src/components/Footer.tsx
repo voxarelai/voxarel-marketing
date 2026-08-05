@@ -59,7 +59,7 @@ export function Footer() {
           <div className="grid grid-cols-2 gap-x-10 gap-y-8 sm:flex sm:gap-14 lg:gap-20">
             {columns.map((col) => (
               <div key={col.title}>
-                <div className="font-display text-[12px] font-bold uppercase tracking-[0.18em] text-faint">
+                <div className="font-display text-[11.5px] font-medium uppercase tracking-[0.13em] text-faint">
                   {col.title}
                 </div>
                 <ul className="mt-4 space-y-2.5">
@@ -68,7 +68,7 @@ export function Footer() {
                       <a
                         href={l.href}
                         onClick={() => l.ev && track(l.ev, { placement: "footer" })}
-                        className="text-[14.5px] font-bold text-muted transition-colors hover:text-petrol"
+                        className="font-display text-[14px] font-medium text-muted transition-colors hover:text-petrol"
                       >
                         {l.label}
                       </a>
@@ -84,10 +84,10 @@ export function Footer() {
             © {new Date().getFullYear()} Voxarel · {LEGAL_LINE}
           </span>
           <span className="flex shrink-0 gap-5">
-            <a href="/privacy" className="font-bold transition-colors hover:text-petrol">
+            <a href="/privacy" className="font-display font-medium transition-colors hover:text-petrol">
               Privacy
             </a>
-            <a href="/terms" className="font-bold transition-colors hover:text-petrol">
+            <a href="/terms" className="font-display font-medium transition-colors hover:text-petrol">
               Terms
             </a>
           </span>

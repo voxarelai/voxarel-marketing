@@ -1,4 +1,5 @@
 import { ArrowRight } from "@/components/icons";
+import { BrandRings } from "@/components/BrandRings";
 import { Reveal } from "@/components/Reveal";
 
 const pairs = [
@@ -18,37 +19,31 @@ const pairs = [
 
 export function OldWay() {
   return (
-    <section className="relative overflow-hidden border-y border-hair bg-petrol-deep py-20 sm:py-24">
-      {/* Brand device: node mesh (04-Elements) */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-28 -top-40 h-[640px] w-[640px] opacity-[0.22]"
-        style={{
-          backgroundImage: "url(/elements/mesh.svg)",
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-        }}
+    <section className="relative overflow-clip border-y border-hair bg-petrol-deep py-24 sm:py-28">
+      <BrandRings
+        className="pointer-events-none absolute -bottom-56 -left-40 w-[min(700px,64vw)]"
+        opacity={[0.22, 0.15, 0.09]}
       />
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="font-display text-balance text-3xl font-extrabold tracking-tight text-white sm:text-[2.4rem] sm:leading-[1.15]">
-              We don&apos;t compete with software.
-              <br />
-              <span className="text-mint-bright">We replace the chaos.</span>
-            </h2>
-          </div>
+          <h2 className="font-display max-w-[640px] text-balance text-3xl font-medium leading-[1.1] tracking-tight text-white sm:text-[2.6rem]">
+            We don&apos;t compete with software.
+            <br />
+            <span className="text-mint-bright">We replace the chaos.</span>
+          </h2>
         </Reveal>
 
-        <div className="mx-auto mt-12 max-w-3xl space-y-3">
+        <div className="mt-12 max-w-[940px] border-t border-white/[0.12]">
           {pairs.map((p, i) => (
-            <Reveal key={p.before} delay={i * 90}>
-              <div className="flex flex-col items-stretch gap-2 rounded-2xl border border-white/10 bg-white/[0.06] p-5 sm:flex-row sm:items-center sm:gap-5 sm:p-6">
-                <p className="flex-1 text-[15px] leading-snug text-white/55 line-through decoration-white/25">
+            <Reveal key={p.before} delay={i * 70}>
+              <div className="grid items-center gap-2 border-b border-white/[0.12] py-5 sm:grid-cols-[1fr_40px_1fr]">
+                <p className="text-[15px] leading-snug text-white/50 line-through decoration-white/25">
                   {p.before}
                 </p>
-                <ArrowRight className="hidden h-4 w-4 shrink-0 text-mint sm:block" />
-                <p className="flex-1 text-[15px] font-bold leading-snug text-white">{p.after}</p>
+                <ArrowRight className="hidden h-4 w-4 justify-self-center text-mint sm:block" />
+                <p className="font-display text-[15.5px] font-medium leading-snug tracking-tight text-white">
+                  {p.after}
+                </p>
               </div>
             </Reveal>
           ))}

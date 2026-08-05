@@ -1,21 +1,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { AuthProvider } from "@/components/auth/AuthModals";
 import { PageView } from "@/components/analytics/PageView";
 import { JsonLd } from "@/components/JsonLd";
 import { organizationSchema, softwareApplicationSchema, websiteSchema } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
-
-const poppins = localFont({
-  src: [
-    { path: "../fonts/poppins-latin-600-normal.woff2", weight: "600", style: "normal" },
-    { path: "../fonts/poppins-latin-700-normal.woff2", weight: "700", style: "normal" },
-    { path: "../fonts/poppins-latin-800-normal.woff2", weight: "800", style: "normal" },
-  ],
-  variable: "--font-poppins",
-  display: "swap",
-});
 
 const lato = localFont({
   src: [
@@ -69,7 +61,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${poppins.variable} ${lato.variable}`}>
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} ${lato.variable}`}>
       <body className="antialiased">
         <JsonLd data={[organizationSchema, websiteSchema, softwareApplicationSchema]} />
         <PageView />

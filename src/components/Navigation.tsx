@@ -36,7 +36,7 @@ export function Navigation() {
           : "border-b border-transparent bg-white/0"
       }`}
     >
-      <nav className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-5 sm:px-8">
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
         <Link href="/" className="flex items-center" aria-label="Voxarel home">
           <Image
             src="/voxarel-logo.png"
@@ -54,7 +54,7 @@ export function Navigation() {
               key={l.href}
               href={l.href}
               onClick={() => l.href === "/track" && track("cta_track_click", { placement: "nav" })}
-              className="font-sans text-[15px] font-bold text-muted transition-colors hover:text-petrol"
+              className="font-display text-[14.5px] font-medium text-muted transition-colors hover:text-petrol"
             >
               {l.label}
             </a>
@@ -65,13 +65,13 @@ export function Navigation() {
           <a
             href={SIGN_IN_URL}
             onClick={() => track("cta_signin_click", { placement: "nav" })}
-            className="rounded-lg px-4 py-2 text-[15px] font-bold text-petrol transition-colors hover:bg-tint"
+            className="rounded-lg px-4 py-2 font-display text-[14.5px] font-medium text-petrol transition-colors hover:bg-tint"
           >
             Sign in
           </a>
           <button
             onClick={() => openSignUp()}
-            className="rounded-lg bg-petrol px-5 py-2.5 text-[15px] font-bold text-white shadow-sm transition-colors hover:bg-petrol-deep"
+            className="rounded-lg bg-petrol px-5 py-2.5 font-display text-[14.5px] font-medium text-white transition-colors hover:bg-petrol-deep"
           >
             Sign up
           </button>

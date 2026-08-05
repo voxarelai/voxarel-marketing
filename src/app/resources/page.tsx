@@ -29,7 +29,7 @@ export default function ResourcesPage() {
         <section className="relative overflow-hidden pb-8 pt-36 sm:pt-44">
           <div
             aria-hidden
-            className="absolute -top-48 left-1/2 -z-10 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-mint/20 blur-3xl"
+            className="absolute -top-48 left-1/2 -z-10 h-[420px] w-[720px] -translate-x-1/2 rounded-full hidden"
           />
           <div className="mx-auto max-w-3xl px-5 text-center sm:px-8">
             <Reveal eager>
@@ -38,7 +38,7 @@ export default function ResourcesPage() {
               </p>
             </Reveal>
             <Reveal eager delay={80}>
-              <h1 className="font-display mt-5 text-balance text-[2.5rem] font-extrabold leading-[1.08] tracking-tight text-petrol-deep sm:text-6xl">
+              <h1 className="font-display mt-5 text-balance text-[2.5rem] font-medium leading-[1.08] tracking-tight text-petrol-deep sm:text-6xl">
                 Guides for running a logistics operation.
               </h1>
             </Reveal>

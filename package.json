@@ -12,6 +12,7 @@
   "dependencies": {
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.1",
+    "geist": "^1.7.2",
     "next": "^15.5.7",
     "posthog-js": "^1.409.5",
     "posthog-node": "^5.21.2",

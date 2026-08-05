@@ -1,29 +1,11 @@
-import type { ComponentType, SVGProps } from "react";
-import {
-  Layers,
-  Package,
-  Warehouse,
-  Receipt,
-  MapPin,
-  AlertTriangle,
-  Shield,
-  Pulse,
-  Route,
-  Phone,
-  Check,
-} from "@/components/icons";
+import { ArrowRight, Check } from "@/components/icons";
+import { BrandRings } from "@/components/BrandRings";
 import { Reveal } from "@/components/Reveal";
 import { DEMO_URL } from "@/lib/site";
 
-type Feature = {
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
-  title: string;
-  description: string;
-  points: string[];
-};
+type Feature = { title: string; description: string; points: string[] };
 
 const connected: Feature = {
-  icon: Layers,
   title: "One connected system",
   description:
     "Every record is linked. A quote becomes an invoice, an invoice becomes a shipment, and that shipment moves through the warehouse to delivery and settlement, all the same object. One shipment journey, with its documents, status history and comments, live for the whole team.",
@@ -36,7 +18,6 @@ const connected: Feature = {
 
 const features: Feature[] = [
   {
-    icon: Package,
     title: "Shipping and bookings",
     description: "The full shipping cycle for cargo and courier companies.",
     points: [
@@ -48,7 +29,6 @@ const features: Feature[] = [
     ],
   },
   {
-    icon: Warehouse,
     title: "Warehouse and containers",
     description: "A live, accurate warehouse from receipt to departure.",
     points: [
@@ -61,7 +41,6 @@ const features: Feature[] = [
     ],
   },
   {
-    icon: Receipt,
     title: "Finance",
     description: "Every shipment connected to its money, reconciled automatically.",
     points: [
@@ -74,7 +53,6 @@ const features: Feature[] = [
     ],
   },
   {
-    icon: MapPin,
     title: "Tracking and delivery",
     description: "Know where every shipment is, and when it is running late.",
     points: [
@@ -87,7 +65,6 @@ const features: Feature[] = [
     ],
   },
   {
-    icon: AlertTriangle,
     title: "Complaints and resolution",
     description: "Turn complaints into a tracked, resolvable workflow.",
     points: [
@@ -98,7 +75,6 @@ const features: Feature[] = [
     ],
   },
   {
-    icon: Shield,
     title: "Collaboration and control",
     description: "Everyone works together, with the right guardrails.",
     points: [
@@ -110,7 +86,6 @@ const features: Feature[] = [
     ],
   },
   {
-    icon: Pulse,
     title: "Analytics and Pulse AI",
     description: "See the whole business, and just ask it questions.",
     points: [
@@ -121,7 +96,6 @@ const features: Feature[] = [
     ],
   },
   {
-    icon: Route,
     title: "Rates and pricing",
     description: "Price the way your business actually prices.",
     points: [
@@ -133,7 +107,6 @@ const features: Feature[] = [
     ],
   },
   {
-    icon: Phone,
     title: "Mobile, WhatsApp, embed and API",
     description: "Meet your team and customers where they are.",
     points: [
@@ -168,130 +141,134 @@ export const featuresFaqs: { q: string; a: string }[] = [
   },
 ];
 
+function FeatureRow({ f, n, side }: { f: Feature; n: number; side: "left" | "right" }) {
+  return (
+    <div
+      className={`grid grid-cols-[42px_1fr] gap-3.5 border-b border-hair py-8 ${
+        side === "left" ? "md:border-r md:pr-11" : "md:pl-11"
+      }`}
+    >
+      <div className="font-mono text-[12.5px] tabular-nums text-mint-deep">
+        {String(n).padStart(2, "0")}
+      </div>
+      <div>
+        <h3 className="font-display text-[18px] font-medium tracking-tight text-ink">{f.title}</h3>
+        <p className="mt-2 text-[14.5px] leading-relaxed text-muted">{f.description}</p>
+        <ul className="mt-4 space-y-2">
+          {f.points.map((p) => (
+            <li key={p} className="flex gap-2 text-[14px] leading-snug text-muted">
+              <Check className="mt-[3px] h-3.5 w-3.5 shrink-0 text-mint-deep" strokeWidth={2.6} />
+              <span>{p}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 export function FeaturesSections() {
-  const Connected = connected.icon;
+  const mid = Math.ceil(features.length / 2);
+  const left = features.slice(0, mid);
+  const right = features.slice(mid);
 
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden pb-16 pt-36 sm:pb-20 sm:pt-44">
-        <div
-          aria-hidden
-          className="absolute -top-48 left-1/2 -z-10 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-mint/20 blur-3xl"
-        />
+      <section className="relative overflow-clip pb-16 pt-32 sm:pb-20 sm:pt-40">
+        <BrandRings className="pointer-events-none absolute -top-40 right-[-120px] -z-10 w-[min(760px,70vw)]" />
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <Reveal eager>
-              <p className="font-display text-[12px] font-bold uppercase tracking-[0.22em] text-mint-deep">
-                The platform
-              </p>
-            </Reveal>
-            <Reveal eager delay={80}>
-              <h1 className="font-display mt-5 text-balance text-[2.5rem] font-extrabold leading-[1.08] tracking-tight text-petrol-deep sm:text-6xl">
-                One platform for every part of your operation.
-              </h1>
-            </Reveal>
-            <Reveal eager delay={160}>
-              <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
-                From the first quote to the final settlement, every module works off the same live
-                data. Here is everything Voxarel does.
-              </p>
-            </Reveal>
-            <Reveal eager delay={240}>
-              <div className="mt-9">
-                <a
-                  href={DEMO_URL}
-                  className="inline-flex h-[52px] items-center justify-center rounded-xl bg-petrol px-8 text-[16px] font-bold text-white shadow-[0_8px_24px_-8px_rgba(16,64,80,0.5)] transition-colors hover:bg-petrol-deep"
-                >
-                  Book a demo
-                </a>
-              </div>
-            </Reveal>
-          </div>
+          <Reveal eager>
+            <p className="font-display inline-flex items-center gap-2.5 text-[12px] font-medium uppercase tracking-[0.15em] text-mint-deep">
+              <span className="h-1.5 w-1.5 rounded-full bg-mint" />
+              The platform
+            </p>
+          </Reveal>
+          <Reveal eager delay={80}>
+            <h1 className="font-display mt-5 max-w-[18ch] text-balance text-[2.4rem] font-medium leading-[1.04] tracking-tight text-petrol-deep sm:text-[3.6rem]">
+              One platform for every part of your operation.
+            </h1>
+          </Reveal>
+          <Reveal eager delay={160}>
+            <p className="mt-6 max-w-[54ch] text-pretty text-lg leading-relaxed text-muted sm:text-xl">
+              From the first quote to the final settlement, every module works off the same live
+              data. Here is everything Voxarel does.
+            </p>
+          </Reveal>
+          <Reveal eager delay={240}>
+            <div className="mt-8">
+              <a
+                href={DEMO_URL}
+                className="group inline-flex h-[46px] items-center justify-center gap-2 rounded-lg bg-petrol px-5 font-display text-[15px] font-medium text-white transition-colors hover:bg-petrol-deep"
+              >
+                Book a demo
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="pb-4">
+      {/* Connected lead + feature index */}
+      <section className="pb-20 sm:pb-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          {/* Connected system, featured */}
           <Reveal>
-            <div className="rounded-2xl border border-mint/40 bg-tint/60 p-8 sm:p-10">
-              <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-mint/20 text-petrol">
-                  <Connected className="h-7 w-7" />
+            <div className="max-w-[64ch]">
+              <h2 className="font-display text-2xl font-medium tracking-tight text-petrol-deep sm:text-[2rem]">
+                {connected.title}
+              </h2>
+              <p className="mt-4 text-pretty text-lg leading-relaxed text-muted">
+                {connected.description}
+              </p>
+              <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+                {connected.points.map((p) => (
+                  <li
+                    key={p}
+                    className="font-display flex items-center gap-2 text-[14px] font-medium text-petrol"
+                  >
+                    <Check className="h-4 w-4 shrink-0 text-mint-deep" strokeWidth={2.6} />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+
+          <Reveal>
+            <div className="mt-14 border-t border-hair">
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                <div>
+                  {left.map((f, i) => (
+                    <FeatureRow key={f.title} f={f} n={i + 1} side="left" />
+                  ))}
                 </div>
                 <div>
-                  <h2 className="font-display text-2xl font-extrabold tracking-tight text-petrol-deep sm:text-[1.75rem]">
-                    {connected.title}
-                  </h2>
-                  <p className="mt-3 max-w-3xl text-pretty text-[16px] leading-relaxed text-muted">
-                    {connected.description}
-                  </p>
-                  <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2">
-                    {connected.points.map((p) => (
-                      <li
-                        key={p}
-                        className="flex items-center gap-2 text-[14px] font-bold text-petrol"
-                      >
-                        <Check className="h-4 w-4 shrink-0 text-mint-deep" strokeWidth={2.6} />
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
+                  {right.map((f, i) => (
+                    <FeatureRow key={f.title} f={f} n={i + 1 + left.length} side="right" />
+                  ))}
                 </div>
               </div>
             </div>
           </Reveal>
-
-          {/* Grid */}
-          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((f, i) => {
-              const Icon = f.icon;
-              return (
-                <Reveal key={f.title} delay={(i % 3) * 80}>
-                  <div className="group flex h-full flex-col rounded-2xl border border-hair bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-mint/60 hover:shadow-[0_16px_40px_-16px_rgba(16,64,80,0.25)]">
-                    <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-tint text-petrol transition-colors group-hover:bg-mint/20">
-                      <Icon className="h-6 w-6" />
-                    </div>
-                    <h2 className="font-display text-[17px] font-bold text-ink">{f.title}</h2>
-                    <p className="mt-2 text-[15px] leading-relaxed text-muted">{f.description}</p>
-                    <ul className="mt-4 space-y-2">
-                      {f.points.map((p) => (
-                        <li
-                          key={p}
-                          className="flex gap-2 text-[14px] leading-snug text-muted"
-                        >
-                          <Check
-                            className="mt-[3px] h-3.5 w-3.5 shrink-0 text-mint-deep"
-                            strokeWidth={2.6}
-                          />
-                          <span>{p}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </Reveal>
-              );
-            })}
-          </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="py-16 sm:py-20">
+      <section className="border-t border-hair py-20 sm:py-24">
         <div className="mx-auto max-w-3xl px-5 sm:px-8">
           <Reveal>
-            <h2 className="font-display text-center text-3xl font-extrabold tracking-tight text-petrol-deep sm:text-[2.2rem]">
+            <h2 className="font-display text-3xl font-medium tracking-tight text-petrol-deep sm:text-[2.2rem]">
               Questions, answered.
             </h2>
           </Reveal>
-          <div className="mt-10 space-y-4">
+          <div className="mt-10 border-t border-hair">
             {featuresFaqs.map((f, i) => (
               <Reveal key={f.q} delay={(i % 3) * 70}>
-                <div className="rounded-2xl border border-hair bg-white p-6">
-                  <h3 className="font-display text-[17px] font-bold text-ink">{f.q}</h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-muted">{f.a}</p>
+                <div className="border-b border-hair py-6">
+                  <h3 className="font-display text-[17px] font-medium tracking-tight text-ink">
+                    {f.q}
+                  </h3>
+                  <p className="mt-2.5 max-w-[68ch] text-[15px] leading-relaxed text-muted">{f.a}</p>
                 </div>
               </Reveal>
             ))}
