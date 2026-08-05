@@ -28,7 +28,7 @@ const data: LandingData = {
   builtForHeading: "Made for how the UAE moves cargo",
   builtFor: [
     "Logistics in the UAE has its own shape: multi-branch operations, cash on delivery, VAT to account for, and busy corridors to India and across the Gulf. Voxarel is built for exactly this, and it already runs a real UAE operation today.",
-    "ST Courier, an international courier network, runs its entire business on Voxarel across more than 12 branches and 200 field agents, moving freight between the Gulf and India. Invoicing, VAT, cash on delivery settlement and daily reconciliation are handled the way a UAE operator actually needs them.",
+    "ST Courier, an international courier network, runs its entire business on Voxarel across more than 5 branches, moving freight between the Gulf and India. Invoicing, VAT, cash on delivery settlement and daily reconciliation are handled the way a UAE operator actually needs them.",
   ],
   capabilitiesHeading: "What UAE operators get",
   capabilities: [
@@ -42,7 +42,7 @@ const data: LandingData = {
   faqs: [
     {
       q: "Is Voxarel used in the UAE?",
-      a: "Yes. Voxarel runs a real UAE operation today: ST Courier uses it across more than 12 branches and 200 field agents, moving freight between the Gulf and India.",
+      a: "Yes. Voxarel runs a real UAE operation today: ST Courier uses it across more than 5 branches, moving freight between the Gulf and India.",
     },
     {
       q: "Does Voxarel handle UAE VAT?",

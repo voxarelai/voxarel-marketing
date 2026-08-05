@@ -232,9 +232,6 @@ function HeaderCard({ t }: { t: Tier1 }) {
         {t.service && <span className="text-faint">· {t.service}</span>}
         {t.carrier && <span className="text-faint">· Shipped with {t.carrier}</span>}
       </div>
-      {t.etaLine && (
-        <div className="mt-1.5 text-[14.5px] font-semibold text-mint-deep">{t.etaLine}</div>
-      )}
 
       <div className="mt-6">
         <div className="flex gap-1.5">

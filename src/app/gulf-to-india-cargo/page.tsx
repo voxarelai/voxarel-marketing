@@ -28,7 +28,7 @@ const data: LandingData = {
   builtForHeading: "Made for the Gulf to India corridor",
   builtFor: [
     "The Gulf to India lane has its own rhythm: heavy consolidation, personal and commercial cargo side by side, cash on delivery, and customers who track obsessively. Generic logistics software does not know this lane. Voxarel was built on it.",
-    "ST Courier, an international courier network, runs its entire business on Voxarel across more than 12 branches and 200 field agents, moving freight between the Gulf and India every day. The corridor rates, the consolidation and the settlement are shaped by how this lane actually works.",
+    "ST Courier, an international courier network, runs its entire business on Voxarel across more than 5 branches, moving freight between the Gulf and India every day. The corridor rates, the consolidation and the settlement are shaped by how this lane actually works.",
   ],
   capabilitiesHeading: "What the corridor needs",
   capabilities: [
@@ -42,7 +42,7 @@ const data: LandingData = {
   faqs: [
     {
       q: "Does Voxarel handle Gulf to India cargo?",
-      a: "Yes. Voxarel runs a real Gulf to India operation today: ST Courier uses it across more than 12 branches and 200 field agents, moving freight between the Gulf and India.",
+      a: "Yes. Voxarel runs a real Gulf to India operation today: ST Courier uses it across more than 5 branches, moving freight between the Gulf and India.",
     },
     {
       q: "Does it support consolidation on the corridor?",

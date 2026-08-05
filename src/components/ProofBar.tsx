@@ -2,8 +2,8 @@
 import { Reveal } from "@/components/Reveal";
 
 const facts = [
-  { n: "12+", l: "branches live" },
-  { n: "200+", l: "field agents" },
+  { n: "5+", l: "branches live" },
+  { n: "Sea + air", l: "freight" },
   { n: "7 yr", l: "audit trail" },
 ];
 
@@ -27,7 +27,7 @@ export function ProofBar() {
 
           <p className="max-w-sm text-center text-[15px] leading-relaxed text-muted sm:text-left">
             An international courier network running its entire operation on Voxarel.
-            Every branch, every agent, every invoice, on one platform.
+            Every branch, every booking, every invoice, on one platform.
           </p>
 
           <dl className="flex shrink-0 gap-8 sm:ml-auto sm:gap-9">

@@ -54,7 +54,7 @@ const data: LandingData = {
     },
     {
       q: "Is Voxarel proven in production?",
-      a: "Yes. ST Courier, an international courier network, runs its entire operation on Voxarel across more than 12 branches and 200 field agents.",
+      a: "Yes. ST Courier, an international courier network, runs its entire operation on Voxarel across more than 5 branches.",
     },
   ],
 };

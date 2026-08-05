@@ -45,7 +45,7 @@ const sections: LegalSection[] = [
   {
     title: "Tracking information",
     paragraphs: [
-      "Tracking data comes live from the systems of the carrier that operates your shipment. We show it as it is given to us. Statuses and arrival estimates are operational information, not promises. The carrier's contract with you governs the actual service. Private shipment details are only shown after verification, and access expires automatically.",
+      "Tracking data comes live from the systems of the carrier that operates your shipment. We show it as it is given to us. Statuses are operational information, not promises. The carrier's contract with you governs the actual service. Private shipment details are only shown after verification, and access expires automatically.",
     ],
   },
   {

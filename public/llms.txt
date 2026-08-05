@@ -9,8 +9,8 @@
 > in plain language. Voxarel is built for the Gulf-to-India corridor: cargo and courier
 > businesses moving freight between the GCC (UAE, Saudi Arabia, Oman, Qatar, Kuwait, Bahrain)
 > and India. It is operated by Azraq Ventures LLC, based in Dubai, United Arab Emirates, and is
-> used in production by an international courier network running 12+ branches and 200+ field
-> agents between the Gulf and India.
+> used in production by an international courier network running more than 5 branches on the
+> Gulf-to-India corridor, from bookings and warehouse to finance and cash settlement.
 
 ## What Voxarel is for
 

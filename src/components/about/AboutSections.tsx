@@ -12,7 +12,7 @@ const sections: { h: string; p: string }[] = [
   },
   {
     h: "Proven in production, not a prototype.",
-    p: "Voxarel runs a real, demanding operation today. ST Courier, an international courier network, runs its entire business on Voxarel across more than 12 branches and 200 field agents, moving freight between the Gulf and India. Real shipments, real cash, real month ends.",
+    p: "Voxarel runs a real, demanding operation today. ST Courier, an international courier network, runs its entire business on Voxarel across more than 5 branches, moving freight between the Gulf and India: bookings, warehouse, finance and cash settlement, all on one platform. Real shipments, real cash, real month ends.",
   },
   {
     h: "Who we are.",

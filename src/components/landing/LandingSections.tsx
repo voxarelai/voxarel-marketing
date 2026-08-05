@@ -116,8 +116,8 @@ export function LandingSections({ data }: { data: LandingData }) {
             </p>
             <p className="mt-3 text-pretty text-[16px] leading-relaxed text-muted">
               ST Courier, an international courier network, runs its entire operation on Voxarel
-              across more than 12 branches and 200 field agents, moving freight between the Gulf and
-              India.
+              across more than 5 branches, moving freight between the Gulf and India, with bookings,
+              warehouse, finance and cash settlement on one platform.
             </p>
           </Reveal>
         </div>
