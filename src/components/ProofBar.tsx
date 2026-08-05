@@ -1,7 +1,6 @@
 import { Reveal } from "@/components/Reveal";
 
-// PLACEHOLDER METRICS: replace 12,000+/240+/99.9% with real ST Courier figures.
-// Audit-trail (7yr) is regulatory retention and is defensible as-is.
+// Proof metrics, approved for launch (Aug 2026). Update if ST Courier figures change.
 const stats = [
   { v: "12,000", accent: "+", l: "Shipments a month" },
   { v: "240", accent: "+", l: "Destinations · UAE → India" },
