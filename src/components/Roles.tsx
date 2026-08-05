@@ -2,7 +2,7 @@ import { Reveal } from "@/components/Reveal";
 
 const roles = [
   {
-    role: "CEO / Business owner",
+    role: "CEO / Owner",
     prop: "See your entire operation in real time, from anywhere, on one screen.",
   },
   {
@@ -33,16 +33,16 @@ const roles = [
 
 export function Roles() {
   return (
-    <section id="roles" className="scroll-mt-20 py-20 sm:py-28">
+    <section id="roles" className="scroll-mt-20 py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.55fr] lg:gap-16">
           <Reveal>
-            <div className="lg:sticky lg:top-28">
-              <p className="font-display text-[12px] font-bold uppercase tracking-[0.22em] text-mint-deep">
+            <div className="lg:sticky lg:top-24">
+              <p className="font-display inline-flex items-center gap-2.5 text-[12px] font-medium uppercase tracking-[0.15em] text-mint-deep">
+                <span className="h-1.5 w-1.5 rounded-full bg-mint" />
                 Built for the whole team
               </p>
-              <div className="mt-3.5 h-[6px] w-[86px] rounded-[3px] bg-mint" />
-              <h2 className="font-display mt-5 text-balance text-3xl font-extrabold tracking-tight text-petrol-deep sm:text-[2.6rem] sm:leading-[1.15]">
+              <h2 className="font-display mt-4 text-balance text-3xl font-medium tracking-tight text-petrol-deep sm:text-[2.6rem] sm:leading-[1.08]">
                 Every role gets exactly what they need.
               </h2>
               <p className="mt-5 text-pretty text-lg leading-relaxed text-muted">
@@ -52,18 +52,14 @@ export function Roles() {
             </div>
           </Reveal>
 
-          <div className="overflow-hidden rounded-2xl border border-hair bg-white">
+          <div className="border-t border-hair">
             {roles.map((r, i) => (
-              <Reveal key={r.role} delay={i * 50}>
-                <div
-                  className={`flex flex-col gap-1 px-6 py-5 transition-colors hover:bg-tint/70 sm:flex-row sm:items-baseline sm:gap-6 sm:px-8 ${
-                    i !== 0 ? "border-t border-hair" : ""
-                  }`}
-                >
-                  <span className="font-display w-full shrink-0 text-[13px] font-bold uppercase tracking-wide text-petrol sm:w-48">
+              <Reveal key={r.role} delay={i * 40}>
+                <div className="grid gap-1 border-b border-hair px-1 py-5 transition-colors hover:bg-tint sm:grid-cols-[180px_1fr] sm:items-baseline sm:gap-5">
+                  <span className="font-display text-[13px] font-medium uppercase tracking-wide text-petrol">
                     {r.role}
                   </span>
-                  <span className="text-[15.5px] leading-relaxed text-muted">{r.prop}</span>
+                  <span className="text-[15px] leading-relaxed text-muted">{r.prop}</span>
                 </div>
               </Reveal>
             ))}

@@ -153,8 +153,7 @@ export function DemoExperience() {
             <p className="font-display text-[12px] font-bold uppercase tracking-[0.22em] text-mint-deep">
               Book a demo
             </p>
-            <div className="mt-3.5 h-[6px] w-[86px] rounded-[3px] bg-mint" />
-            <h1 className="font-display mt-5 text-balance text-4xl font-extrabold tracking-tight text-petrol-deep sm:text-5xl sm:leading-[1.1]">
+            <h1 className="font-display mt-5 text-balance text-4xl font-medium tracking-tight text-petrol-deep sm:text-5xl sm:leading-[1.1]">
               See your operation in Voxarel.
             </h1>
             <p className="mt-5 max-w-lg text-pretty text-lg leading-relaxed text-muted">
@@ -331,7 +330,7 @@ export function DemoExperience() {
                   type="submit"
                   disabled={pending}
                   aria-busy={pending}
-                  className="group mt-5 inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-petrol text-[16px] font-bold text-white shadow-[0_8px_24px_-8px_rgba(16,64,80,0.5)] transition-colors hover:bg-petrol-deep disabled:cursor-not-allowed disabled:opacity-60"
+                  className="group mt-5 inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-petrol text-[16px] font-bold text-white transition-colors hover:bg-petrol-deep disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {pending ? "Sending your request" : "Request a demo"}
                   {!pending && (

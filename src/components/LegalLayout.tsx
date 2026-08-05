@@ -29,8 +29,7 @@ export function LegalPage({
           <p className="font-display text-[12px] font-bold uppercase tracking-[0.22em] text-mint-deep">
             {kicker}
           </p>
-          <div className="mt-3.5 h-[6px] w-[86px] rounded-[3px] bg-mint" />
-          <h1 className="font-display mt-5 text-balance text-4xl font-extrabold tracking-tight text-petrol-deep sm:text-5xl">
+          <h1 className="font-display mt-5 text-balance text-4xl font-medium tracking-tight text-petrol-deep sm:text-5xl">
             {title}
           </h1>
           <p className="mt-5 text-pretty text-lg leading-relaxed text-muted">{intro}</p>
@@ -42,7 +41,7 @@ export function LegalPage({
             {sections.map((s, i) => (
               <section key={s.title}>
                 <h2 className="font-display flex items-baseline gap-3 text-[19px] font-bold text-petrol-deep">
-                  <span className="text-[13px] font-extrabold tabular-nums text-mint-deep">
+                  <span className="text-[13px] font-medium tabular-nums text-mint-deep">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   {s.title}

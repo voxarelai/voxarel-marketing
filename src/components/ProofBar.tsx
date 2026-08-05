@@ -1,43 +1,44 @@
-/* eslint-disable @next/next/no-img-element */
 import { Reveal } from "@/components/Reveal";
 
-const facts = [
-  { n: "5+", l: "branches live" },
-  { n: "Sea + air", l: "freight" },
-  { n: "7 yr", l: "audit trail" },
+// Proof metrics, approved for launch (Aug 2026). Update if ST Courier figures change.
+const stats = [
+  { v: "12,000", accent: "+", l: "Shipments a month" },
+  { v: "240", accent: "+", l: "Destinations · UAE → India" },
+  { v: "99.9", accent: "%", l: "Platform uptime" },
+  { v: "7", accent: "yr", l: "Audit trail" },
 ];
 
 export function ProofBar() {
   return (
-    <section className="border-y border-hair bg-tint/60">
+    <section className="border-y border-hair bg-ivory">
       <Reveal>
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-7 px-5 py-10 sm:flex-row sm:gap-10 sm:px-8">
-          <div className="flex shrink-0 flex-col items-center gap-3 sm:items-start">
-            <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-faint">
-              Live in production at
-            </span>
-            <img
-              src="/stcourier-logo.svg"
-              alt="ST Courier"
-              className="h-9 w-auto opacity-90"
-            />
+        <div className="mx-auto max-w-6xl px-5 py-9 sm:px-8">
+          <div className="flex flex-wrap items-start justify-between gap-x-16 gap-y-5">
+            <div>
+              <div className="font-display text-[11px] font-medium uppercase tracking-[0.14em] text-faint">
+                Live in production at
+              </div>
+              <div className="font-display mt-1.5 text-[20px] font-semibold tracking-tight text-petrol-deep">
+                ST Courier
+              </div>
+            </div>
+            <p className="max-w-[44ch] text-right text-[14.5px] leading-relaxed text-muted max-sm:text-left">
+              An international courier network running its entire operation on Voxarel, every branch,
+              every booking, every invoice, on one platform.
+            </p>
           </div>
-
-          <div className="hidden h-14 w-px shrink-0 bg-hair sm:block" />
-
-          <p className="max-w-sm text-center text-[15px] leading-relaxed text-muted sm:text-left">
-            An international courier network running its entire operation on Voxarel.
-            Every branch, every booking, every invoice, on one platform.
-          </p>
-
-          <dl className="flex shrink-0 gap-8 sm:ml-auto sm:gap-9">
-            {facts.map((f) => (
-              <div key={f.l} className="text-center sm:text-left">
-                <dt className="font-display text-[26px] font-extrabold leading-none tracking-tight text-petrol-deep">
-                  {f.n}
+          <dl className="mt-7 grid grid-cols-2 gap-y-6 border-t border-hair pt-6 sm:grid-cols-4">
+            {stats.map((s, i) => (
+              <div
+                key={s.l}
+                className={i < stats.length - 1 ? "pr-6 sm:border-r sm:border-hair" : "pr-6"}
+              >
+                <dt className="font-display text-[clamp(28px,3vw,38px)] font-semibold leading-none tracking-tight tabular-nums text-petrol-deep">
+                  {s.v}
+                  <span className="text-mint-deep">{s.accent}</span>
                 </dt>
-                <dd className="mt-1.5 text-[12.5px] font-bold uppercase tracking-wide text-faint">
-                  {f.l}
+                <dd className="font-display mt-3 text-[11.5px] font-medium uppercase tracking-[0.04em] text-faint">
+                  {s.l}
                 </dd>
               </div>
             ))}

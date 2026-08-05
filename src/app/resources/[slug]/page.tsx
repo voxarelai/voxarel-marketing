@@ -42,7 +42,7 @@ function renderBlock(b: Block, i: number) {
     return (
       <h2
         key={i}
-        className="font-display pt-3 text-2xl font-extrabold tracking-tight text-petrol-deep sm:text-[1.7rem]"
+        className="font-display pt-3 text-2xl font-medium tracking-tight text-petrol-deep sm:text-[1.7rem]"
       >
         {b.text}
       </h2>
@@ -97,7 +97,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <article className="relative overflow-hidden pb-8 pt-36 sm:pt-44">
           <div
             aria-hidden
-            className="absolute -top-48 left-1/2 -z-10 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-mint/20 blur-3xl"
+            className="absolute -top-48 left-1/2 -z-10 h-[420px] w-[720px] -translate-x-1/2 rounded-full hidden"
           />
           <div className="mx-auto max-w-3xl px-5 sm:px-8">
             <Reveal eager>
@@ -106,7 +106,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </p>
             </Reveal>
             <Reveal eager delay={80}>
-              <h1 className="font-display mt-4 text-balance text-[2.1rem] font-extrabold leading-[1.14] tracking-tight text-petrol-deep sm:text-[2.9rem]">
+              <h1 className="font-display mt-4 text-balance text-[2.1rem] font-medium leading-[1.14] tracking-tight text-petrol-deep sm:text-[2.9rem]">
                 {a.title}
               </h1>
             </Reveal>

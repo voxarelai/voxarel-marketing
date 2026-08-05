@@ -21,7 +21,7 @@ export function TrackInfo() {
     <section className="border-t border-hair bg-tint/40 py-16 sm:py-20">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <Reveal>
-          <h2 className="font-display text-center text-3xl font-extrabold tracking-tight text-petrol-deep sm:text-[2.2rem]">
+          <h2 className="font-display text-center text-3xl font-medium tracking-tight text-petrol-deep sm:text-[2.2rem]">
             How tracking works.
           </h2>
         </Reveal>

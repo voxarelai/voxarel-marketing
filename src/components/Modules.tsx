@@ -1,47 +1,35 @@
-import type { ComponentType, SVGProps } from "react";
-import { Package, Warehouse, Receipt, Layers, Route, Pulse, ArrowRight } from "@/components/icons";
+import { ArrowRight } from "@/components/icons";
 import { Reveal } from "@/components/Reveal";
 
-type Module = {
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
-  title: string;
-  description: string;
-  badge?: string;
-};
+type Module = { title: string; description: string; badge?: string };
 
 const modules: Module[] = [
   {
-    icon: Package,
     title: "Shipping",
     description:
       "Quotes, bookings, corridor rates, invoices and proof of delivery. Every shipment tracked from first call to final signature.",
   },
   {
-    icon: Warehouse,
     title: "Warehouse",
     description:
       "Scan in, scan out. Bin locations, expiry flags and variance checks, so nothing sits forgotten in a corner.",
   },
   {
-    icon: Receipt,
     title: "Finance",
     description:
       "Every transaction tracked from invoice to payment to reconciliation. Month-end in hours, audit-ready records on demand.",
   },
   {
-    icon: Layers,
     title: "Inventory",
     description:
       "Live stock levels across every branch: what's in, what's moving, and what needs attention before it becomes a problem.",
   },
   {
-    icon: Route,
     title: "Field operations",
     description:
       "Collections, routes and cash settlement on a phone. Faster for your agents and drivers than pen and paper.",
   },
   {
-    icon: Pulse,
     title: "Pulse, built-in AI",
     badge: "New",
     description:
@@ -49,56 +37,81 @@ const modules: Module[] = [
   },
 ];
 
-export function Modules() {
+function IndexRow({ m, n, side }: { m: Module; n: number; side: "left" | "right" }) {
   return (
-    <section id="platform" className="scroll-mt-20 py-20 sm:py-28">
+    <div
+      className={`group relative grid grid-cols-[42px_1fr] gap-3.5 border-b border-hair py-7 ${
+        side === "left" ? "md:border-r md:pr-11" : "md:pl-11"
+      }`}
+    >
+      <div className="font-mono text-[12.5px] tabular-nums text-mint-deep">
+        {String(n).padStart(2, "0")}
+      </div>
+      <div>
+        <h3 className="font-display flex items-center gap-2.5 text-[19px] font-medium tracking-tight text-ink">
+          {m.title}
+          {m.badge && (
+            <span className="rounded-full border border-hair px-1.5 py-0.5 font-display text-[9.5px] font-medium uppercase tracking-[0.06em] text-petrol-soft">
+              {m.badge}
+            </span>
+          )}
+        </h3>
+        <p className="mt-2 max-w-[44ch] text-[14.5px] leading-relaxed text-muted">{m.description}</p>
+      </div>
+      <ArrowRight
+        className={`absolute top-7 h-4 w-4 text-faint opacity-0 transition-opacity duration-200 group-hover:opacity-100 ${
+          side === "left" ? "right-0 md:right-11" : "right-0"
+        }`}
+      />
+    </div>
+  );
+}
+
+export function Modules() {
+  const left = modules.slice(0, 3);
+  const right = modules.slice(3);
+  return (
+    <section id="platform" className="scroll-mt-20 py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="font-display text-[12px] font-bold uppercase tracking-[0.22em] text-mint-deep">
+          <div className="max-w-[62ch]">
+            <p className="font-display inline-flex items-center gap-2.5 text-[12px] font-medium uppercase tracking-[0.15em] text-mint-deep">
+              <span className="h-1.5 w-1.5 rounded-full bg-mint" />
               The platform
             </p>
-            <div className="mx-auto mt-3.5 h-[6px] w-[86px] rounded-[3px] bg-mint" />
-            <h2 className="font-display mt-5 text-balance text-3xl font-extrabold tracking-tight text-petrol-deep sm:text-[2.6rem] sm:leading-[1.15]">
+            <h2 className="font-display mt-4 text-balance text-3xl font-medium tracking-tight text-petrol-deep sm:text-[2.6rem] sm:leading-[1.08]">
               One connected system.
             </h2>
             <p className="mt-5 text-pretty text-lg leading-relaxed text-muted">
-              Today it lives in WhatsApp groups, Excel sheets and someone&apos;s memory. Voxarel
-              puts it in one connected system, where a quote, its shipment, its money and its
-              paperwork are all the same thread.
+              Today it lives in WhatsApp groups, Excel sheets and someone&apos;s memory. Voxarel puts
+              it in one connected system, where a quote, its shipment, its money and its paperwork are
+              all the same thread.
             </p>
           </div>
         </Reveal>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {modules.map((m, i) => {
-            const Icon = m.icon;
-            return (
-              <Reveal key={m.title} delay={(i % 3) * 80}>
-                <div className="group h-full rounded-2xl border border-hair bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-mint/60 hover:shadow-[0_16px_40px_-16px_rgba(16,64,80,0.25)]">
-                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-tint text-petrol transition-colors group-hover:bg-mint/20">
-                    <Icon className="h-6 w-6" />
-                  </div>
-                  <h3 className="font-display flex items-center gap-2 text-[17px] font-bold text-ink">
-                    {m.title}
-                    {m.badge && (
-                      <span className="rounded-full bg-mint/15 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-mint-deep">
-                        {m.badge}
-                      </span>
-                    )}
-                  </h3>
-                  <p className="mt-2.5 text-[15px] leading-relaxed text-muted">{m.description}</p>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
+        <Reveal>
+          <div className="mt-12 border-t border-hair sm:mt-14">
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              <div>
+                {left.map((m, i) => (
+                  <IndexRow key={m.title} m={m} n={i + 1} side="left" />
+                ))}
+              </div>
+              <div>
+                {right.map((m, i) => (
+                  <IndexRow key={m.title} m={m} n={i + 4} side="right" />
+                ))}
+              </div>
+            </div>
+          </div>
+        </Reveal>
 
         <Reveal>
-          <div className="mt-12 text-center">
+          <div className="mt-12">
             <a
               href="/features"
-              className="group inline-flex items-center gap-1.5 font-display text-[15px] font-bold text-petrol transition-colors hover:text-petrol-deep"
+              className="group inline-flex items-center gap-1.5 font-display text-[15px] font-medium text-petrol transition-colors hover:text-petrol-deep"
             >
               See everything Voxarel does
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

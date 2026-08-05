@@ -24,7 +24,7 @@ export function DemoInfo() {
       <div className="mx-auto max-w-4xl px-5 sm:px-8">
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="font-display text-3xl font-extrabold tracking-tight text-petrol-deep sm:text-[2.2rem]">
+            <h2 className="font-display text-3xl font-medium tracking-tight text-petrol-deep sm:text-[2.2rem]">
               What to expect.
             </h2>
             <p className="mt-4 text-pretty text-lg leading-relaxed text-muted">
@@ -38,7 +38,7 @@ export function DemoInfo() {
           {steps.map((s, i) => (
             <Reveal key={s.n} delay={i * 80}>
               <div className="h-full rounded-2xl border border-hair bg-white p-7">
-                <div className="font-display flex h-10 w-10 items-center justify-center rounded-full bg-mint/15 text-[16px] font-extrabold text-mint-deep">
+                <div className="font-display flex h-10 w-10 items-center justify-center rounded-full bg-mint/15 text-[16px] font-medium text-mint-deep">
                   {s.n}
                 </div>
                 <h3 className="font-display mt-4 text-[17px] font-bold text-ink">{s.h}</h3>

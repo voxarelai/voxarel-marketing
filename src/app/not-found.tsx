@@ -25,7 +25,7 @@ export default function NotFound() {
           <p className="font-display text-[12px] font-bold uppercase tracking-[0.22em] text-mint-deep">
             404: Lost in transit
           </p>
-          <h1 className="font-display mt-5 text-balance text-4xl font-extrabold tracking-tight text-petrol-deep sm:text-6xl">
+          <h1 className="font-display mt-5 text-balance text-4xl font-medium tracking-tight text-petrol-deep sm:text-6xl">
             This page went missing.
           </h1>
           <p className="mx-auto mt-5 max-w-md text-pretty text-lg leading-relaxed text-muted">
@@ -35,7 +35,7 @@ export default function NotFound() {
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               href="/"
-              className="group inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-petrol px-8 text-[16px] font-bold text-white shadow-[0_8px_24px_-8px_rgba(16,64,80,0.5)] transition-colors hover:bg-petrol-deep"
+              className="group inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-petrol px-8 text-[16px] font-bold text-white transition-colors hover:bg-petrol-deep"
             >
               Back to home
               <ArrowRight className="h-4.5 w-4.5 transition-transform group-hover:translate-x-0.5" />

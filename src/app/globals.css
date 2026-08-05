@@ -20,8 +20,12 @@
   --color-muted: #5b6b6f;
   --color-faint: #93a2a4;
 
-  --font-display: var(--font-poppins);
+  --font-display: var(--font-geist-sans);
   --font-sans: var(--font-lato);
+  --font-mono: var(--font-geist-mono);
+
+  /* motion: custom curve (CSS defaults too weak for premium feel) */
+  --ease-out-quart: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html {
@@ -31,7 +35,7 @@ html {
 body {
   font-family: var(--font-lato), system-ui, sans-serif;
   color: var(--color-ink);
-  background: #ffffff;
+  background: #fcfcfb;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -46,13 +50,20 @@ body {
     0 12px 32px -20px rgba(16, 64, 80, 0.18);
 }
 
+/* Elevated product-frame shadow (soft, not glow) */
+.frame-elevate {
+  box-shadow:
+    0 2px 4px rgba(16, 64, 80, 0.05),
+    0 44px 90px -44px rgba(16, 64, 80, 0.38);
+}
+
 /* Reveal-on-scroll (applied via JS, degrades gracefully) */
 .reveal {
   opacity: 0;
-  transform: translateY(16px);
+  transform: translateY(10px);
   transition:
-    opacity 0.7s ease-out,
-    transform 0.7s ease-out;
+    opacity 0.55s var(--ease-out-quart),
+    transform 0.55s var(--ease-out-quart);
 }
 
 .reveal.is-visible {
@@ -63,13 +74,13 @@ body {
 /* Eager reveal for above-the-fold content: animates in from first paint via
    CSS, so it never waits for JS/hydration and keeps LCP fast. */
 .reveal-eager {
-  animation: reveal-in 0.7s ease-out both;
+  animation: reveal-in 0.6s var(--ease-out-quart) both;
 }
 
 @keyframes reveal-in {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
