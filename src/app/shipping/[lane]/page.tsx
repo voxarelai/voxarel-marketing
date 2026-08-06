@@ -23,7 +23,7 @@ export async function generateMetadata({
   if (!l) return {};
   const url = `/shipping/${l.slug}`;
   const title = `${l.origin} to ${l.destination} cargo & courier software | Voxarel`;
-  const description = `Ship ${l.origin} to ${l.destination} on one system: sea and air freight (${l.seaTransit} by sea), cash on delivery in rupees, customs docs, live tracking and reconciliation with Voxarel.`;
+  const description = `Ship ${l.origin} to ${l.destination} on one system: sea and air freight (${l.seaTransit} by sea), instant bookings, approval flows, customs docs and live tracking with Voxarel.`;
   return {
     title,
     description,
