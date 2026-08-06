@@ -1,17 +1,15 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { CtaBand } from "@/components/CtaBand";
 import { BrandRings } from "@/components/BrandRings";
-import { ArrowRight } from "@/components/icons";
 import { Reveal } from "@/components/Reveal";
-import { lanes } from "@/lib/lanes";
+import { CorridorDirectory } from "@/components/shipping/CorridorDirectory";
 
 export const metadata: Metadata = {
   title: "Gulf to India shipping corridors | Voxarel",
   description:
-    "Run every Gulf to India cargo and courier lane on one system: Dubai to Chennai, Sharjah to Mumbai, Abu Dhabi to Cochin and more, with rates, customs, cash on delivery and tracking in one place.",
+    "Every Gulf to India cargo and courier lane on one system: Dubai to Chennai, Sharjah to Mumbai, Abu Dhabi to Cochin and more, with transit times, customs, cash on delivery and tracking. Search and compare corridors.",
   alternates: { canonical: "/shipping" },
 };
 
@@ -20,7 +18,7 @@ export default function ShippingHub() {
     <>
       <Navigation />
       <main>
-        <section className="relative overflow-clip pt-28 pb-10 sm:pt-36 sm:pb-12">
+        <section className="relative overflow-clip pt-28 pb-8 sm:pt-36 sm:pb-10">
           <BrandRings className="pointer-events-none absolute -top-40 right-[-120px] -z-10 w-[min(720px,68vw)]" />
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
             <Reveal eager>
@@ -36,8 +34,8 @@ export default function ShippingHub() {
             </Reveal>
             <Reveal eager delay={160}>
               <p className="mt-6 max-w-[54ch] text-pretty text-lg leading-relaxed text-muted sm:text-xl">
-                Every corridor Voxarel runs, on one system: rates, customs, cash on delivery and
-                tracking from the first quote to the final settlement.
+                Find your corridor, then run it on one system: transit times, customs, cash on
+                delivery and tracking, from the first quote to the final settlement.
               </p>
             </Reveal>
           </div>
@@ -45,23 +43,7 @@ export default function ShippingHub() {
 
         <section className="pb-24 sm:pb-32">
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
-            <div className="border-t border-hair">
-              {lanes.map((l) => (
-                <Link
-                  key={l.slug}
-                  href={`/shipping/${l.slug}`}
-                  className="group grid grid-cols-[1fr_auto] items-center gap-4 border-b border-hair py-5 transition-colors hover:bg-tint sm:grid-cols-[1.4fr_1fr_auto]"
-                >
-                  <span className="font-display text-[17px] font-medium tracking-tight text-ink">
-                    {l.origin} to {l.destination}
-                  </span>
-                  <span className="hidden font-mono text-[13px] text-faint sm:block">
-                    {l.seaTransit} sea · {l.distanceKm.toLocaleString("en-US")} km
-                  </span>
-                  <ArrowRight className="h-4 w-4 justify-self-end text-faint transition-all group-hover:translate-x-0.5 group-hover:text-petrol" />
-                </Link>
-              ))}
-            </div>
+            <CorridorDirectory />
           </div>
         </section>
       </main>
