@@ -8,6 +8,11 @@ import type { NextConfig } from "next";
 // same-origin /api routes, so connect-src/form-action stay 'self'.
 const POSTHOG = "https://eu.i.posthog.com https://eu-assets.i.posthog.com";
 
+// Next.js dev mode uses eval() for HMR / React Fast Refresh; production builds do
+// not. Without 'unsafe-eval' the browser blocks dev hydration, leaving `next dev`
+// completely non-interactive. Allow it in development only; production stays locked.
+const isDev = process.env.NODE_ENV !== "production";
+
 const contentSecurityPolicy = [
   "default-src 'self'",
   "base-uri 'self'",
@@ -15,7 +20,7 @@ const contentSecurityPolicy = [
   "frame-ancestors 'none'",
   "frame-src 'none'",
   "form-action 'self'",
-  `script-src 'self' 'unsafe-inline' ${POSTHOG}`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} ${POSTHOG}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data:",
   "font-src 'self'",

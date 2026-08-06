@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Search, MapPin } from "@/components/icons";
 import { lanes, type Lane } from "@/lib/lanes";
@@ -57,6 +57,13 @@ export function CorridorDirectory() {
       return hay.includes(query);
     });
   }, [q, origin]);
+
+  const perPage = 24;
+  const [page, setPage] = useState(1);
+  useEffect(() => setPage(1), [q, origin]);
+  const pageCount = Math.max(1, Math.ceil(filtered.length / perPage));
+  const current = Math.min(page, pageCount);
+  const paged = filtered.slice((current - 1) * perPage, current * perPage);
 
   const reset = () => {
     setQ("");
@@ -122,11 +129,36 @@ export function CorridorDirectory() {
           </button>
         </div>
       ) : (
-        <div className="mt-8 border-t border-hair">
-          {filtered.map((l) => (
-            <Row key={l.slug} l={l} />
-          ))}
-        </div>
+        <>
+          <div className="mt-8 border-t border-hair">
+            {paged.map((l) => (
+              <Row key={l.slug} l={l} />
+            ))}
+          </div>
+          {pageCount > 1 && (
+            <div className="mt-8 flex items-center justify-between gap-4">
+              <button
+                onClick={() => setPage(current - 1)}
+                disabled={current === 1}
+                className="font-display inline-flex h-[42px] items-center gap-1.5 rounded-lg border border-hair px-4 text-[14px] font-medium text-petrol transition-colors hover:bg-tint disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <ArrowRight className="h-3.5 w-3.5 rotate-180" />
+                Previous
+              </button>
+              <span className="font-mono text-[13px] text-faint">
+                Page {current} of {pageCount}
+              </span>
+              <button
+                onClick={() => setPage(current + 1)}
+                disabled={current === pageCount}
+                className="font-display inline-flex h-[42px] items-center gap-1.5 rounded-lg border border-hair px-4 text-[14px] font-medium text-petrol transition-colors hover:bg-tint disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Next
+                <ArrowRight className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
