@@ -37,8 +37,8 @@ export function laneFaqs(l: Lane): { q: string; a: string }[] {
       a: `Usually a commercial invoice, packing list, certificate of origin, and a bill of lading (sea) or airway bill (air), plus payment terms where applicable. Under the India-UAE CEPA, a valid certificate of origin can reduce or remove customs duty. Voxarel keeps each document attached to the shipment and flags what is missing before dispatch.`,
     },
     {
-      q: `Can I collect cash on delivery in ${l.destination}?`,
-      a: `Yes. Voxarel collects and reconciles cash on delivery in INR at ${l.destination}, settled per driver and branch, and matched back to your AED accounts.`,
+      q: `How do I book and manage a ${l.origin} to ${l.destination} shipment?`,
+      a: `On Voxarel, a quote off your corridor rates becomes a booking and collection in one flow. Price changes, surcharges and upgrades route for approval before anything moves, and every shipment carries its documents, status and full audit trail in one place.`,
     },
     {
       q: `Does Voxarel handle consolidation on the ${l.origin} to ${l.destination} lane?`,
@@ -72,20 +72,20 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
     { big: l.seaTransit, unit: "", label: "Sea transit" },
     air ? { big: air, unit: "", label: "Air transit" } : { big: "Sea only", unit: "", label: "Mode" },
     { big: `~${l.distanceKm.toLocaleString("en-US")}`, unit: "km", label: "Distance" },
-    { big: "AED · INR", unit: "", label: "Dual-currency COD" },
+    { big: "AED · INR", unit: "", label: "Billing currencies" },
   ];
   const capabilities = [
     {
+      h: "Instant booking",
+      p: `Quote off your corridor rates and turn it into a booking and collection in one flow, with no re-keying between the quote, the shipment and the warehouse.`,
+    },
+    {
+      h: "Approval flows",
+      p: `Surcharges, sea-to-air upgrades, price edits and voids route for sign-off before anything moves, with an immutable audit trail of who did what.`,
+    },
+    {
       h: "Corridor rates",
       p: `Price the ${l.origin} to ${l.destination} lane the way you actually quote it, sea and air, per kg and per CBM, with surcharges and exchange built in.`,
-    },
-    {
-      h: "Customs and documents",
-      p: `AWB, commercial invoice, packing list and Indian import paperwork tracked against each shipment, with approvals before anything moves.`,
-    },
-    {
-      h: "Cash on delivery in rupees",
-      p: `Collect and reconcile COD in INR at ${l.destination}, settled per driver and per branch, matched back to your AED books.`,
     },
     {
       h: "Live tracking, pickup to last mile",
@@ -120,8 +120,8 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
           <Reveal eager delay={160}>
             <p className="mt-6 max-w-[56ch] text-pretty text-lg leading-relaxed text-muted sm:text-xl">
               {l.blurb} Sea freight in {l.seaTransit}
-              {air ? `, air cargo in ${air}` : ""}. Book, track, clear and settle every shipment on
-              Voxarel, with cash on delivery in rupees, customs docs and reconciliation in one place.
+              {air ? `, air cargo in ${air}` : ""}. Quote, book, track and settle every shipment on
+              Voxarel, with instant bookings, approval flows and customs docs in one place.
             </p>
           </Reveal>
 
