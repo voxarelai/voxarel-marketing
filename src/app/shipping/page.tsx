@@ -9,7 +9,7 @@ import { CorridorDirectory } from "@/components/shipping/CorridorDirectory";
 export const metadata: Metadata = {
   title: "Gulf to India shipping corridors | Voxarel",
   description:
-    "Every Gulf to India cargo and courier lane on one system: Dubai to Chennai, Sharjah to Mumbai, Abu Dhabi to Cochin and more, with transit times, customs, cash on delivery and tracking. Search and compare corridors.",
+    "Every Gulf to India cargo and courier lane on one system: Dubai to Chennai, Sharjah to Mumbai, Abu Dhabi to Cochin and more, with instant bookings, approval flows, transit times, customs and tracking. Search and compare corridors.",
   alternates: { canonical: "/shipping" },
 };
 
