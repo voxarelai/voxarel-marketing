@@ -44,6 +44,7 @@ export function Navigation() {
             width={382}
             height={77}
             priority
+            sizes="140px"
             className="h-7 w-auto"
           />
         </Link>
@@ -54,7 +55,7 @@ export function Navigation() {
               key={l.href}
               href={l.href}
               onClick={() => l.href === "/track" && track("cta_track_click", { placement: "nav" })}
-              className="font-display text-[14.5px] font-medium text-muted transition-colors hover:text-petrol"
+              className="inline-block py-1 font-display text-[14.5px] font-medium text-muted transition-colors hover:text-petrol"
             >
               {l.label}
             </a>

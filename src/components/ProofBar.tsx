@@ -15,7 +15,7 @@ export function ProofBar() {
         <div className="mx-auto max-w-6xl px-5 py-9 sm:px-8">
           <div className="flex flex-wrap items-start justify-between gap-x-16 gap-y-5">
             <div>
-              <div className="font-display text-[11px] font-medium uppercase tracking-[0.14em] text-faint">
+              <div className="font-display text-[12px] font-medium uppercase tracking-[0.14em] text-faint">
                 Live in production at
               </div>
               <div className="font-display mt-1.5 text-[20px] font-semibold tracking-tight text-petrol-deep">

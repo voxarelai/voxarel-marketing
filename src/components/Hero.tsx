@@ -56,7 +56,7 @@ export function Hero() {
       </div>
 
       <div id="product" className="mx-auto mt-14 max-w-[80rem] scroll-mt-24 px-5 sm:mt-16 sm:px-8">
-        <Reveal delay={120}>
+        <Reveal eager delay={120}>
           <ProductMock />
         </Reveal>
       </div>
