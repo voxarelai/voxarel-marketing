@@ -186,6 +186,9 @@ const curatedBlurbs: Record<string, string> = {
     "Sharjah's courier and consolidation traffic to Mumbai runs on a short, fast sea leg with strong daily air-cargo capacity.",
 };
 
+// Origin-major order (every destination for origin 0, then origin 1, ...). The
+// internal-linking helpers below index into this array by originIndex * D +
+// destIndex, so do not sort or reorder it; build a separate view instead.
 export const lanes: Lane[] = origins
   .flatMap((o) => destinations.map((d) => makeLane(o, d)))
   .map((l) => (curatedBlurbs[l.slug] ? { ...l, blurb: curatedBlurbs[l.slug] } : l));
@@ -198,4 +201,66 @@ export function getLane(slug: string): Lane | undefined {
 
 export function laneTitle(l: Lane): string {
   return `${l.origin} to ${l.destination}`;
+}
+
+// ---------------------------------------------------------------------------
+// Internal-linking helpers (all rely on `lanes` being origin-major, see above).
+// ---------------------------------------------------------------------------
+
+const O = origins.length;
+const D = destinations.length;
+const indexBySlug = new Map(lanes.map((l, i) => [l.slug, i] as const));
+
+function laneAt(oi: number, di: number): Lane {
+  return lanes[(((oi % O) + O) % O) * D + (((di % D) + D) % D)];
+}
+
+/**
+ * Deterministic sibling set for the "Related corridors" block. Cyclic
+ * neighbours in array order: the next `sameOrigin` destinations from the same
+ * origin and the next `sameDest` origins to the same destination. Each "next k"
+ * map is a permutation of the lane grid, so every lane receives exactly
+ * sameOrigin + sameDest inbound links from this rule alone. The flagship Dubai
+ * lane to the same destination is appended when it is not already present.
+ */
+export function relatedLanes(l: Lane, sameOrigin = 3, sameDest = 2): Lane[] {
+  const i = indexBySlug.get(l.slug);
+  if (i === undefined) return [];
+  const oi = Math.floor(i / D);
+  const di = i % D;
+  const out: Lane[] = [];
+  for (let k = 1; k <= sameOrigin; k++) out.push(laneAt(oi, di + k));
+  for (let k = 1; k <= sameDest; k++) out.push(laneAt(oi + k, di));
+  const flagship = laneAt(0, di);
+  const seen = new Set(out.map((x) => x.slug));
+  seen.add(l.slug);
+  if (!seen.has(flagship.slug)) out.push(flagship);
+  return out;
+}
+
+/** Lanes grouped by origin, in origin order (powers the /shipping index). */
+export function lanesByOrigin(): { origin: string; code: string; lanes: Lane[] }[] {
+  return origins.map((o, oi) => ({
+    origin: o.name,
+    code: o.code,
+    lanes: lanes.slice(oi * D, (oi + 1) * D),
+  }));
+}
+
+/** Flagship corridors surfaced on the solution pages. */
+export const FLAGSHIP_SLUGS = [
+  "dubai-to-chennai",
+  "dubai-to-mumbai",
+  "dubai-to-kochi",
+  "dubai-to-delhi",
+  "dubai-to-bengaluru",
+  "dubai-to-hyderabad",
+  "sharjah-to-mumbai",
+  "abu-dhabi-to-kochi",
+];
+
+export function flagshipCorridorLinks(): { label: string; href: string }[] {
+  return FLAGSHIP_SLUGS.map(getLane)
+    .filter((l): l is Lane => Boolean(l))
+    .map((l) => ({ label: laneTitle(l), href: `/shipping/${l.slug}` }));
 }

@@ -4,22 +4,16 @@ import { Footer } from "@/components/Footer";
 import { CtaBand } from "@/components/CtaBand";
 import { JsonLd } from "@/components/JsonLd";
 import { LandingSections, faqPageSchema, type LandingData } from "@/components/landing/LandingSections";
+import { pageMeta } from "@/lib/metadata";
+import { flagshipCorridorLinks } from "@/lib/lanes";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/gulf-to-india-cargo" },
-  title: "Gulf to India cargo software | Voxarel",
-  description:
-    "Software built for cargo moving Gulf to India: corridor rates, consolidation, cash on delivery and tracking, in one connected system. Proven in production on the lane.",
-  openGraph: {
-    title: "Gulf to India cargo software | Voxarel",
-    description:
-      "One connected system for the Gulf to India lane: corridor rates, consolidation, cash on delivery and tracking. Proven in production.",
-    type: "website",
-    url: "/gulf-to-india-cargo",
-    siteName: "Voxarel",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Voxarel Gulf to India cargo software" }],
-  },
-};
+export const metadata: Metadata = pageMeta({
+  path: "/gulf-to-india-cargo",
+  title: "Gulf to India cargo software",
+  description: "Software built for cargo moving Gulf to India: corridor rates, consolidation, cash on delivery and tracking, in one connected system. Proven on the lane.",
+  ogDescription: "One connected system for the Gulf to India lane: corridor rates, consolidation, cash on delivery and tracking. Proven in production.",
+  ogImageAlt: "Voxarel Gulf to India cargo software",
+});
 
 const data: LandingData = {
   eyebrow: "Gulf to India cargo software",
@@ -39,6 +33,7 @@ const data: LandingData = {
     { title: "Warehouse and containers", desc: "Scan, manifest and load, built for consolidation on the lane." },
     { title: "Pulse AI", desc: "Ask about shipments on the corridor in plain language, on web or WhatsApp." },
   ],
+  corridors: flagshipCorridorLinks(),
   faqs: [
     {
       q: "Does Voxarel handle Gulf to India cargo?",

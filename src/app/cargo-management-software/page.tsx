@@ -4,22 +4,16 @@ import { Footer } from "@/components/Footer";
 import { CtaBand } from "@/components/CtaBand";
 import { JsonLd } from "@/components/JsonLd";
 import { LandingSections, faqPageSchema, type LandingData } from "@/components/landing/LandingSections";
+import { pageMeta } from "@/lib/metadata";
+import { flagshipCorridorLinks } from "@/lib/lanes";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/cargo-management-software" },
-  title: "Cargo management software | Voxarel",
-  description:
-    "Cargo management software for consolidators and forwarders: quotes, bookings, warehouse, container manifests, finance and COD, tracking and Pulse AI, in one connected system.",
-  openGraph: {
-    title: "Cargo management software | Voxarel",
-    description:
-      "One connected system for cargo companies: quotes, bookings, warehouse and containers, finance and COD, tracking and Pulse AI. Proven in production.",
-    type: "website",
-    url: "/cargo-management-software",
-    siteName: "Voxarel",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Voxarel cargo management software" }],
-  },
-};
+export const metadata: Metadata = pageMeta({
+  path: "/cargo-management-software",
+  title: "Cargo management software",
+  description: "Cargo management software for consolidators and forwarders: quotes, bookings, warehouse, manifests, finance, tracking and Pulse AI, in one connected system.",
+  ogDescription: "One connected system for cargo companies: quotes, bookings, warehouse and containers, finance and COD, tracking and Pulse AI. Proven in production.",
+  ogImageAlt: "Voxarel cargo management software",
+});
 
 const data: LandingData = {
   eyebrow: "Cargo management software",
@@ -39,6 +33,7 @@ const data: LandingData = {
     { title: "Complaints and control", desc: "Complaints, approvals, an immutable audit trail and roles for every job." },
     { title: "Pulse AI", desc: "Ask about shipments, stock or invoices in plain language, on web or WhatsApp." },
   ],
+  corridors: flagshipCorridorLinks(),
   faqs: [
     {
       q: "What is cargo management software?",

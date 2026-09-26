@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
   const allow = ["/"];
   return {
     rules: [
-      { userAgent: "*", allow },
+      { userAgent: "*", allow, disallow: ["/api/"] },
       { userAgent: "GPTBot", allow }, // ChatGPT search/index
       { userAgent: "OAI-SearchBot", allow }, // ChatGPT search
       { userAgent: "ChatGPT-User", allow }, // ChatGPT user-triggered fetch

@@ -4,7 +4,8 @@ import { ArrowRight, Check } from "@/components/icons";
 import { BrandRings } from "@/components/BrandRings";
 import { Reveal } from "@/components/Reveal";
 import { DEMO_URL, TRACK_URL } from "@/lib/site";
-import { lanes, type Lane } from "@/lib/lanes";
+import { relatedLanes, type Lane } from "@/lib/lanes";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 // Standard India import documents (direction-agnostic across Gulf to India lanes).
 const importDocs = [
@@ -93,9 +94,7 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
     },
   ];
   const faqs = laneFaqs(l);
-  const related = lanes
-    .filter((x) => x.slug !== l.slug && (x.origin === l.origin || x.destination === l.destination))
-    .slice(0, 5);
+  const related = relatedLanes(l);
 
   return (
     <>
@@ -103,9 +102,14 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
       <section className="relative overflow-clip pt-28 pb-14 sm:pt-36 sm:pb-16">
         <BrandRings className="pointer-events-none absolute -top-40 right-[-120px] -z-10 w-[min(720px,68vw)]" />
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          <p className="mb-5 font-mono text-[12.5px] text-faint">
-            Corridors / UAE → India / {l.origin} to {l.destination}
-          </p>
+          <Breadcrumbs
+            className="mb-5"
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Corridors", href: "/shipping" },
+              { label: `${l.origin} to ${l.destination}` },
+            ]}
+          />
           <Reveal eager>
             <p className="font-display inline-flex items-center gap-2.5 text-[12px] font-medium uppercase tracking-[0.15em] text-mint-deep">
               <span className="h-1.5 w-1.5 rounded-full bg-mint" />
@@ -316,6 +320,18 @@ export function CorridorSections({ lane: l }: { lane: Lane }) {
                 </div>
               ))}
             </div>
+            <p className="mt-8 max-w-[60ch] text-[14.5px] leading-relaxed text-muted">
+              Voxarel is{" "}
+              <Link href="/gulf-to-india-cargo" className="font-medium text-petrol hover:underline">
+                Gulf to India cargo software
+              </Link>{" "}
+              and{" "}
+              <Link href="/freight-forwarding-software" className="font-medium text-petrol hover:underline">
+                freight forwarding software
+              </Link>{" "}
+              for the whole file, proven in production with a courier network moving freight
+              between the Gulf and India.
+            </p>
           </Reveal>
         </div>
       </section>

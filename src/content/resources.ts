@@ -146,6 +146,7 @@ export const articles: Article[] = [
     ],
     related: [
       { label: "Cargo management software", href: "/cargo-management-software" },
+      { label: "Gulf to India shipping corridors", href: "/shipping" },
       { label: "See the full platform", href: "/features" },
       { label: "Book a demo", href: "/demo" },
     ],

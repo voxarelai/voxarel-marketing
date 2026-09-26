@@ -5,9 +5,12 @@ import { Footer } from "@/components/Footer";
 import { CtaBand } from "@/components/CtaBand";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ArrowRight, Check } from "@/components/icons";
 import { articles, getArticle, formatDate, type Block } from "@/content/resources";
 import { SITE_URL } from "@/lib/site";
+import { breadcrumbSchema } from "@/lib/schema";
+import { pageMeta } from "@/lib/metadata";
 
 export function generateStaticParams() {
   return articles.map((a) => ({ slug: a.slug }));
@@ -21,20 +24,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const a = getArticle(slug);
   if (!a) return {};
-  const url = `/resources/${a.slug}`;
-  return {
-    title: `${a.title} | Voxarel`,
+  return pageMeta({
+    path: `/resources/${a.slug}`,
+    title: a.title,
     description: a.description,
-    alternates: { canonical: url },
-    openGraph: {
-      title: a.title,
-      description: a.description,
-      type: "article",
-      url,
-      siteName: "Voxarel",
-      images: [{ url: "/og.png", width: 1200, height: 630, alt: "Voxarel" }],
-    },
-  };
+    ogType: "article",
+    ogImageAlt: a.title,
+  });
 }
 
 function renderBlock(b: Block, i: number) {
@@ -101,9 +97,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           />
           <div className="mx-auto max-w-3xl px-5 sm:px-8">
             <Reveal eager>
-              <p className="font-display text-[12px] font-bold uppercase tracking-[0.22em] text-mint-deep">
-                Resources
-              </p>
+              <Breadcrumbs
+                items={[
+                  { label: "Home", href: "/" },
+                  { label: "Resources", href: "/resources" },
+                  { label: a.title },
+                ]}
+              />
             </Reveal>
             <Reveal eager delay={80}>
               <h1 className="font-display mt-4 text-balance text-[2.1rem] font-medium leading-[1.14] tracking-tight text-petrol-deep sm:text-[2.9rem]">
@@ -141,7 +141,16 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       </main>
       <CtaBand />
       <Footer />
-      <JsonLd data={schema} />
+      <JsonLd
+        data={[
+          schema,
+          breadcrumbSchema([
+            { label: "Home", href: "/" },
+            { label: "Resources", href: "/resources" },
+            { label: a.title, href: `/resources/${a.slug}` },
+          ]),
+        ]}
+      />
     </>
   );
 }

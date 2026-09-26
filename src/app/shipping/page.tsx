@@ -5,13 +5,15 @@ import { CtaBand } from "@/components/CtaBand";
 import { BrandRings } from "@/components/BrandRings";
 import { Reveal } from "@/components/Reveal";
 import { CorridorDirectory } from "@/components/shipping/CorridorDirectory";
+import { CorridorIndex } from "@/components/shipping/CorridorIndex";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Gulf to India shipping corridors | Voxarel",
-  description:
-    "Every Gulf to India cargo and courier lane on one system: Dubai to Chennai, Sharjah to Mumbai, Abu Dhabi to Cochin and more, with instant bookings, approval flows, transit times, customs and tracking. Search and compare corridors.",
-  alternates: { canonical: "/shipping" },
-};
+export const metadata: Metadata = pageMeta({
+  path: "/shipping",
+  title: "Gulf to India shipping corridors",
+  description: "500 UAE to India cargo and courier lanes on one system: Dubai to Chennai, Sharjah to Mumbai, Abu Dhabi to Kochi. Transit times, customs, rates and tracking.",
+  ogImageAlt: "Voxarel: Gulf to India shipping corridors",
+});
 
 export default function ShippingHub() {
   return (
@@ -41,11 +43,12 @@ export default function ShippingHub() {
           </div>
         </section>
 
-        <section className="pb-24 sm:pb-32">
+        <section className="pb-16 sm:pb-20">
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
             <CorridorDirectory />
           </div>
         </section>
+        <CorridorIndex />
       </main>
       <CtaBand />
       <Footer />

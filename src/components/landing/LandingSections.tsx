@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowRight } from "@/components/icons";
 import { BrandRings } from "@/components/BrandRings";
 import { Reveal } from "@/components/Reveal";
@@ -12,6 +13,8 @@ export type LandingData = {
   capabilitiesHeading: string;
   capabilities: { title: string; desc: string }[];
   faqs: { q: string; a: string }[];
+  /** Optional corridor links rendered before the FAQ (internal linking to /shipping). */
+  corridors?: { label: string; href: string }[];
 };
 
 export function faqPageSchema(faqs: { q: string; a: string }[]) {
@@ -155,6 +158,42 @@ export function LandingSections({ data }: { data: LandingData }) {
           </Reveal>
         </div>
       </section>
+
+      {/* Popular corridors (internal linking to the lane pages) */}
+      {data.corridors && data.corridors.length > 0 && (
+        <section className="py-16 sm:py-20">
+          <div className="mx-auto max-w-6xl px-5 sm:px-8">
+            <Reveal>
+              <p className="font-display text-[12px] font-medium uppercase tracking-[0.15em] text-faint">
+                Popular corridors
+              </p>
+              <h2 className="font-display mt-3 text-2xl font-medium tracking-tight text-petrol-deep sm:text-[1.9rem]">
+                Run these lanes on Voxarel.
+              </h2>
+            </Reveal>
+            <Reveal>
+              <div className="mt-6 flex flex-wrap gap-3">
+                {data.corridors.map((c) => (
+                  <Link
+                    key={c.href}
+                    href={c.href}
+                    className="font-display rounded-lg border border-hair bg-white px-4 py-2.5 text-[14px] font-medium text-petrol transition-colors hover:bg-tint"
+                  >
+                    {c.label}
+                  </Link>
+                ))}
+                <Link
+                  href="/shipping"
+                  className="font-display inline-flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-[14px] font-medium text-muted transition-colors hover:text-petrol"
+                >
+                  All corridors
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      )}
 
       {/* FAQ */}
       <section className="py-20 sm:py-24">

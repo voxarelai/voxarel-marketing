@@ -4,22 +4,16 @@ import { Footer } from "@/components/Footer";
 import { CtaBand } from "@/components/CtaBand";
 import { JsonLd } from "@/components/JsonLd";
 import { LandingSections, faqPageSchema, type LandingData } from "@/components/landing/LandingSections";
+import { pageMeta } from "@/lib/metadata";
+import { flagshipCorridorLinks } from "@/lib/lanes";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/freight-forwarding-software" },
-  title: "Freight forwarding software | Voxarel",
-  description:
-    "Freight forwarding software that runs the whole file: quotes, bookings, documents, warehouse, finance and tracking on one connected platform. Proven in production.",
-  openGraph: {
-    title: "Freight forwarding software | Voxarel",
-    description:
-      "One connected system for forwarders: quotes, documents, warehouse, finance and tracking, with real margin per shipment. Proven in production.",
-    type: "website",
-    url: "/freight-forwarding-software",
-    siteName: "Voxarel",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Voxarel freight forwarding software" }],
-  },
-};
+export const metadata: Metadata = pageMeta({
+  path: "/freight-forwarding-software",
+  title: "Freight forwarding software",
+  description: "Freight forwarding software that runs the whole file: quotes, bookings, documents, warehouse, finance and tracking on one platform. Proven in production.",
+  ogDescription: "One connected system for forwarders: quotes, documents, warehouse, finance and tracking, with real margin per shipment. Proven in production.",
+  ogImageAlt: "Voxarel freight forwarding software",
+});
 
 const data: LandingData = {
   eyebrow: "Freight forwarding software",
@@ -39,6 +33,7 @@ const data: LandingData = {
     { title: "Tracking and delivery", desc: "Public tracking, a live status timeline, and proof of delivery." },
     { title: "Pulse AI", desc: "Ask about any file in plain language, on web or WhatsApp." },
   ],
+  corridors: flagshipCorridorLinks(),
   faqs: [
     {
       q: "What is freight forwarding software?",
