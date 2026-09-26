@@ -4,22 +4,15 @@ import { Footer } from "@/components/Footer";
 import { CtaBand } from "@/components/CtaBand";
 import { JsonLd } from "@/components/JsonLd";
 import { LandingSections, faqPageSchema, type LandingData } from "@/components/landing/LandingSections";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/3pl-software" },
-  title: "3PL software | Voxarel",
-  description:
-    "3PL software to run a third party logistics operation: warehouse, shipping, finance, multi-branch and client visibility, in one connected system. Proven in production.",
-  openGraph: {
-    title: "3PL software | Voxarel",
-    description:
-      "One connected system for third party logistics: warehouse, shipping, finance, multi-branch and client visibility. Proven in production.",
-    type: "website",
-    url: "/3pl-software",
-    siteName: "Voxarel",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Voxarel 3PL software" }],
-  },
-};
+export const metadata: Metadata = pageMeta({
+  path: "/3pl-software",
+  title: "3PL software",
+  description: "3PL software for third party logistics: warehouse, shipping, finance, multi-branch and client visibility, in one connected system. Proven in production.",
+  ogDescription: "One connected system for third party logistics: warehouse, shipping, finance, multi-branch and client visibility. Proven in production.",
+  ogImageAlt: "Voxarel 3PL software",
+});
 
 const data: LandingData = {
   eyebrow: "3PL software",

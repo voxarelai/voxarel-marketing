@@ -3,29 +3,15 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { DemoExperience } from "@/components/demo/DemoExperience";
 import { DemoInfo } from "@/components/demo/DemoInfo";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/demo" },
-  title: "Book a demo | Voxarel",
-  description:
-    "Thirty minutes, on your own workflow. See your logistics operation (shipping, warehouse, finance, field) running as one system.",
-  openGraph: {
-    title: "Book a demo | Voxarel",
-    description:
-      "Thirty minutes, on your own workflow. See your cargo and courier operation running as one system.",
-    type: "website",
-    url: "/demo",
-    siteName: "Voxarel",
-    images: [
-      {
-        url: "/og.png",
-        width: 1200,
-        height: 630,
-        alt: "Voxarel: logistics operations software for cargo and courier companies",
-      },
-    ],
-  },
-};
+export const metadata: Metadata = pageMeta({
+  path: "/demo",
+  title: "Book a demo",
+  description: "Thirty minutes, on your own workflow. See your logistics operation (shipping, warehouse, finance, field) running as one system.",
+  ogDescription: "Thirty minutes, on your own workflow. See your cargo and courier operation running as one system.",
+  ogImageAlt: "Voxarel: book a demo",
+});
 
 export default function DemoPage() {
   return (

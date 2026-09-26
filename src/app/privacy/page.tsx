@@ -1,20 +1,14 @@
 import type { Metadata } from "next";
 import { LegalPage, type LegalSection } from "@/components/LegalLayout";
 import { CONTACT_EMAIL } from "@/lib/site";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/privacy" },
-  title: "Privacy policy | Voxarel",
-  description: "How Voxarel handles your data, in plain words.",
-  openGraph: {
-    title: "Privacy policy | Voxarel",
-    description: "How Voxarel handles your data, in plain words.",
-    type: "website",
-    url: "/privacy",
-    siteName: "Voxarel",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Voxarel" }],
-  },
-};
+export const metadata: Metadata = pageMeta({
+  path: "/privacy",
+  title: "Privacy policy",
+  description: "How Voxarel handles your data, in plain words: what this site collects, who we share it with, how long we keep it, and your rights.",
+  ogImageAlt: "Voxarel privacy policy",
+});
 
 const sections: LegalSection[] = [
   {

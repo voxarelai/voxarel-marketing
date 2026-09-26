@@ -4,22 +4,15 @@ import { Footer } from "@/components/Footer";
 import { CtaBand } from "@/components/CtaBand";
 import { JsonLd } from "@/components/JsonLd";
 import { LandingSections, faqPageSchema, type LandingData } from "@/components/landing/LandingSections";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/courier-management-software" },
-  title: "Courier management software | Voxarel",
-  description:
-    "Courier management software for bookings, dispatch, a mobile driver app, tracking, cash on delivery and finance, in one connected system. Proven in production.",
-  openGraph: {
-    title: "Courier management software | Voxarel",
-    description:
-      "One connected system for courier companies: bookings, a mobile driver app, tracking, cash on delivery and finance. Proven in production.",
-    type: "website",
-    url: "/courier-management-software",
-    siteName: "Voxarel",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Voxarel courier management software" }],
-  },
-};
+export const metadata: Metadata = pageMeta({
+  path: "/courier-management-software",
+  title: "Courier management software",
+  description: "Courier management software: bookings, dispatch, a mobile driver app, tracking, cash on delivery and finance, in one connected system. Proven in production.",
+  ogDescription: "One connected system for courier companies: bookings, a mobile driver app, tracking, cash on delivery and finance. Proven in production.",
+  ogImageAlt: "Voxarel courier management software",
+});
 
 const data: LandingData = {
   eyebrow: "Courier management software",

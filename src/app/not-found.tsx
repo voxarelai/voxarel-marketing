@@ -1,8 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { ArrowRight } from "@/components/icons";
 import { TRACK_URL } from "@/lib/site";
+
+// Next adds <meta name="robots" content="noindex"> to every 404 on its own.
+export const metadata: Metadata = { title: "Page not found" };
 
 export default function NotFound() {
   return (

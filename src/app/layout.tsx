@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
@@ -8,6 +8,7 @@ import { PageView } from "@/components/analytics/PageView";
 import { JsonLd } from "@/components/JsonLd";
 import { organizationSchema, softwareApplicationSchema, websiteSchema } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
+import { OG_IMAGE } from "@/lib/metadata";
 
 const lato = localFont({
   src: [
@@ -22,37 +23,44 @@ const lato = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "/" },
-  title: "Voxarel | The operating system for logistics",
+  // Pages set a bare title; the template appends the brand. Pages that need a
+  // custom brand line use { absolute }. See src/lib/metadata.ts for the rest of
+  // the convention (openGraph without title, never a twitter block).
+  title: {
+    default: "Voxarel | The operating system for logistics",
+    template: "%s | Voxarel",
+  },
   description:
     "Voxarel is the platform modern logistics companies run on. Bookings, warehouse, finance and field operations, unified into one real-time system of record.",
   openGraph: {
-    title: "Voxarel. The operating system for logistics",
     description:
       "Voxarel is the platform modern logistics companies run on. Bookings, warehouse, finance and field operations, unified into one real-time system of record.",
     type: "website",
     url: SITE_URL,
     siteName: "Voxarel",
-    images: [
-      {
-        url: "/og.png",
-        width: 1200,
-        height: 630,
-        alt: "Voxarel: logistics operations software for cargo and courier companies",
-      },
-    ],
+    images: [OG_IMAGE],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Voxarel. The operating system for logistics",
-    description:
-      "The platform modern logistics companies run on. Bookings, warehouse, finance and field operations in one real-time system of record.",
-    images: [
-      {
-        url: "/og.png",
-        alt: "Voxarel: logistics operations software for cargo and courier companies",
-      },
-    ],
+  // Card type only. Next fills twitter title, description and image from each
+  // page's openGraph, so per-page cards stay correct without repetition.
+  twitter: { card: "summary_large_image" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#ffffff",
+  colorScheme: "light",
 };
 
 export default function RootLayout({

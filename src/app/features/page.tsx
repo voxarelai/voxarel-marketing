@@ -4,29 +4,15 @@ import { Footer } from "@/components/Footer";
 import { CtaBand } from "@/components/CtaBand";
 import { JsonLd } from "@/components/JsonLd";
 import { FeaturesSections, featuresFaqs } from "@/components/features/FeaturesSections";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/features" },
-  title: "Voxarel features | One connected logistics platform",
-  description:
-    "Everything Voxarel does: shipping and bookings, warehouse, finance, tracking, complaints, approvals, analytics and Pulse AI, in one connected system for cargo and courier companies.",
-  openGraph: {
-    title: "Voxarel features | One connected logistics platform",
-    description:
-      "Everything Voxarel does: shipping, warehouse, finance, tracking, complaints, analytics and Pulse AI, in one connected system.",
-    type: "website",
-    url: "/features",
-    siteName: "Voxarel",
-    images: [
-      {
-        url: "/og.png",
-        width: 1200,
-        height: 630,
-        alt: "Voxarel: one connected logistics platform",
-      },
-    ],
-  },
-};
+export const metadata: Metadata = pageMeta({
+  path: "/features",
+  title: { absolute: "Voxarel features | One connected logistics platform" },
+  description: "Everything Voxarel does: bookings, warehouse, finance, tracking, complaints, approvals, analytics and Pulse AI, in one system for cargo and courier companies.",
+  ogDescription: "Everything Voxarel does: shipping, warehouse, finance, tracking, complaints, analytics and Pulse AI, in one connected system.",
+  ogImageAlt: "Voxarel: one connected logistics platform",
+});
 
 const faqSchema = {
   "@context": "https://schema.org",

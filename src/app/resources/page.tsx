@@ -4,22 +4,15 @@ import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
 import { ArrowRight } from "@/components/icons";
 import { articles, formatDate } from "@/content/resources";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/resources" },
-  title: "Resources | Voxarel",
-  description:
-    "Practical guides for running a courier or cargo operation: cash on delivery reconciliation, cargo consolidation, and choosing logistics software.",
-  openGraph: {
-    title: "Resources | Voxarel",
-    description:
-      "Practical guides for running a courier or cargo operation: cash on delivery, cargo consolidation, and choosing logistics software.",
-    type: "website",
-    url: "/resources",
-    siteName: "Voxarel",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Voxarel resources" }],
-  },
-};
+export const metadata: Metadata = pageMeta({
+  path: "/resources",
+  title: "Resources",
+  description: "Practical guides for running a courier or cargo operation: cash on delivery reconciliation, cargo consolidation, and choosing logistics software.",
+  ogDescription: "Practical guides for running a courier or cargo operation: cash on delivery, cargo consolidation, and choosing logistics software.",
+  ogImageAlt: "Voxarel resources",
+});
 
 export default function ResourcesPage() {
   return (
