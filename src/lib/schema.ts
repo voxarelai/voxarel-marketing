@@ -1,4 +1,4 @@
-import { CONTACT_EMAIL, LINKEDIN_URL, SITE_URL } from "@/lib/site";
+import { CONTACT_EMAIL, INSTAGRAM_URL, LINKEDIN_URL, SITE_URL, WHATSAPP_E164 } from "@/lib/site";
 
 export const ORG_ID = `${SITE_URL}/#organization`;
 export const APP_ID = `${SITE_URL}/#software`;
@@ -33,9 +33,11 @@ export const organizationSchema = {
     height: 77,
   },
   email: CONTACT_EMAIL,
+  telephone: WHATSAPP_E164,
   contactPoint: {
     "@type": "ContactPoint",
     email: CONTACT_EMAIL,
+    telephone: WHATSAPP_E164,
     contactType: "sales",
     availableLanguage: ["English"],
   },
@@ -45,7 +47,7 @@ export const organizationSchema = {
     addressCountry: "AE",
   },
   areaServed: CORRIDOR_AREA_SERVED,
-  sameAs: [LINKEDIN_URL],
+  sameAs: [LINKEDIN_URL, INSTAGRAM_URL],
 };
 
 export const websiteSchema = {
@@ -91,3 +93,17 @@ export const softwareApplicationSchema = {
   },
   areaServed: CORRIDOR_AREA_SERVED,
 };
+
+/** BreadcrumbList that mirrors a visible <Breadcrumbs /> trail. Start with Home. */
+export function breadcrumbSchema(items: { label: string; href: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.label,
+      item: `${SITE_URL}${c.href === "/" ? "" : c.href}`,
+    })),
+  };
+}

@@ -1,9 +1,14 @@
-/** The canonical origin. Use www; the bare apex host 307s to this. */
+/** The canonical origin. Use www; the bare apex host redirects to this. */
 export const SITE_URL = "https://www.voxarel.com";
 
-/** Confirm the slug on the live LinkedIn page before merge. If the page does
- *  not exist, delete this and drop sameAs rather than emitting a 404 URL. */
 export const LINKEDIN_URL = "https://www.linkedin.com/company/voxarel";
+export const INSTAGRAM_URL = "https://www.instagram.com/voxarel";
+
+/** WhatsApp business line: digits only for wa.me, E.164 for schema, spaced for display. */
+export const WHATSAPP_NUMBER = "971585041204";
+export const WHATSAPP_E164 = `+${WHATSAPP_NUMBER}`;
+export const WHATSAPP_DISPLAY = "+971 58 504 1204";
+export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export const CONSOLE_URL = "https://console.voxarel.com";
 export const SIGN_IN_URL = CONSOLE_URL;

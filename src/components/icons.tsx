@@ -175,3 +175,28 @@ export const Archive = (p: SVGProps<SVGSVGElement>) => (
     <path d="M10 13h4" />
   </Base>
 );
+
+export const Linkedin = (p: SVGProps<SVGSVGElement>) => (
+  <Base {...p}>
+    <rect x="3.5" y="3.5" width="17" height="17" rx="3" />
+    <path d="M8 10.5v6" />
+    <path d="M8 7.5h.01" />
+    <path d="M12 16.5v-6" />
+    <path d="M12 13a2.5 2.5 0 0 1 5 0v3.5" />
+  </Base>
+);
+
+export const Instagram = (p: SVGProps<SVGSVGElement>) => (
+  <Base {...p}>
+    <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" />
+    <circle cx="12" cy="12" r="3.8" />
+    <path d="M17.2 6.8h.01" />
+  </Base>
+);
+
+export const WhatsApp = (p: SVGProps<SVGSVGElement>) => (
+  <Base {...p}>
+    <path d="M12 3.5a8.5 8.5 0 0 0-7.3 12.8L3.5 20.5l4.3-1.1A8.5 8.5 0 1 0 12 3.5z" />
+    <path d="M9.2 8.4h1.3l.8 2-1 .8a6.4 6.4 0 0 0 2.9 2.9l.8-1 2 .8v1.3a1.1 1.1 0 0 1-1.2 1.1 8.6 8.6 0 0 1-6.7-6.7 1.1 1.1 0 0 1 1.1-1.2z" />
+  </Base>
+);

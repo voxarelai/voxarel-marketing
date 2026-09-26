@@ -10,6 +10,9 @@ export type VoxarelEvent =
   | "cta_track_click"
   | "cta_signin_click"
   | "contact_email_click"
+  | "contact_whatsapp_click"
+  | "social_linkedin_click"
+  | "social_instagram_click"
   | "track_search_submit"
   // Stage 2. See it without asking
   | "tour_start"
