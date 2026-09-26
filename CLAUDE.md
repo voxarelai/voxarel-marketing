@@ -6,12 +6,15 @@ Redesigned marketing site (v2). The previous dark-theme v1 site lives in `archiv
 - Next.js 15.5 (App Router, Server Components)
 - React 19, TypeScript 5
 - Tailwind CSS v4 (`@tailwindcss/postcss`, tokens via `@theme` in `src/app/globals.css`)
-- Self-hosted fonts in `src/fonts/` — Poppins 600/700/800 (display, `--font-poppins`), Lato 400/700 (body, `--font-lato`). No CDN fonts.
+- Self-hosted fonts: Geist Sans and Geist Mono from the `geist` package (display `--font-display`, mono), Lato 400/700 from `src/fonts/` (body, `--font-lato`). The Poppins files in `src/fonts/` are only used by `og-source.html`. No CDN fonts.
 
 ## Commands
 ```bash
-npm run dev    # Start dev server
-npm run build  # Production build (also typechecks)
+npm run dev              # Start dev server
+npm run build            # Production build (also typechecks)
+npm run check:dashes     # Fails on any Unicode dash in src/ or scripts/ (also a pre-commit hook + CI)
+npm run images:compress  # Re-compress public/*.png and src/app/icon.png with sharp (dimensions unchanged)
+npm run seo:check        # Crawl every sitemap URL on a local prod server and assert SEO invariants (BASE=http://localhost:3100)
 ```
 
 ## Path Alias
@@ -19,11 +22,16 @@ npm run build  # Production build (also typechecks)
 
 ## Project Structure
 - `src/app/page.tsx` — homepage composed of section components
-- Routes: `/` `/demo` `/track` `/privacy` `/terms`
+- Routes: `/` `/features` `/about` `/demo` `/track` `/register` (noindex) `/privacy` `/terms` `/resources` `/resources/[slug]` `/shipping` `/shipping/[lane]` (500 lanes) and 6 solution pages (`/cargo-management-software`, `/courier-management-software`, `/freight-forwarding-software`, `/3pl-software`, `/gulf-to-india-cargo`, `/logistics-software-uae`)
 - `src/components/` — section components (Hero, Modules, Roles, ProofBar, PulseSection, TrackSection, CtaBand, Footer, Navigation, …)
-- `src/lib/site.ts` — single source of truth for external URLs and contact info (console.voxarel.com, partners@voxarel.com, legal line)
-- `docs/TRACKING_PLAN.md` — analytics tracking plan
-- `og-source.html` — source for regenerating `public/og.png`
+- `src/lib/site.ts` — single source of truth for external URLs and contact info (console.voxarel.com, partners@voxarel.com, WhatsApp number, LinkedIn, Instagram, legal line)
+- `src/lib/metadata.ts` — `pageMeta()` helper; every page sets a bare `title` (root template appends `| Voxarel`), `openGraph` without a title, and never a `twitter` block (Next fills it from openGraph)
+- `src/lib/lanes.ts` — 500 corridor lanes (origin-major order; `relatedLanes`, `lanesByOrigin`, `flagshipCorridorLinks` depend on it)
+- `src/lib/schema.ts` — JSON-LD (Organization, WebSite, SoftwareApplication, `breadcrumbSchema`)
+- `docs/MARKETING_ANALYTICS_PLAN.md` — PostHog event plan
+- `docs/SEO_STATUS.md` — SEO audit ledger (what is verified, what was fixed, how to re-check)
+- `docs/BACKLINK_STRATEGY.md` — link-building plan
+- `og-source.html` — source for regenerating `public/og.png` (then run `npm run images:compress`)
 
 ## Theme (brand tokens in globals.css @theme)
 - Petrol `#104050` (deep `#0b2c36`, soft `#16455a`), ink `#16282e`
