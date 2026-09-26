@@ -49,20 +49,31 @@ Sitemap present and complete, robots present, canonical on every page, one H1 ev
 
 Results on 2026-09-26 (local production build): build 518 static pages; crawl 519 URLs, 0 failures; lane coverage 500/500 with inbound min 5 max 12; hub HTML 231 KB raw / 25.5 KB gzip with 500 lane links; 10 mobile pages clean.
 
-## Search Console
+## Search Console (checked 2026-09-26 via API)
 
-Status: DNS TXT `google-site-verification` exists on the apex and `public/google004d4bae331972c0.html` is served, so the property should already be verified. Confirmation and sitemap submission are pending the service account grant.
+- Property: `https://www.voxarel.com/` (URL-prefix property), verified. The service account `claude-seo@st-courier-seo.iam.gserviceaccount.com` has Full access, so these checks can be re-run from the CLI.
+- Sitemap `https://www.voxarel.com/sitemap.xml`: first submitted 2026-08-04, resubmitted 2026-09-26, 518 URLs discovered, 0 errors, 0 warnings.
+- URL inspection: `/`, `/shipping`, `/shipping/dubai-to-chennai`, `/shipping/fujairah-to-chennai` (one of the formerly orphaned lanes) and `/gulf-to-india-cargo` are all "Submitted and indexed", Google canonical equals ours. `/register` is unknown to Google, as intended.
+- Search performance, 90 days to 2026-09-26: 30 clicks, 2,207 impressions, average position 7.6. Almost all impressions land on corridor lane pages (Dubai to Mumbai, Dubai to Thiruvananthapuram, Abu Dhabi to Mumbai lead). Queries are lane-shaped ("courier from dubai to delhi", "cargo abu dhabi to india") plus a few generic ones ("courier management software dubai", position 52).
+- Next reads: the Links report for the backlink baseline (no API; use the UI), and the Core Web Vitals report once field data accrues. Re-check index coverage of the 250 formerly orphaned lanes in 4 to 6 weeks.
 
-Once `claude-seo@st-courier-seo.iam.gserviceaccount.com` has Full access on the voxarel.com property (Search Console, Settings, Users and permissions, Add user):
+Deploy verification 2026-09-26: `curl -I https://voxarel.com/` returns 308 to www; `BASE=https://www.voxarel.com npm run seo:check` reports 519 URLs, 0 failures; og.png served at 70 KB.
 
-1. `sites.list` must show `sc-domain:voxarel.com` or `https://www.voxarel.com/`.
-2. `sitemaps.submit` for `https://www.voxarel.com/sitemap.xml`, then `sitemaps.list` to confirm discovered URLs (expect 518).
-3. URL inspection on `/`, `/shipping`, and three lanes; note verdict and last crawl.
-4. Read the Links report for the backlink baseline and the Core Web Vitals report once 28 days of field data exist.
+## Lighthouse (mobile, production, Lighthouse 12 run locally on 2026-09-26)
 
-If the property is missing: add a Domain property for `voxarel.com` in Search Console and choose the DNS method; the TXT record already exists, so verification completes immediately.
+| Page | Before fixes | After first deploy | After CWV fix | Notes |
+|---|---|---|---|---|
+| `/` | not measured (PSI quota) | perf 81, LCP 3.4 s, CLS 0 | perf 88, LCP 2.8 s, TBT 220 ms, CLS 0 | SEO 100, best practices 100, accessibility 96 |
+| `/shipping` | | perf 85, LCP 2.6 s, **CLS 0.178** | perf 94, LCP 2.5 s, CLS 0.032 | shift was the origin filter chips re-wrapping when Geist loaded at 412 px; the row is now a single scrollable row on phones |
+| `/shipping/dubai-to-chennai` | | perf 93, LCP 2.5 s, CLS 0.001 | perf 96, LCP 2.3 s, CLS 0.001 | |
+
+The CWV fix commit also stopped preloading Geist Mono (72 KB, small labels only), which is what moved FCP and LCP on every page. Remaining lab findings, all outside this repo or by design:
+
+- Accessibility 96 on every page is the `text-faint` token (`#93a2a4` on white, about 2.6:1) used for small labels. Raising it to about `#7b8a8d` would pass AA; that is a brand-token decision, not made here.
+- "Uses long cache TTL" flags four PostHog scripts served from PostHog's CDN with short max-age. Not controllable from this site.
+- The 400-plus element lane list on `/shipping` keeps DOM size above Lighthouse's advisory threshold; it is the crawlable index and is intentional.
 
 ## Known limits
 
-- PageSpeed Insights public quota was exhausted on audit day; lab numbers came from a throttled Playwright run, not Lighthouse. Re-run Lighthouse after deploy and record scores here.
+- PageSpeed Insights public quota was exhausted on audit day; the Lighthouse numbers above come from a local Lighthouse 12 run with default mobile throttling, which is comparable but not identical to PSI. Field data (CrUX) needs traffic; check the Search Console Core Web Vitals report in a month.
 - The OG image keeps the launch design by decision (compressed only). `og-source.html` still describes the old headline and uses Poppins; update both before regenerating.
