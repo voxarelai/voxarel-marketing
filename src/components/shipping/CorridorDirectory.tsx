@@ -90,14 +90,16 @@ export function CorridorDirectory() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        {/* On phones this is one scrollable row, so its height never depends on
+            how the labels wrap (font swap used to shift the whole list below). */}
+        <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 pb-0.5 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
           {origins.map((o) => {
             const active = origin === o.name;
             return (
               <button
                 key={o.name}
                 onClick={() => setOrigin(o.name)}
-                className={`font-display inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-[13.5px] font-medium transition-colors ${
+                className={`font-display inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg px-3.5 py-2 text-[13.5px] font-medium transition-colors ${
                   active
                     ? "bg-petrol text-white"
                     : "border border-hair text-muted hover:bg-tint"

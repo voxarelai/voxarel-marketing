@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { AuthProvider } from "@/components/auth/AuthModals";
 import { PageView } from "@/components/analytics/PageView";
@@ -9,6 +8,30 @@ import { JsonLd } from "@/components/JsonLd";
 import { organizationSchema, softwareApplicationSchema, websiteSchema } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
 import { OG_IMAGE } from "@/lib/metadata";
+
+// Geist Mono is used only for small labels (codes, counts, breadcrumbs), so it
+// is loaded from the geist package without a preload hint: 72 KB off the
+// critical path on every page. The CSS variable name matches what the geist
+// package exported so globals.css is unchanged.
+const geistMono = localFont({
+  src: "../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Variable.woff2",
+  weight: "100 900",
+  variable: "--font-geist-mono",
+  display: "swap",
+  preload: false,
+  adjustFontFallback: false,
+  fallback: [
+    "ui-monospace",
+    "SFMono-Regular",
+    "Roboto Mono",
+    "Menlo",
+    "Monaco",
+    "Liberation Mono",
+    "DejaVu Sans Mono",
+    "Courier New",
+    "monospace",
+  ],
+});
 
 const lato = localFont({
   src: [
@@ -69,7 +92,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} ${lato.variable}`}>
+    <html lang="en" className={`${GeistSans.variable} ${geistMono.variable} ${lato.variable}`}>
       <body className="antialiased">
         <JsonLd data={[organizationSchema, websiteSchema, softwareApplicationSchema]} />
         <PageView />
